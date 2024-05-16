@@ -22,10 +22,23 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 Image.asset('assets/icons/peqing-logo.png', height: 48.0),
                 const SizedBox(height: 40.0),
-                Text(
-                  'Yuk Login!',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                  textAlign: TextAlign.center,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Yuk ',
+                      style: Theme.of(context).textTheme.headlineLarge,
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      'Login!',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineLarge!
+                          .copyWith(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 8.0),
                 Text(

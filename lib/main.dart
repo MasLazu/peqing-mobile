@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/core/theme/app_theme.dart';
-import 'package:peqing/presentation/screens/login_screen.dart';
+import 'package:peqing/data/repositories/auth_repository.dart';
+import 'package:peqing/route/app_route.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,11 +27,31 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'peqing',
-      theme: AppTheme().theme,
-      debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+    // Initialize bloc and repository
+    var authBloc = AuthBloc();
+    var authRepository = AuthRepository(authBloc: authBloc);
+    authBloc.setAuthRepository(authRepository);
+
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthRepository>(
+          create: (context) => authRepository,
+        ),
+      ],
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider<AuthBloc>(
+            create: (context) => authBloc,
+          ),
+        ],
+        child: MaterialApp.router(
+          title: 'peqing',
+          theme: AppTheme().theme,
+          themeMode: ThemeMode.light,
+          debugShowCheckedModeBanner: false,
+          routerConfig: appRoute,
+        ),
+      ),
     );
   }
 }
