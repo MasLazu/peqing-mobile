@@ -9,7 +9,7 @@ class AppTheme {
         primarySwatch:
             MaterialColor(AppColors.primary[500]!.value, AppColors.primary),
       ),
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: AppColors.lightGrey,
       textTheme: _textTheme,
       inputDecorationTheme: _inputDecorationTheme,
       elevatedButtonTheme: _elevatedButtonTheme,
