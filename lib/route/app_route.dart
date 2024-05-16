@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:peqing/bloc/auth/auth_bloc.dart';
-import 'package:peqing/data/models/user.dart';
 import 'package:peqing/presentation/screens/login_screen.dart';
+import 'package:peqing/presentation/screens/splash_screen.dart';
 import 'package:peqing/route/route_names.dart';
 
 GoRouter appRoute = GoRouter(
@@ -11,19 +9,24 @@ GoRouter appRoute = GoRouter(
   routes: [
     GoRoute(
       path: RouteNames.root,
-      redirect: _initiaRedirect,
+      pageBuilder: (context, state) => CupertinoPage(
+        key: state.pageKey,
+        child: const SplashScreen(),
+      ),
     ),
     GoRoute(
       path: RouteNames.login,
-      pageBuilder: (context, state) => CupertinoPage(
+      pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
+        transitionsBuilder: _fadeTransition,
         child: const LoginScreen(),
       ),
     ),
     GoRoute(
       path: RouteNames.adminHome,
-      pageBuilder: (context, state) => CupertinoPage(
+      pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
+        transitionsBuilder: _fadeTransition,
         child: const Center(
           child: Text('Admin Home'),
         ),
@@ -31,8 +34,9 @@ GoRouter appRoute = GoRouter(
     ),
     GoRoute(
       path: RouteNames.lecturerHome,
-      pageBuilder: (context, state) => CupertinoPage(
+      pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
+        transitionsBuilder: _fadeTransition,
         child: const Center(
           child: Text('Lecturer Home'),
         ),
@@ -40,8 +44,9 @@ GoRouter appRoute = GoRouter(
     ),
     GoRoute(
       path: RouteNames.studentHome,
-      pageBuilder: (context, state) => CupertinoPage(
+      pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
+        transitionsBuilder: _fadeTransition,
         child: const Center(
           child: Text('Student Home'),
         ),
@@ -50,18 +55,10 @@ GoRouter appRoute = GoRouter(
   ],
 );
 
-String _initiaRedirect(BuildContext context, GoRouterState state) {
-  final authBloc = BlocProvider.of<AuthBloc>(context);
-  if (authBloc.state is Notauthenticated) return RouteNames.login;
-  var state = authBloc.state as Authenticated;
-  switch (state.auth.user.role) {
-    case Role.admin:
-      return RouteNames.adminHome;
-    case Role.lecturer:
-      return RouteNames.lecturerHome;
-    case Role.student:
-      return RouteNames.studentHome;
-    default:
-      throw Exception('Unknown role: ${state.auth.user.role}');
-  }
+Widget _fadeTransition(BuildContext context, Animation<double> animation,
+    Animation<double> secondaryAnimation, Widget child) {
+  return FadeTransition(
+    opacity: animation,
+    child: child,
+  );
 }
