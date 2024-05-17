@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:peqing/presentation/screens/login_screen.dart';
+import 'package:peqing/presentation/screens/onboarding_screen.dart';
 import 'package:peqing/presentation/screens/splash_screen.dart';
+
 import 'package:peqing/route/route_names.dart';
 
 GoRouter appRoute = GoRouter(
@@ -13,6 +15,14 @@ GoRouter appRoute = GoRouter(
         key: state.pageKey,
         child: const SplashScreen(),
       ),
+    ),
+    GoRoute(
+      path: RouteNames.onBoarding,
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        transitionsBuilder: _fadeTransition,
+        child: const OnboardingScreen(),
+      ), 
     ),
     GoRoute(
       path: RouteNames.login,
