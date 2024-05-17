@@ -4,15 +4,19 @@ import 'package:http/http.dart' as http;
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 
 class Repository {
-  final String baseUrl;
+  final Uri baseUrl;
   final AuthBloc authBloc;
 
   Repository(String prefix, this.authBloc)
-      : baseUrl = 'http://localhost:300$prefix';
+      : baseUrl = Uri(
+            scheme: 'https',
+            host: '4phvhnt5-8080.asse.devtunnels.ms',
+            path: prefix);
 
-  Future<Map<String, dynamic>> get(String path) async {
-    final url = Uri.parse('$baseUrl$path');
-    final response = await http.get(url, headers: _getHeaders());
+  Future<Map<String, dynamic>> get(String path,
+      {Map<String, String>? header}) async {
+    final url = baseUrl.replace(path: baseUrl.path + path);
+    final response = await http.get(url, headers: _getHeaders(headers: header));
 
     _checkResponse(response);
 
@@ -21,8 +25,9 @@ class Repository {
 
   Future<Map<String, dynamic>> post(String path,
       {Map<String, dynamic>? body}) async {
-    final url = Uri.parse('$baseUrl$path');
-    final response = await http.post(url, headers: _getHeaders(), body: body);
+    final url = baseUrl.replace(path: baseUrl.path + path);
+    final response =
+        await http.post(url, headers: _getHeaders(), body: jsonEncode(body));
 
     _checkResponse(response);
 
@@ -31,8 +36,9 @@ class Repository {
 
   Future<Map<String, dynamic>> put(String path,
       {Map<String, dynamic>? body}) async {
-    final url = Uri.parse('$baseUrl$path');
-    final response = await http.put(url, headers: _getHeaders(), body: body);
+    final url = baseUrl.replace(path: baseUrl.path + path);
+    final response =
+        await http.put(url, headers: _getHeaders(), body: jsonEncode(body));
 
     _checkResponse(response);
 
@@ -40,7 +46,7 @@ class Repository {
   }
 
   Future<Map<String, dynamic>> delete(String path) async {
-    final url = Uri.parse('$baseUrl$path');
+    final url = baseUrl.replace(path: baseUrl.path + path);
     final response = await http.delete(url, headers: _getHeaders());
 
     _checkResponse(response);
@@ -50,19 +56,26 @@ class Repository {
 
   void _checkResponse(http.Response response) {
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception('Request failed with status: ${response.statusCode}');
+      throw Exception(
+          'Request failed with status: ${response.statusCode}, body: ${response.body}');
     }
   }
 
-  Map<String, String> _getHeaders() {
+  Map<String, String> _getHeaders({Map<String, String>? headers}) {
     final state = authBloc.state;
 
-    if (state is Authenticated) {
-      return {
-        'Authorization': 'Bearer ${state.auth.token}',
+    if (headers == null) {
+      headers = {
+        'Content-Type': 'application/json',
       };
+    } else {
+      headers['Content-Type'] = 'application/json';
     }
 
-    return {};
+    if (state is Authenticated) {
+      headers['Authorization'] = 'Bearer ${state.auth.token}';
+    }
+
+    return headers;
   }
 }

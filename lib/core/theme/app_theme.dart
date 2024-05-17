@@ -16,6 +16,12 @@ class AppTheme {
     );
   }
 
+  static TextStyle get buttonTextStyle => textStyle(
+        color: AppColors.white,
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      );
+
   static TextStyle textStyle({
     Color? color,
     double? fontSize,

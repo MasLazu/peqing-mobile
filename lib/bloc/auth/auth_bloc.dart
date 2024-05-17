@@ -20,8 +20,10 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   @override
   AuthState fromJson(Map<String, dynamic> json) {
     try {
+      print(json);
       return Authenticated(auth: Auth.fromMap(json));
     } catch (_) {
+      print('error');
       return const Notauthenticated();
     }
   }
@@ -35,14 +37,13 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   }
 
   void _login(LoginAuth event, Emitter<AuthState> emit) async {
-    emit(const LoadingAuth());
+    emit(const AuthLoading());
     try {
       final token = await _authRepository.login(event.id, event.password);
-      final user = await _authRepository.me();
+      final user = await _authRepository.me(token: token);
       emit(Authenticated(auth: Auth(token: token, user: user)));
     } catch (e) {
-      emit(const Notauthenticated());
-      throw Exception('Failed to login: $e');
+      emit(AuthError(message: e.toString()));
     }
   }
 }

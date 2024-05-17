@@ -9,8 +9,16 @@ final class Notauthenticated extends AuthState {
   const Notauthenticated();
 }
 
-final class LoadingAuth extends AuthState {
-  const LoadingAuth();
+final class AuthLoading extends AuthState {
+  const AuthLoading();
+}
+
+final class AuthError extends AuthState {
+  final String message;
+
+  const AuthError({
+    required this.message,
+  });
 }
 
 final class Authenticated extends AuthState {
