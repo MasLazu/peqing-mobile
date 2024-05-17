@@ -20,10 +20,9 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   @override
   AuthState fromJson(Map<String, dynamic> json) {
     try {
-      print(json);
+      // throw Exception();
       return Authenticated(auth: Auth.fromMap(json));
     } catch (_) {
-      print('error');
       return const Notauthenticated();
     }
   }
