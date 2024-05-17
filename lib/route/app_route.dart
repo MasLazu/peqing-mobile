@@ -39,17 +39,15 @@ GoRouter appRoute = GoRouter(
     ),
     GoRoute(
       path: RouteNames.adminHome,
-      pageBuilder: (context, state) => CustomTransitionPage(
+      pageBuilder: (context, state) => CupertinoPage(
         key: state.pageKey,
-        transitionsBuilder: _fadeTransition,
         child: const AdminHomeScreen(),
       ),
     ),
     GoRoute(
       path: RouteNames.lecturerHome,
-      pageBuilder: (context, state) => CustomTransitionPage(
+      pageBuilder: (context, state) => CupertinoPage(
         key: state.pageKey,
-        transitionsBuilder: _fadeTransition,
         child: const Scaffold(
           body: Center(
             child: Text('Lecturer Home'),
@@ -59,9 +57,8 @@ GoRouter appRoute = GoRouter(
     ),
     GoRoute(
       path: RouteNames.studentHome,
-      pageBuilder: (context, state) => CustomTransitionPage(
+      pageBuilder: (context, state) => CupertinoPage(
         key: state.pageKey,
-        transitionsBuilder: _fadeTransition,
         child: const Scaffold(
           body: Center(
             child: Text('Student Home'),

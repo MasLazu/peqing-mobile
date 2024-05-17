@@ -88,6 +88,10 @@ class AppTheme {
         borderRadius: BorderRadius.circular(99),
         borderSide: BorderSide(color: AppColors.primary[500]!, width: 2.0),
       ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(99),
+        borderSide: BorderSide(color: AppColors.danger[500]!, width: 2.0),
+      ),
       contentPadding:
           const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),
     );

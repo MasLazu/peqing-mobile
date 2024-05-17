@@ -11,6 +11,8 @@ class AuthRepository extends Repository {
       'password': password,
     });
 
+    print(response);
+
     return response['data'];
   }
 
@@ -18,7 +20,6 @@ class AuthRepository extends Repository {
     final response = await get('/me', header: {
       'Authorization': 'Bearer $token',
     });
-    print(response['data']);
     return User.fromMap(response['data']);
   }
 }

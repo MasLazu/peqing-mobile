@@ -15,6 +15,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _idController = TextEditingController();
+  final _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
@@ -22,7 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (state is AuthError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(state.message),
+              content: Text(state.message.replaceFirst('Exception: ', '')),
               backgroundColor: AppColors.danger[500],
             ),
           );
@@ -51,83 +56,108 @@ class _LoginScreenState extends State<LoginScreen> {
               padding:
                   const EdgeInsets.only(left: 24.0, right: 24.0, top: 60.0),
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Image.asset('assets/icons/peqing-logo.png', height: 48.0),
-                    const SizedBox(height: 40.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Yuk ',
-                          style: Theme.of(context).textTheme.headlineLarge,
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          'Login!',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineLarge!
-                              .copyWith(fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8.0),
-                    Text(
-                      'Masukkan email & password buat login!',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 24.0),
-                    Text(
-                      'NRP / NIP',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8.0),
-                    const TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Masukkan email',
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Image.asset('assets/icons/peqing-logo.png', height: 48.0),
+                      const SizedBox(height: 40.0),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Yuk ',
+                            style: Theme.of(context).textTheme.headlineLarge,
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            'Login!',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineLarge!
+                                .copyWith(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    Text(
-                      'Password',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 8.0),
-                    const TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        hintText: 'Masukkan password',
+                      const SizedBox(height: 8.0),
+                      Text(
+                        'Masukkan email & password buat login!',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    const SizedBox(height: 24.0),
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<AuthBloc>().add(
-                            const LoginAuth(id: 'admin', password: 'admin'));
-                      },
-                      child: state is AuthLoading
-                          ? const SizedBox(
-                              height: 18.0,
-                              width: 18.0,
-                              child: CircularProgressIndicator(
-                                color: AppColors.white,
-                                strokeWidth: 3,
-                              ),
-                            )
-                          : Text('Login', style: AppTheme.buttonTextStyle),
-                    )
-                  ],
+                      const SizedBox(height: 24.0),
+                      Text(
+                        'NRP / NIP',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8.0),
+                      TextFormField(
+                        controller: _idController,
+                        decoration: const InputDecoration(
+                          hintText: 'Masukkan NRP / NIP',
+                        ),
+                        validator: (value) {
+                          value = value?.trim();
+                          if (value == null || value.isEmpty) {
+                            return 'Masukkan NRP / NIP';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        'Password',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8.0),
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Masukkan password',
+                        ),
+                        validator: (value) {
+                          value = value?.trim();
+                          if (value == null || value.isEmpty) {
+                            return 'Masukkan password';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 24.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            context.read<AuthBloc>().add(
+                                  LoginAuth(
+                                    id: _idController.text,
+                                    password: _passwordController.text,
+                                  ),
+                                );
+                          }
+                        },
+                        child: state is AuthLoading
+                            ? const SizedBox(
+                                height: 18.0,
+                                width: 18.0,
+                                child: CircularProgressIndicator(
+                                  color: AppColors.white,
+                                  strokeWidth: 3,
+                                ),
+                              )
+                            : Text('Login', style: AppTheme.buttonTextStyle),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
