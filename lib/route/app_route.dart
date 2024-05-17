@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/data/models/user.dart';
+import 'package:peqing/presentation/screens/admin/admin_home_screen.dart';
 import 'package:peqing/presentation/screens/login_screen.dart';
 import 'package:peqing/presentation/screens/onboarding_screen.dart';
 import 'package:peqing/presentation/screens/splash_screen.dart';
@@ -41,11 +42,7 @@ GoRouter appRoute = GoRouter(
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
         transitionsBuilder: _fadeTransition,
-        child: const Scaffold(
-          body: Center(
-            child: Text('Admin Home'),
-          ),
-        ),
+        child: const AdminHomeScreen(),
       ),
     ),
     GoRoute(

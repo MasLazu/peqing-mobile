@@ -11,6 +11,7 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
 
   AuthBloc() : super(const Notauthenticated()) {
     on<LoginAuth>(_login);
+    on<LogoutAuth>(_logout);
   }
 
   void setAuthRepository(AuthRepository authRepository) {
@@ -44,5 +45,9 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
+  }
+
+  void _logout(LogoutAuth event, Emitter<AuthState> emit) {
+    emit(const Notauthenticated());
   }
 }
