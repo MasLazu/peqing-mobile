@@ -10,14 +10,17 @@ class PeqingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed as void Function()?,
-      child: Text(
-        text,
-        style: AppTheme.textStyle(
-          color: AppColors.white,
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: onPressed as void Function()?,
+        child: Text(
+          text,
+          style: AppTheme.textStyle(
+            color: AppColors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );

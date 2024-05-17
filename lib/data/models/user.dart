@@ -38,8 +38,8 @@ class User {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      'qrLink': qrLink,
-      'role': role.toString().split('.').last,
+      'qr_link': qrLink,
+      'role': _roleToString(role),
     };
   }
 
@@ -47,7 +47,7 @@ class User {
     return User(
       id: map['id'] as String,
       name: map['name'] as String,
-      qrLink: map['qrLink'] as String,
+      qrLink: map['qr_link'] as String,
       role: _roleFromString(map['role'] as String),
     );
   }
@@ -79,14 +79,25 @@ class User {
 
   static Role _roleFromString(String roleString) {
     switch (roleString) {
-      case 'admin':
+      case 'Admin':
         return Role.admin;
-      case 'lecturer':
+      case 'Lecturer':
         return Role.lecturer;
-      case 'student':
+      case 'Student':
         return Role.student;
       default:
         throw ArgumentError('Invalid role string: $roleString');
+    }
+  }
+
+  String _roleToString(Role role) {
+    switch (role) {
+      case Role.admin:
+        return 'Admin';
+      case Role.lecturer:
+        return 'Lecturer';
+      case Role.student:
+        return 'Student';
     }
   }
 }

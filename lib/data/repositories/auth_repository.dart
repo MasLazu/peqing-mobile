@@ -11,11 +11,15 @@ class AuthRepository extends Repository {
       'password': password,
     });
 
-    return response['data']['token'];
+    print(response);
+
+    return response['data'];
   }
 
-  Future<User> me() async {
-    final response = await get('/me');
+  Future<User> me({String? token}) async {
+    final response = await get('/me', header: {
+      'Authorization': 'Bearer $token',
+    });
     return User.fromMap(response['data']);
   }
 }

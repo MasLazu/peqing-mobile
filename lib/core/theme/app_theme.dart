@@ -16,6 +16,12 @@ class AppTheme {
     );
   }
 
+  static TextStyle get buttonTextStyle => textStyle(
+        color: AppColors.white,
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      );
+
   static TextStyle textStyle({
     Color? color,
     double? fontSize,
@@ -81,6 +87,10 @@ class AppTheme {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(99),
         borderSide: BorderSide(color: AppColors.primary[500]!, width: 2.0),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(99),
+        borderSide: BorderSide(color: AppColors.danger[500]!, width: 2.0),
       ),
       contentPadding:
           const EdgeInsets.symmetric(vertical: 14.0, horizontal: 20.0),

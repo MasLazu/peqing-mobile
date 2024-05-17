@@ -14,3 +14,7 @@ final class LoginAuth extends AuthEvent {
     required this.password,
   });
 }
+
+final class LogoutAuth extends AuthEvent {
+  const LogoutAuth();
+}

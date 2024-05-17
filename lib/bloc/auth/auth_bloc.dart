@@ -11,6 +11,7 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
 
   AuthBloc() : super(const Notauthenticated()) {
     on<LoginAuth>(_login);
+    on<LogoutAuth>(_logout);
   }
 
   void setAuthRepository(AuthRepository authRepository) {
@@ -20,6 +21,7 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   @override
   AuthState fromJson(Map<String, dynamic> json) {
     try {
+      // throw Exception();
       return Authenticated(auth: Auth.fromMap(json));
     } catch (_) {
       return const Notauthenticated();
@@ -35,14 +37,17 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   }
 
   void _login(LoginAuth event, Emitter<AuthState> emit) async {
-    emit(const LoadingAuth());
+    emit(const AuthLoading());
     try {
       final token = await _authRepository.login(event.id, event.password);
-      final user = await _authRepository.me();
+      final user = await _authRepository.me(token: token);
       emit(Authenticated(auth: Auth(token: token, user: user)));
     } catch (e) {
-      emit(const Notauthenticated());
-      throw Exception('Failed to login: $e');
+      emit(AuthError(message: e.toString()));
     }
+  }
+
+  void _logout(LogoutAuth event, Emitter<AuthState> emit) {
+    emit(const Notauthenticated());
   }
 }
