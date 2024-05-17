@@ -28,7 +28,7 @@ class SplashScreen extends StatelessWidget {
     }
 
     await Future.delayed(const Duration(seconds: 2));
-    context.go(RouteNames.login);
+    context.go(RouteNames.onBoarding);
   }
 
   @override
