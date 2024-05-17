@@ -4,4 +4,5 @@ class RouteNames {
   static const String adminHome = '/admin/home';
   static const String lecturerHome = '/lecturer/home';
   static const String studentHome = '/student/home';
+  static const String onBoarding = '/onboarding';
 }
