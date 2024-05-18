@@ -1,7 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:peqing/data/models/auth.dart';
 import 'package:peqing/data/repositories/auth_repository.dart';
+import 'package:peqing/route/route_names.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -36,7 +38,7 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
     return {};
   }
 
-  void _login(LoginAuth event, Emitter<AuthState> emit) async {
+  Future<void> _login(LoginAuth event, Emitter<AuthState> emit) async {
     emit(const AuthLoading());
     try {
       final token = await _authRepository.login(event.id, event.password);
@@ -47,7 +49,9 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
     }
   }
 
-  void _logout(LogoutAuth event, Emitter<AuthState> emit) {
+  Future<void> _logout(LogoutAuth event, Emitter<AuthState> emit) async {
+    event.context.go(RouteNames.login);
+    await Future.delayed(const Duration(seconds: 1));
     emit(const Notauthenticated());
   }
 }

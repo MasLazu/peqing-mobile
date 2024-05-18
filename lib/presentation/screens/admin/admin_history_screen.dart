@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:peqing/presentation/widgets/appbar/root_appbar.dart';
+import 'package:peqing/presentation/widgets/appbars/root_appbar.dart';
 import 'package:peqing/presentation/widgets/cards/history_card.dart';
 
 class AdminHistoryScreen extends StatefulWidget {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/core/theme/app_colors.dart';
-import 'package:peqing/core/theme/app_theme.dart';
 import 'package:peqing/data/models/user.dart';
+import 'package:peqing/presentation/widgets/buttons/peqing_button.dart';
 import 'package:peqing/route/route_names.dart';
 import 'package:go_router/go_router.dart';
 
@@ -69,15 +69,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           Text(
                             'Yuk ',
-                            style: Theme.of(context).textTheme.headlineLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium!
+                                .copyWith(fontWeight: FontWeight.w400),
                             textAlign: TextAlign.center,
                           ),
                           Text(
                             'Login!',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineLarge!
-                                .copyWith(fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.headlineMedium,
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -134,7 +134,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       const SizedBox(height: 24.0),
-                      ElevatedButton(
+                      PeqingButton(
+                        text: 'Login',
+                        isLoading: state is AuthLoading,
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             context.read<AuthBloc>().add(
@@ -145,17 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
                           }
                         },
-                        child: state is AuthLoading
-                            ? const SizedBox(
-                                height: 18.0,
-                                width: 18.0,
-                                child: CircularProgressIndicator(
-                                  color: AppColors.white,
-                                  strokeWidth: 3,
-                                ),
-                              )
-                            : Text('Login', style: AppTheme.buttonTextStyle),
-                      )
+                      ),
                     ],
                   ),
                 ),

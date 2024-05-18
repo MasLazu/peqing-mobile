@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:peqing/core/theme/app_colors.dart';
-import 'package:peqing/presentation/widgets/appbar/welcome_appbar.dart';
+import 'package:peqing/presentation/widgets/appbars/welcome_appbar.dart';
 import 'package:peqing/presentation/widgets/cards/detail_card.dart';
 import 'package:peqing/presentation/widgets/cards/history_card.dart';
 
