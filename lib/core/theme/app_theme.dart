@@ -39,6 +39,21 @@ class AppTheme {
 
   TextTheme get _textTheme {
     return TextTheme(
+      labelLarge: textStyle(
+        color: AppColors.dark[400],
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
+      labelMedium: textStyle(
+        color: AppColors.dark[400],
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+      ),
+      labelSmall: textStyle(
+        color: AppColors.dark[400],
+        fontSize: 10,
+        fontWeight: FontWeight.w500,
+      ),
       headlineLarge: textStyle(
         color: AppColors.dark[500],
         fontSize: 48,

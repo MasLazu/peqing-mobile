@@ -4,10 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/data/models/user.dart';
+import 'package:peqing/presentation/screens/admin/admin_civitas_screen.dart';
+import 'package:peqing/presentation/screens/admin/admin_history_screen.dart';
 import 'package:peqing/presentation/screens/admin/admin_home_screen.dart';
+import 'package:peqing/presentation/screens/admin/admin_profile_screen.dart';
 import 'package:peqing/presentation/screens/login_screen.dart';
 import 'package:peqing/presentation/screens/onboarding_screen.dart';
 import 'package:peqing/presentation/screens/splash_screen.dart';
+import 'package:peqing/presentation/widgets/navbar/admin_navbar.dart';
 
 import 'package:peqing/route/route_names.dart';
 
@@ -37,12 +41,44 @@ GoRouter appRoute = GoRouter(
         child: const LoginScreen(),
       ),
     ),
-    GoRoute(
-      path: RouteNames.adminHome,
-      pageBuilder: (context, state) => CupertinoPage(
-        key: state.pageKey,
-        child: const AdminHomeScreen(),
-      ),
+    ShellRoute(
+      navigatorKey: GlobalKey<NavigatorState>(),
+      builder: (context, state, child) =>
+          AdminNavbar(page: child, state: state),
+      routes: [
+        GoRoute(
+          path: RouteNames.adminHome,
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            transitionsBuilder: _fadeTransition,
+            child: const AdminHomeScreen(),
+          ),
+        ),
+        GoRoute(
+          path: RouteNames.adminCivitas,
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            transitionsBuilder: _fadeTransition,
+            child: const AdminCivitasScreen(),
+          ),
+        ),
+        GoRoute(
+          path: RouteNames.adminHistory,
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            transitionsBuilder: _fadeTransition,
+            child: const AdminHistoryScreen(),
+          ),
+        ),
+        GoRoute(
+          path: RouteNames.adminProfile,
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            transitionsBuilder: _fadeTransition,
+            child: const AdminProfileScreen(),
+          ),
+        ),
+      ],
     ),
     GoRoute(
       path: RouteNames.lecturerHome,
