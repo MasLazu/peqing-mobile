@@ -39,7 +39,7 @@ class User {
       'id': id,
       'name': name,
       'qr_link': qrLink,
-      'role': _roleToString(role),
+      'role': roleToString(role),
     };
   }
 
@@ -90,7 +90,7 @@ class User {
     }
   }
 
-  String _roleToString(Role role) {
+  static String roleToString(Role role) {
     switch (role) {
       case Role.admin:
         return 'Admin';

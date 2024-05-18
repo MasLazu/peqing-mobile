@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peqing/presentation/widgets/appbar/root_appbar.dart';
 
 class AdminProfileScreen extends StatefulWidget {
   const AdminProfileScreen({super.key});
@@ -10,8 +11,9 @@ class AdminProfileScreen extends StatefulWidget {
 class _AdminProfileScreenState extends State<AdminProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return Scaffold(
+      appBar: RootAppbar(title: 'Profil', context: context),
+      body: const Center(
         child: Text('Profile'),
       ),
     );

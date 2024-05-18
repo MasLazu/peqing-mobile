@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:peqing/core/theme/app_colors.dart';
+import 'package:peqing/presentation/widgets/appbar/welcome_appbar.dart';
 import 'package:peqing/presentation/widgets/cards/detail_card.dart';
 import 'package:peqing/presentation/widgets/cards/history_card.dart';
 
@@ -15,44 +16,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(72),
-        child: Container(
-          color: AppColors.white,
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 25),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Halo Admin,',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    Text(
-                      'Fulan bin Fulan',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: AppColors.dark[100]!,
-                  borderRadius: BorderRadius.circular(99),
-                  border: Border.all(color: AppColors.dark[200]!, width: 2.0),
-                ),
-                child: const Icon(
-                  Iconsax.profile_2user5,
-                  color: AppColors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      appBar: WelcomeAppbar(context),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: SingleChildScrollView(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:peqing/presentation/widgets/appbar/root_appbar.dart';
 
 class AdminCivitasScreen extends StatefulWidget {
   const AdminCivitasScreen({super.key});
@@ -10,8 +11,9 @@ class AdminCivitasScreen extends StatefulWidget {
 class _AdminCivitasScreenState extends State<AdminCivitasScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
+    return Scaffold(
+      appBar: RootAppbar(title: 'Daftar Civitas PENS', context: context),
+      body: const Center(
         child: Text('Darftar Civitas'),
       ),
     );
