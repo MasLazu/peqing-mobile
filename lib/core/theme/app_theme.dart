@@ -39,19 +39,29 @@ class AppTheme {
 
   TextTheme get _textTheme {
     return TextTheme(
-      titleLarge: textStyle(
+      headlineLarge: textStyle(
         color: AppColors.dark[500],
         fontSize: 48,
         fontWeight: FontWeight.bold,
       ),
-      titleMedium: textStyle(
+      headlineMedium: textStyle(
         color: AppColors.dark[500],
         fontSize: 24,
         fontWeight: FontWeight.bold,
       ),
-      titleSmall: textStyle(
+      headlineSmall: textStyle(
         color: AppColors.dark[500],
         fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+      titleMedium: textStyle(
+        color: AppColors.dark[500],
+        fontSize: 14,
+        fontWeight: FontWeight.bold,
+      ),
+      titleSmall: textStyle(
+        color: AppColors.dark[500],
+        fontSize: 12,
         fontWeight: FontWeight.bold,
       ),
       bodyMedium: textStyle(
