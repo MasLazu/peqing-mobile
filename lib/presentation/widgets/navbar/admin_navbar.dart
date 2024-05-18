@@ -23,6 +23,7 @@ class AdminNavbar extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (i) => context.go(routes[i]),
         selectedIndex: routes.indexWhere((route) => route == state.fullPath),
+        indicatorColor: AppColors.primary[400]!,
         destinations: <Widget>[
           NavigationDestination(
             selectedIcon: const Icon(Iconsax.home_15),
@@ -46,7 +47,7 @@ class AdminNavbar extends StatelessWidget {
           ),
         ],
       ),
-      body: page,
+      body: SafeArea(child: page),
     );
   }
 }
