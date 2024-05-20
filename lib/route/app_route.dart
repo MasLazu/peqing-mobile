@@ -124,11 +124,11 @@ Future<String?> _initialRedirect(
     User user = state.auth.user;
 
     if (user is Lecturer) {
-      context.go(RouteNames.lecturerHome);
+      return RouteNames.lecturerHome;
     } else if (user is Student) {
-      context.go(RouteNames.studentHome);
+      return RouteNames.studentHome;
     } else {
-      context.go(RouteNames.adminHome);
+      return RouteNames.adminHome;
     }
   }
   return null;
