@@ -59,13 +59,13 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                             const SizedBox(height: 8),
                             Row(
                               children: [
-                                Text(user.id,
+                                Text(user.id.toString(),
                                     style:
                                         Theme.of(context).textTheme.bodySmall),
                                 const SizedBox(width: 8),
                                 GestureDetector(
                                   onTap: () => Clipboard.setData(
-                                      ClipboardData(text: user.id)),
+                                      ClipboardData(text: user.id.toString())),
                                   child: Icon(
                                     Iconsax.copy5,
                                     size: 16,

@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:peqing/data/models/auth.dart';
+import 'package:peqing/data/models/users/user.dart';
 import 'package:peqing/data/repositories/auth_repository.dart';
 import 'package:peqing/route/route_names.dart';
 
@@ -41,8 +42,17 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   Future<void> _login(LoginAuth event, Emitter<AuthState> emit) async {
     emit(const AuthLoading());
     try {
-      final token = await _authRepository.login(event.id, event.password);
-      final user = await _authRepository.me(token: token);
+      final res = await _authRepository.login(event.id, event.password);
+      final token = res['token']!;
+      final role = res['role']!;
+      late User user;
+      if (role == 'dosen') {
+        user = await _authRepository.me(token: token);
+      } else if (role == 'mahasiswa') {
+        user = await _authRepository.me(token: token);
+      } else if (role == 'admin') {
+        user = await _authRepository.me(token: token);
+      }
       emit(Authenticated(auth: Auth(token: token, user: user)));
     } catch (e) {
       emit(AuthError(message: e.toString()));

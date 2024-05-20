@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/core/theme/app_colors.dart';
-import 'package:peqing/data/models/user.dart';
 
 class WelcomeAppbar extends PreferredSize {
   WelcomeAppbar(BuildContext context, {super.key})
@@ -24,7 +23,7 @@ class WelcomeAppbar extends PreferredSize {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Halo ${User.roleToString(user.role)},',
+                            'Halo ${user.role},',
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           Text(

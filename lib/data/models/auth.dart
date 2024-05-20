@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:peqing/data/models/user.dart';
+import 'package:peqing/data/models/users/user.dart';
 
 class Auth {
   final String token;

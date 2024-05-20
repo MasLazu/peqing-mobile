@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
-import 'package:peqing/data/models/user.dart';
+import 'package:peqing/data/models/users/lecturer.dart';
+import 'package:peqing/data/models/users/student.dart';
+import 'package:peqing/data/models/users/user.dart';
 import 'package:peqing/presentation/screens/admin/admin_civitas_screen.dart';
 import 'package:peqing/presentation/screens/admin/admin_history_screen.dart';
 import 'package:peqing/presentation/screens/admin/admin_home_screen.dart';
@@ -119,15 +121,14 @@ Future<String?> _initialRedirect(
 
   if (authBloc.state is Authenticated) {
     var state = authBloc.state as Authenticated;
-    switch (state.auth.user.role) {
-      case Role.admin:
-        return RouteNames.adminHome;
-      case Role.lecturer:
-        return RouteNames.lecturerHome;
-      case Role.student:
-        return RouteNames.studentHome;
-      default:
-        throw Exception('Unknown role: ${state.auth.user.role}');
+    User user = state.auth.user;
+
+    if (user is Lecturer) {
+      context.go(RouteNames.lecturerHome);
+    } else if (user is Student) {
+      context.go(RouteNames.studentHome);
+    } else {
+      context.go(RouteNames.adminHome);
     }
   }
   return null;
