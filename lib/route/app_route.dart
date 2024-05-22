@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:peqing/presentation/screens/lecturer/lecturer_home_page.dart';
 import 'package:peqing/presentation/screens/login_screen.dart';
 import 'package:peqing/presentation/screens/splash_screen.dart';
 import 'package:peqing/route/route_names.dart';
 
 GoRouter appRoute = GoRouter(
-  initialLocation: RouteNames.root,
+  initialLocation: RouteNames.lecturerHome,
   routes: [
     GoRoute(
       path: RouteNames.root,
@@ -37,9 +38,7 @@ GoRouter appRoute = GoRouter(
       pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
         transitionsBuilder: _fadeTransition,
-        child: const Center(
-          child: Text('Lecturer Home'),
-        ),
+        child: const LecturerHomePage()
       ),
     ),
     GoRoute(
