@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 24.0),
                       Text(
-                        'ID Pengenal',
+                        'Email',
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -97,12 +97,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _idController,
                         decoration: const InputDecoration(
-                          hintText: 'Masukkan NRP / NIP',
+                          hintText: 'Masukkan email',
                         ),
                         validator: (value) {
                           value = value?.trim();
                           if (value == null || value.isEmpty) {
-                            return 'Masukkan NRP / NIP';
+                            return 'Masukkan email';
                           }
                           return null;
                         },

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:peqing/data/models/auth.dart';
 import 'package:peqing/data/models/users/user.dart';
 import 'package:peqing/data/repositories/auth_repository.dart';
+import 'package:peqing/data/repositories/lecturer_repository.dart';
+import 'package:peqing/data/repositories/student_repository.dart';
 import 'package:peqing/route/route_names.dart';
 
 part 'auth_event.dart';
@@ -11,14 +13,22 @@ part 'auth_state.dart';
 
 class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   late AuthRepository _authRepository;
+  late StudentRepository _studentRepository;
+  late LecturerRepository _lecturerRepository;
 
   AuthBloc() : super(const Notauthenticated()) {
     on<LoginAuth>(_login);
     on<LogoutAuth>(_logout);
   }
 
-  void setAuthRepository(AuthRepository authRepository) {
+  void setAuthRepository({
+    required AuthRepository authRepository,
+    required StudentRepository studentRepository,
+    required LecturerRepository lecturerRepository,
+  }) {
     _authRepository = authRepository;
+    _studentRepository = studentRepository;
+    _lecturerRepository = lecturerRepository;
   }
 
   @override
@@ -46,12 +56,18 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
       final token = res['token']!;
       final role = res['role']!;
       late User user;
-      if (role == 'dosen') {
-        user = await _authRepository.me(token: token);
-      } else if (role == 'mahasiswa') {
-        user = await _authRepository.me(token: token);
-      } else if (role == 'admin') {
-        user = await _authRepository.me(token: token);
+      switch (role) {
+        case 'dosen':
+          user = await _lecturerRepository.me(token: token);
+          break;
+        case 'mahasiswa':
+          user = await _studentRepository.me(token: token);
+          break;
+        case 'admin':
+          user = await _authRepository.me(token: token);
+          break;
+        default:
+          throw Exception('Role tidak dikenal: $role');
       }
       emit(Authenticated(auth: Auth(token: token, user: user)));
     } catch (e) {

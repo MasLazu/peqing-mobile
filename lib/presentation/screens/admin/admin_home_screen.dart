@@ -50,15 +50,7 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 icon: Iconsax.keyboard5,
                 description: 'Unggah data dengan mengisi manual',
                 onTab: () {
-                  showModalBottomSheet<void>(
-                    useRootNavigator: true,
-                    isScrollControlled: true,
-                    context: context,
-                    isDismissible: false,
-                    builder: (BuildContext context) {
-                      return _buildAddCivitasForm(context);
-                    },
-                  );
+                  _showCivitasForm(context);
                 },
               ),
               const SizedBox(height: 12.0),
@@ -98,124 +90,132 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     );
   }
 
-  Widget _buildAddCivitasForm(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
+  void _showCivitasForm(BuildContext context) {
+    showModalBottomSheet<void>(
+      useRootNavigator: true,
+      isScrollControlled: true,
+      context: context,
+      isDismissible: false,
+      builder: (BuildContext context) {
+        final formKey = GlobalKey<FormState>();
 
-    final idController = TextEditingController();
-    final nameController = TextEditingController();
+        final idController = TextEditingController();
+        final nameController = TextEditingController();
 
-    return SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            AppBar(
-              centerTitle: true,
-              leading: IconButton(
-                icon: const Icon(Iconsax.arrow_left),
-                onPressed: () => context.pop(),
-              ),
-              title: Text(
-                'Tambah Civitas PENS',
-                style: Theme.of(context).textTheme.titleMedium,
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: 24),
-            Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Text(
-                    'ID Pengenal',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
+        return SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                AppBar(
+                  centerTitle: true,
+                  leading: IconButton(
+                    icon: const Icon(Iconsax.arrow_left),
+                    onPressed: () => context.pop(),
                   ),
-                  const SizedBox(height: 8.0),
-                  TextFormField(
-                    controller: idController,
-                    decoration: const InputDecoration(
-                      hintText: 'Masukkan NRP / NIP',
-                    ),
-                    validator: (value) {
-                      value = value?.trim();
-                      if (value == null || value.isEmpty) {
-                        return 'Masukkan NRP / NIP';
-                      }
-                      return null;
-                    },
+                  title: Text(
+                    'Tambah Civitas PENS',
+                    style: Theme.of(context).textTheme.titleMedium,
+                    textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    'Nama Civitas',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8.0),
-                  TextFormField(
-                    controller: nameController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      hintText: 'Masukkan Nama Civitas',
-                    ),
-                    validator: (value) {
-                      value = value?.trim();
-                      if (value == null || value.isEmpty) {
-                        return 'Masukkan Nama Civitas';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16.0),
-                  Text(
-                    'Pilih Role',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8.0),
-                  InputDecorator(
-                    decoration: const InputDecoration(),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: 'Mahaasiswa',
-                        isDense: true,
-                        elevation: 2,
-                        borderRadius: BorderRadius.circular(24),
-                        dropdownColor: AppColors.white,
-                        icon: const Icon(Iconsax.arrow_down_1, size: 16),
-                        onChanged: (String? newValue) {},
-                        items: <String>['Admin', 'Dosen', 'Mahaasiswa']
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList(),
+                ),
+                const SizedBox(height: 24),
+                Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Text(
+                        'ID Pengenal',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.bold),
                       ),
-                    ),
+                      const SizedBox(height: 8.0),
+                      TextFormField(
+                        controller: idController,
+                        decoration: const InputDecoration(
+                          hintText: 'Masukkan NRP / NIP',
+                        ),
+                        validator: (value) {
+                          value = value?.trim();
+                          if (value == null || value.isEmpty) {
+                            return 'Masukkan NRP / NIP';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        'Nama Civitas',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8.0),
+                      TextFormField(
+                        controller: nameController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Masukkan Nama Civitas',
+                        ),
+                        validator: (value) {
+                          value = value?.trim();
+                          if (value == null || value.isEmpty) {
+                            return 'Masukkan Nama Civitas';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16.0),
+                      Text(
+                        'Pilih Role',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 8.0),
+                      InputDecorator(
+                        decoration: const InputDecoration(),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<String>(
+                            value: 'Mahaasiswa',
+                            isDense: true,
+                            elevation: 2,
+                            borderRadius: BorderRadius.circular(24),
+                            dropdownColor: AppColors.white,
+                            icon: const Icon(Iconsax.arrow_down_1, size: 16),
+                            onChanged: (String? newValue) {},
+                            items: <String>['Admin', 'Dosen', 'Mahaasiswa']
+                                .map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 24.0),
+                      PeqingButton(
+                        text: 'Tambah Civitas Baru',
+                        onPressed: () {},
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 24.0),
-                  PeqingButton(
-                    text: 'Tambah Civitas Baru',
-                    onPressed: () {},
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 24),
+              ],
             ),
-            const SizedBox(height: 24),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
