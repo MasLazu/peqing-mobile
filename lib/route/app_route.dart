@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_home_page.dart';
+import 'package:peqing/presentation/screens/lecturer/lecturer_scan_page.dart';
 import 'package:peqing/presentation/screens/login_screen.dart';
 import 'package:peqing/presentation/screens/splash_screen.dart';
 import 'package:peqing/route/route_names.dart';
@@ -39,6 +40,14 @@ GoRouter appRoute = GoRouter(
         key: state.pageKey,
         transitionsBuilder: _fadeTransition,
         child: const LecturerHomePage()
+      ),
+    ),
+    GoRoute(
+      path: RouteNames.lecturerScanQR,
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        transitionsBuilder: _fadeTransition,
+        child: const LecturerScanPage()
       ),
     ),
     GoRoute(

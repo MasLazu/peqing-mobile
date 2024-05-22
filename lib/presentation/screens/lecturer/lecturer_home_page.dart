@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:peqing/core/theme/app_colors.dart';
 import 'package:peqing/presentation/widgets/peqing_appbar.dart';
+import 'package:peqing/route/route_names.dart';
 
 class LecturerHomePage extends StatelessWidget {
   const LecturerHomePage({super.key});
@@ -22,7 +24,7 @@ class LecturerHomePage extends StatelessWidget {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 24),
-            child: Image.asset('assets/images/img-profile.png', width: 48),
+            child: Icon(Iconsax.profile_circle5, size: 40, color: AppColors.dark[100],),
           ),
         ],
       ),
@@ -57,8 +59,15 @@ class LecturerHomePage extends StatelessWidget {
                 side: BorderSide(color: AppColors.primary[500]!),
               ),
               onPressed: () {}, 
-              child: Text(
-                'Hari ini', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold, color: AppColors.primary[500]))
+              child: Row(
+                children: [
+                  Text(
+                    'Hari ini', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold, color: AppColors.primary[500])
+                  ),
+                  const SizedBox(width: 4,),
+                  Icon(Iconsax.arrow_down_1, size: 16, color: AppColors.primary[500]!)
+                ],
+              )
               ),
           ],
         ),
@@ -66,6 +75,17 @@ class LecturerHomePage extends StatelessWidget {
         _buildRiwayatCard(context),
         const SizedBox(height: 12),
         _buildRiwayatCard(context),
+        const SizedBox(height: 12),
+        _buildRiwayatCard(context),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Iconsax.refresh, size: 16, color: AppColors.primary[500]!),
+            const SizedBox(width: 4,),
+            Text('Tampilkan semua', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.primary[500], fontWeight: FontWeight.bold)),
+          ],
+        ),
       ],
     );
   }
@@ -96,7 +116,15 @@ class LecturerHomePage extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(Iconsax.arrow_right_3, size: 24)
+            const SizedBox(width: 48),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.success[500],
+                borderRadius: BorderRadius.circular(64),
+              ),
+              child: const Icon(Iconsax.medal_star5, color: AppColors.white, size: 16)
+            ),
           ],
         ),
       );
@@ -108,42 +136,47 @@ class LecturerHomePage extends StatelessWidget {
       children: [
         Text('Mau Ngasih Nilai?', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(16), // Add padding here (16
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [AppColors.primary[400]!, AppColors.primary[500]!],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-            ),
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary[500],
-                      borderRadius: BorderRadius.circular(60),
-                    ),
-                    child: const Icon(Iconsax.scan, color: AppColors.white, size: 24)
-                  ),
-                  const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment:CrossAxisAlignment.start,
-                    children: [
-                      Text('Beri Nilai Sekarang', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.white, fontWeight: FontWeight.bold)),
-                      const SizedBox(height: 4),
-                      Text('Scan QR mahasiswa lalu nilai!', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.white)),
-                    ],
-                  )
-                ],
+        GestureDetector(
+          onTap: () {
+            context.go(RouteNames.lecturerScanQR);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(16), // Add padding here (16
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [AppColors.primary[400]!, AppColors.primary[500]!],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
               ),
-              const Icon(Iconsax.arrow_right_3, color: AppColors.white, size: 24)
-            ],
+              borderRadius: BorderRadius.circular(24),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppColors.primary[500],
+                        borderRadius: BorderRadius.circular(64),
+                      ),
+                      child: const Icon(Iconsax.scan, color: AppColors.white, size: 32)
+                    ),
+                    const SizedBox(width: 12),
+                    Column(
+                      crossAxisAlignment:CrossAxisAlignment.start,
+                      children: [
+                        Text('Beri Nilai Sekarang', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: AppColors.white, fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 8),
+                        Text('Scan QR mahasiswa lalu nilai!', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: AppColors.white)),
+                      ],
+                    )
+                  ],
+                ),
+                const Icon(Iconsax.arrow_right_3, color: AppColors.white, size: 24)
+              ],
+            ),
           ),
         )
       ],
@@ -182,13 +215,13 @@ class LecturerHomePage extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset('assets/images/img-profile.png', width: 40),
+          Icon(Iconsax.profile_circle5, size: 40, color: AppColors.dark[100],),
           const SizedBox(width: 8,),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Kasih nilai ke', style: Theme.of(context).textTheme.bodySmall),
-              const SizedBox(height: 2,),
+              const SizedBox(height: 4,),
               Text('Fulan bin Fulan', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold)),
             ],
           ),
