@@ -7,4 +7,5 @@ class RouteNames {
   static const String lecturerScanQR = '/lecturer/scan';
 
   static const String studentHome = '/student/home';
+  static const String onBoarding = '/onboarding';
 }
