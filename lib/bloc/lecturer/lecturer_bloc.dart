@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:peqing/data/models/users/lecturer.dart';
+import 'package:peqing/data/models/lecturer.dart';
 import 'package:peqing/data/repositories/lecturer_repository.dart';
 
 part 'lecturer_event.dart';

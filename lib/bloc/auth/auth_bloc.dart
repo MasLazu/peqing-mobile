@@ -1,8 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:peqing/data/models/auth.dart';
-import 'package:peqing/data/models/users/user.dart';
+import 'package:peqing/data/models/lecturer.dart';
+import 'package:peqing/data/models/role.dart';
+import 'package:peqing/data/models/student.dart';
+import 'package:peqing/data/models/user.dart';
 import 'package:peqing/data/repositories/auth_repository.dart';
 import 'package:peqing/data/repositories/lecturer_repository.dart';
 import 'package:peqing/data/repositories/student_repository.dart';
@@ -16,7 +18,7 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   late StudentRepository _studentRepository;
   late LecturerRepository _lecturerRepository;
 
-  AuthBloc() : super(const Notauthenticated()) {
+  AuthBloc() : super(const AuthNotauthenticated()) {
     on<LoginAuth>(_login);
     on<LogoutAuth>(_logout);
   }
@@ -33,20 +35,37 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
 
   @override
   AuthState fromJson(Map<String, dynamic> json) {
-    try {
-      // throw Exception();
-      return Authenticated(auth: Auth.fromMap(json));
-    } catch (_) {
-      return const Notauthenticated();
+    switch (json['role']) {
+      case 'admin':
+        return AuthAdmin(
+            data: User.fromMap(json['data']), token: json['token']);
+      case 'lecturer':
+        return AuthLecturer(
+            data: Lecturer.fromMap(json['data']), token: json['token']);
+      case 'student':
+        return AuthStudent(
+            data: Student.fromMap(json['data']), token: json['token']);
+      default:
+        return const AuthNotauthenticated();
     }
   }
 
   @override
   Map<String, dynamic> toJson(AuthState state) {
-    if (state is Authenticated) {
-      return state.auth.toMap();
+    Map<String, dynamic> json = {};
+
+    if (state is AuthAuthenticated) {
+      json = state.toMap();
+      if (state is AuthAdmin) {
+        json['role'] = 'admin';
+      } else if (state is AuthLecturer) {
+        json['role'] = 'lecturer';
+      } else if (state is AuthStudent) {
+        json['role'] = 'student';
+      }
     }
-    return {};
+
+    return json;
   }
 
   Future<void> _login(LoginAuth event, Emitter<AuthState> emit) async {
@@ -55,21 +74,22 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
       final res = await _authRepository.login(event.id, event.password);
       final token = res['token']!;
       final role = res['role']!;
-      late User user;
       switch (role) {
         case 'dosen':
-          user = await _lecturerRepository.me(token: token);
+          emit(AuthLecturer(
+              data: await _lecturerRepository.me(token: token), token: token));
           break;
         case 'mahasiswa':
-          user = await _studentRepository.me(token: token);
+          emit(AuthStudent(
+              data: await _studentRepository.me(token: token), token: token));
           break;
         case 'admin':
-          user = await _authRepository.me(token: token);
+          emit(AuthAdmin(
+              data: await _authRepository.me(token: token), token: token));
           break;
         default:
           throw Exception('Role tidak dikenal: $role');
       }
-      emit(Authenticated(auth: Auth(token: token, user: user)));
     } catch (e) {
       emit(AuthError(message: e.toString()));
     }
@@ -78,6 +98,6 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
   Future<void> _logout(LogoutAuth event, Emitter<AuthState> emit) async {
     event.context.go(RouteNames.login);
     await Future.delayed(const Duration(seconds: 1));
-    emit(const Notauthenticated());
+    emit(const AuthNotauthenticated());
   }
 }

@@ -72,8 +72,8 @@ class Repository {
       headers['Content-Type'] = 'application/json';
     }
 
-    if (state is Authenticated) {
-      headers['Authorization'] = 'Bearer ${state.auth.token}';
+    if (state is AuthAuthenticated) {
+      headers['Authorization'] = 'Bearer ${state.token}';
     }
 
     debugPrint(

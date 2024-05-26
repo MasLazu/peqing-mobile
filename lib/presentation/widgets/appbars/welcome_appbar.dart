@@ -10,7 +10,7 @@ class WelcomeAppbar extends PreferredSize {
           preferredSize: const Size.fromHeight(72),
           child: BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
-              var user = (state as Authenticated).auth.user;
+              var user = (state as AuthAuthenticated).data;
 
               return Container(
                 color: AppColors.white,
@@ -27,7 +27,7 @@ class WelcomeAppbar extends PreferredSize {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           Text(
-                            user.name,
+                            user.user.name,
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ],

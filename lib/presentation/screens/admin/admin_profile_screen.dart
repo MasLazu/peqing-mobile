@@ -48,25 +48,25 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                     const SizedBox(width: 16.0),
                     BlocBuilder<AuthBloc, AuthState>(
                       builder: (context, state) {
-                        var user = (state as Authenticated).auth.user;
+                        var auth = (state as AuthAuthenticated).data;
 
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              user.name,
+                              auth.user.name,
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             const SizedBox(height: 8),
                             Row(
                               children: [
-                                Text(user.id.toString(),
+                                Text(auth.user.id.toString(),
                                     style:
                                         Theme.of(context).textTheme.bodySmall),
                                 const SizedBox(width: 8),
                                 GestureDetector(
-                                  onTap: () => Clipboard.setData(
-                                      ClipboardData(text: user.id.toString())),
+                                  onTap: () => Clipboard.setData(ClipboardData(
+                                      text: auth.user.id.toString())),
                                   child: Icon(
                                     Iconsax.copy5,
                                     size: 16,
