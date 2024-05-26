@@ -33,18 +33,10 @@ class WelcomeAppbar extends PreferredSize {
                         ],
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: AppColors.dark[100]!,
-                        borderRadius: BorderRadius.circular(99),
-                        border:
-                            Border.all(color: AppColors.dark[200]!, width: 2.0),
-                      ),
-                      child: const Icon(
-                        Iconsax.profile_2user5,
-                        color: AppColors.white,
-                      ),
+                    Icon(
+                      Iconsax.profile_circle5,
+                      size: 48,
+                      color: AppColors.dark[100],
                     ),
                   ],
                 ),
