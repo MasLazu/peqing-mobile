@@ -42,24 +42,21 @@ class LecturerHomePage extends StatelessWidget {
                     .bodyMedium
                     ?.copyWith(fontWeight: FontWeight.bold)),
             OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  side: BorderSide(color: AppColors.primary[500]!),
-                ),
-                onPressed: () {},
-                child: Row(
-                  children: [
-                    Text('Hari ini',
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.primary[500])),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Icon(Iconsax.arrow_down_1,
-                        size: 16, color: AppColors.primary[500]!)
-                  ],
-                )),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                side: BorderSide(color: AppColors.primary[500]!),
+              ),
+              onPressed: () {}, 
+              child: Row(
+                children: [
+                  Text(
+                    'Hari ini', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold, color: AppColors.primary[500])
+                  ),
+                  const SizedBox(width: 4,),
+                  Icon(Iconsax.arrow_down_1, size: 16, color: AppColors.primary[500]!)
+                ],
+              )
+            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -88,17 +85,17 @@ class LecturerHomePage extends StatelessWidget {
 
   Container _buildRiwayatCard(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        border: Border.all(color: AppColors.dark[100]!),
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Column(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          border: Border.all(color: AppColors.dark[100]!),
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Kamu barusan ngasih nilai!',
@@ -231,7 +228,7 @@ class LecturerHomePage extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(60),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(color: AppColors.dark[100]!),
       ),
       child: Row(

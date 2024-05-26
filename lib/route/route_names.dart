@@ -13,6 +13,7 @@ class RouteNames {
   //lecturer
   static const String lecturerHome = '/lecturer/home';
   static const String lecturerScanQR = '/lecturer/scan';
+  static const String lecturerAddGrade = '/lecturer/addGrade';
 
   //student
   static const String studentHome = '/student/home';
