@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:peqing/data/models/users/user.dart';
 
 class Student extends User {
-  final String departerment;
+  final String departement;
   final String major;
   final String nrp;
   final String? qrLink;
@@ -12,7 +12,7 @@ class Student extends User {
     required super.name,
     required super.email,
     super.password,
-    required this.departerment,
+    required this.departement,
     required this.major,
     required this.nrp,
     this.qrLink,
@@ -27,7 +27,7 @@ class Student extends User {
     String? name,
     String? email,
     String? password,
-    String? departerment,
+    String? departement,
     String? major,
     String? nrp,
     String? qrLink,
@@ -37,7 +37,7 @@ class Student extends User {
       name: name ?? super.name,
       email: email ?? super.email,
       password: password ?? super.password,
-      departerment: departerment ?? this.departerment,
+      departement: departement ?? this.departement,
       major: major ?? this.major,
       nrp: nrp ?? this.nrp,
       qrLink: qrLink ?? this.qrLink,
@@ -48,7 +48,7 @@ class Student extends User {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': super.id,
-      'departerment': departerment,
+      'departement': departement,
       'jurusan': major,
       'nrp': nrp,
       'qr': qrLink,
@@ -61,8 +61,8 @@ class Student extends User {
       id: map['id'] as int,
       email: map['user']['email'] as String,
       name: map['user']['name'] as String,
-      password: map['user']['password'] as String,
-      departerment: map['departerment'] as String,
+      password: map['user']['password'] as String?,
+      departement: map['departement'] as String,
       major: map['jurusan'] as String,
       nrp: map['nrp'] as String,
       qrLink: map['qr'] as String,
@@ -77,14 +77,14 @@ class Student extends User {
 
   @override
   String toString() {
-    return 'Student(departerment: $departerment, major: $major, nrp: $nrp, qrLink: $qrLink, id: $id, name: $name, email: $email, password: $password)';
+    return 'Student(departement: $departement, major: $major, nrp: $nrp, qrLink: $qrLink, id: $id, name: $name, email: $email, password: $password)';
   }
 
   @override
   bool operator ==(covariant Student other) {
     if (identical(this, other)) return true;
 
-    return other.departerment == departerment &&
+    return other.departement == departement &&
         other.major == major &&
         other.nrp == nrp &&
         other.qrLink == qrLink &&
@@ -96,7 +96,7 @@ class Student extends User {
 
   @override
   int get hashCode {
-    return departerment.hashCode ^
+    return departement.hashCode ^
         major.hashCode ^
         nrp.hashCode ^
         qrLink.hashCode ^

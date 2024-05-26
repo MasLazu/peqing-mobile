@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:peqing/bloc/lecturer/lecturer_bloc.dart';
+import 'package:peqing/bloc/student/student_bloc.dart';
 import 'package:peqing/core/theme/app_colors.dart';
+import 'package:peqing/data/models/users/lecturer.dart';
+import 'package:peqing/data/models/users/student.dart';
 import 'package:peqing/presentation/widgets/appbars/root_appbar.dart';
 
 class AdminCivitasScreen extends StatefulWidget {
@@ -82,20 +87,41 @@ class _AdminCivitasScreenState extends State<AdminCivitasScreen> {
             ),
           ),
           const SizedBox(height: 24.0),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              crossAxisSpacing: 15.0,
-              mainAxisSpacing: 15.0,
-              padding: const EdgeInsets.only(bottom: 24.0),
-              children: [
-                for (var lecturer in lecturers)
-                  _buildCivitasCard(
-                    name: lecturer['name']!,
-                    title: lecturer['title']!,
+          BlocConsumer<LecturerBloc, LecturerState>(
+            listener: (context, state) {
+              if (state is LecturerError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: AppColors.danger[500]!,
+                    content: Text(state.message),
                   ),
-              ],
+                );
+              }
+            },
+            builder: (context, state) => Expanded(
+              child: state is LecturerLoaded
+                  ? RefreshIndicator(
+                      onRefresh: () async {
+                        context.read<LecturerBloc>().add(LoadLecturer());
+                      },
+                      child: GridView.count(
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        crossAxisSpacing: 15.0,
+                        mainAxisSpacing: 15.0,
+                        padding: const EdgeInsets.only(bottom: 24.0),
+                        children: [
+                          for (Lecturer lecturer in state.lecturers)
+                            _buildCivitasCard(
+                              name: lecturer.name,
+                              title: lecturer.nip,
+                            ),
+                        ],
+                      ),
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    ),
             ),
           ),
         ],
@@ -116,20 +142,41 @@ class _AdminCivitasScreenState extends State<AdminCivitasScreen> {
             ),
           ),
           const SizedBox(height: 24.0),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              crossAxisSpacing: 15.0,
-              mainAxisSpacing: 15.0,
-              padding: const EdgeInsets.only(bottom: 24.0),
-              children: [
-                for (var student in students)
-                  _buildCivitasCard(
-                    name: student['name']!,
-                    title: student['title']!,
+          BlocConsumer<StudentBloc, StudentState>(
+            listener: (context, state) {
+              if (state is StudentError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: AppColors.danger[500]!,
+                    content: Text(state.message),
                   ),
-              ],
+                );
+              }
+            },
+            builder: (context, state) => Expanded(
+              child: state is StudentLoaded
+                  ? RefreshIndicator(
+                      onRefresh: () async {
+                        context.read<StudentBloc>().add(LoadStudent());
+                      },
+                      child: GridView.count(
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        crossAxisSpacing: 15.0,
+                        mainAxisSpacing: 15.0,
+                        padding: const EdgeInsets.only(bottom: 24.0),
+                        children: [
+                          for (Student student in state.students)
+                            _buildCivitasCard(
+                              name: student.name,
+                              title: student.major,
+                            ),
+                        ],
+                      ),
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    ),
             ),
           ),
         ],
@@ -191,36 +238,12 @@ class _AdminCivitasScreenState extends State<AdminCivitasScreen> {
   }
 
   Widget _buidTabBar() {
-    var selectedTextStyle = Theme.of(context)
-        .textTheme
-        .titleSmall!
-        .copyWith(color: AppColors.primary[500]!);
-    var unselectedTextStyle = Theme.of(context)
-        .textTheme
-        .bodySmall!
-        .copyWith(color: AppColors.dark[300]!);
-
     return Builder(builder: (context) {
       return TabBar(
         indicatorSize: TabBarIndicatorSize.values[0],
-        onTap: (index) {
-          setState(() {});
-        },
-        tabs: [
-          Tab(
-              child: Text(
-            'Data Dosen',
-            style: DefaultTabController.of(context).index == 0
-                ? selectedTextStyle
-                : unselectedTextStyle,
-          )),
-          Tab(
-              child: Text(
-            'Data Mahasiswa',
-            style: DefaultTabController.of(context).index == 1
-                ? selectedTextStyle
-                : unselectedTextStyle,
-          )),
+        tabs: const [
+          Tab(child: Text('Data Dosen')),
+          Tab(child: Text('Data Mahasiswa')),
         ],
       );
     });

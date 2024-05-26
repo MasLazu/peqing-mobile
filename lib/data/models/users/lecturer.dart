@@ -42,10 +42,10 @@ class Lecturer extends User {
 
   factory Lecturer.fromMap(Map<String, dynamic> map) {
     return Lecturer(
-      id: map['id'] as int,
+      id: map['id'] as int?,
       email: map['user']['email'] as String,
       name: map['user']['name'] as String,
-      password: map['user']['password'] as String,
+      password: map['user']['password'] as String?,
       nip: map['nip'] as String,
     );
   }

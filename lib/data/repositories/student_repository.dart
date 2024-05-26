@@ -20,7 +20,7 @@ class StudentRepository extends Repository {
       'password': student.password,
       'nrp': student.nrp,
       'jurusan': student.major,
-      'departement': student.departerment,
+      'departement': student.departement,
     });
     return response['message'];
   }

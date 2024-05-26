@@ -83,7 +83,7 @@ class _CivitasFormState extends State<CivitasForm> {
                   nrp: _idController.text,
                   name: _nameController.text,
                   email: _emailController.text,
-                  departerment: departement,
+                  departement: departement,
                   major: major,
                   password: 'mahasiswa',
                 ));

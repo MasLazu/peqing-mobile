@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:peqing/data/models/users/lecturer.dart';
+import 'package:peqing/data/models/users/student.dart';
 import 'package:peqing/data/models/users/user.dart';
 
 class Auth {
@@ -28,6 +30,18 @@ class Auth {
   }
 
   factory Auth.fromMap(Map<String, dynamic> map) {
+    if (map['user']['nip'] != null) {
+      return Auth(
+        token: map['token'] as String,
+        user: Lecturer.fromMap(map['user'] as Map<String, dynamic>),
+      );
+    }
+    if (map['user']['nrp'] != null) {
+      return Auth(
+        token: map['token'] as String,
+        user: Student.fromMap(map['user'] as Map<String, dynamic>),
+      );
+    }
     return Auth(
       token: map['token'] as String,
       user: User.fromMap(map['user'] as Map<String, dynamic>),

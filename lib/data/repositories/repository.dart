@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 
@@ -74,6 +75,14 @@ class Repository {
     if (state is Authenticated) {
       headers['Authorization'] = 'Bearer ${state.auth.token}';
     }
+
+    debugPrint(
+      '''
+      =============================================
+      request header: ${headers.toString()}
+      =============================================
+      ''',
+    );
 
     return headers;
   }
