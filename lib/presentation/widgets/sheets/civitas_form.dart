@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:go_router/go_router.dart';
 import 'package:peqing/core/theme/app_colors.dart';
-import 'package:peqing/data/models/users/lecturer.dart';
-import 'package:peqing/data/models/users/student.dart';
-import 'package:peqing/data/models/users/user.dart';
+import 'package:peqing/data/models/lecturer.dart';
+import 'package:peqing/data/models/student.dart';
+import 'package:peqing/data/models/user.dart';
 import 'package:peqing/data/repositories/auth_repository.dart';
 import 'package:peqing/data/repositories/lecturer_repository.dart';
 import 'package:peqing/data/repositories/student_repository.dart';
@@ -72,20 +72,24 @@ class _CivitasFormState extends State<CivitasForm> {
                 password: 'admin'));
             break;
           case 'Dosen':
-            await context.read<LecturerRepository>().createOne(Lecturer(
-                name: _nameController.text,
-                email: _emailController.text,
-                password: 'dosen',
+            await context.read<LecturerRepository>().create(Lecturer(
+                user: User(
+                  name: _nameController.text,
+                  email: _emailController.text,
+                  password: 'dosen',
+                ),
                 nip: _idController.text));
             break;
           case 'Mahasiswa':
-            await context.read<StudentRepository>().createOne(Student(
+            await context.read<StudentRepository>().create(Student(
+                  user: User(
+                    name: _nameController.text,
+                    email: _emailController.text,
+                    password: 'mahasiswa',
+                  ),
                   nrp: _idController.text,
-                  name: _nameController.text,
-                  email: _emailController.text,
                   departement: departement,
                   major: major,
-                  password: 'mahasiswa',
                 ));
             break;
           default:

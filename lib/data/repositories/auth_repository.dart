@@ -1,5 +1,5 @@
 import 'package:peqing/bloc/auth/auth_bloc.dart';
-import 'package:peqing/data/models/users/user.dart';
+import 'package:peqing/data/models/user.dart';
 import 'package:peqing/data/repositories/repository.dart';
 
 class AuthRepository extends Repository {

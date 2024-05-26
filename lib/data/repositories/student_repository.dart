@@ -1,5 +1,5 @@
 import 'package:peqing/bloc/auth/auth_bloc.dart';
-import 'package:peqing/data/models/users/student.dart';
+import 'package:peqing/data/models/student.dart';
 import 'package:peqing/data/repositories/repository.dart';
 
 class StudentRepository extends Repository {
@@ -13,11 +13,11 @@ class StudentRepository extends Repository {
     return Student.fromMap(response['message']);
   }
 
-  Future<String> createOne(Student student) async {
+  Future<String> create(Student student) async {
     final response = await post(body: {
-      'name': student.name,
-      'email': student.email,
-      'password': student.password,
+      'name': student.user.name,
+      'email': student.user.email,
+      'password': student.user.password,
       'nrp': student.nrp,
       'jurusan': student.major,
       'departement': student.departement,
@@ -39,16 +39,9 @@ class StudentRepository extends Repository {
     return Student.fromMap(response['message']);
   }
 
-  // Future<String> updateOne(Student student) async {
-  //   final response = await put(path: '/${student.id}', body: {
-  //     'name': student.name,
-  //     'email': student.email,
-  //     'password': student.password,
-  //     'nrp': student.nrp,
-  //     'jurusan': student.major,
-  //     'departement': student.departerment,
-  //   });
+  Future<String> update(Student student) async {
+    final response = await put(path: '/${student.id}', body: student.toMap());
 
-  //   return response['message'];
-  // }
+    return response['message'];
+  }
 }

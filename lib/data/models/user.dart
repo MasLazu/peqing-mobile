@@ -1,6 +1,7 @@
 import 'dart:convert';
+import 'package:peqing/data/models/role.dart';
 
-class User {
+class User extends Role {
   final int? id;
   final String name;
   final String email;
@@ -13,6 +14,10 @@ class User {
     this.password,
   });
 
+  @override
+  get user => this;
+
+  @override
   get role => 'Admin';
 
   User copyWith({
@@ -40,10 +45,10 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'] as int,
+      id: map['id'] as int?,
       name: map['name'] as String,
       email: map['email'] as String,
-      password: map['password'] as String,
+      password: map['password'] as String?,
     );
   }
 

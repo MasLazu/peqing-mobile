@@ -1,5 +1,5 @@
 import 'package:peqing/bloc/auth/auth_bloc.dart';
-import 'package:peqing/data/models/users/lecturer.dart';
+import 'package:peqing/data/models/lecturer.dart';
 import 'package:peqing/data/repositories/repository.dart';
 
 class LecturerRepository extends Repository {
@@ -12,11 +12,11 @@ class LecturerRepository extends Repository {
     return Lecturer.fromMap(response['message']);
   }
 
-  Future<String> createOne(Lecturer lecturer) async {
+  Future<String> create(Lecturer lecturer) async {
     final response = await post(body: {
-      'name': lecturer.name,
-      'email': lecturer.email,
-      'password': lecturer.password,
+      'name': lecturer.user.name,
+      'email': lecturer.user.email,
+      'password': lecturer.user.password,
       'nip': lecturer.nip,
     });
 
@@ -35,5 +35,11 @@ class LecturerRepository extends Repository {
     final response = await get(path: '/$id');
 
     return Lecturer.fromMap(response['message']);
+  }
+
+  Future<String> update(Lecturer lecturer) async {
+    final response = await put(path: '/${lecturer.id}', body: lecturer.toMap());
+
+    return response['message'];
   }
 }

@@ -10,9 +10,6 @@ import 'package:peqing/data/repositories/student_repository.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_home_page.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_scan_page.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
-import 'package:peqing/data/models/users/lecturer.dart';
-import 'package:peqing/data/models/users/student.dart';
-import 'package:peqing/data/models/users/user.dart';
 import 'package:peqing/presentation/screens/admin/admin_civitas_screen.dart';
 import 'package:peqing/presentation/screens/admin/admin_history_screen.dart';
 import 'package:peqing/presentation/screens/admin/admin_home_screen.dart';
@@ -52,16 +49,19 @@ GoRouter appRoute = GoRouter(
     ),
     ShellRoute(
       navigatorKey: GlobalKey<NavigatorState>(),
-      builder: (context, state, child) => MultiBlocProvider(
-        providers: [
-          BlocProvider<StudentBloc>(
-              create: (context) =>
-                  StudentBloc(context.read<StudentRepository>())),
-          BlocProvider<LecturerBloc>(
-              create: (context) =>
-                  LecturerBloc(context.read<LecturerRepository>())),
-        ],
-        child: AdminNavbar(page: child, state: state),
+      pageBuilder: (context, state, child) => CustomTransitionPage(
+        transitionsBuilder: _fadeTransition,
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider<StudentBloc>(
+                create: (context) =>
+                    StudentBloc(context.read<StudentRepository>())),
+            BlocProvider<LecturerBloc>(
+                create: (context) =>
+                    LecturerBloc(context.read<LecturerRepository>())),
+          ],
+          child: AdminNavbar(page: child, state: state),
+        ),
       ),
       routes: [
         GoRoute(
@@ -147,17 +147,17 @@ Future<String?> _initialRedirect(
     BuildContext context, GoRouterState state) async {
   final authBloc = BlocProvider.of<AuthBloc>(context);
 
-  if (authBloc.state is Authenticated) {
-    var state = authBloc.state as Authenticated;
-    User user = state.auth.user;
+  var state = authBloc.state;
 
-    if (user is Lecturer) {
-      return RouteNames.lecturerHome;
-    } else if (user is Student) {
-      return RouteNames.studentHome;
-    } else {
+  if (state is AuthAuthenticated) {
+    if (state is AuthAdmin) {
       return RouteNames.adminHome;
+    } else if (state is AuthLecturer) {
+      return RouteNames.lecturerHome;
+    } else if (state is AuthStudent) {
+      return RouteNames.studentHome;
     }
+    throw Exception('Unknown role');
   }
   return null;
 }

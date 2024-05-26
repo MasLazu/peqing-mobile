@@ -4,8 +4,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:peqing/bloc/lecturer/lecturer_bloc.dart';
 import 'package:peqing/bloc/student/student_bloc.dart';
 import 'package:peqing/core/theme/app_colors.dart';
-import 'package:peqing/data/models/users/lecturer.dart';
-import 'package:peqing/data/models/users/student.dart';
+import 'package:peqing/data/models/lecturer.dart';
+import 'package:peqing/data/models/student.dart';
 import 'package:peqing/presentation/widgets/appbars/root_appbar.dart';
 
 class AdminCivitasScreen extends StatefulWidget {
@@ -16,44 +16,6 @@ class AdminCivitasScreen extends StatefulWidget {
 }
 
 class _AdminCivitasScreenState extends State<AdminCivitasScreen> {
-  final List<Map<String, String>> students = [
-    {
-      'name': 'Fulan bin Fulan',
-      'title': 'Mahasiswa Teknik Informatika',
-    },
-    {
-      'name': 'Fulan bin Fulan',
-      'title': 'Mahasiswa Teknik Informatika',
-    },
-    {
-      'name': 'Fulan bin Fulan',
-      'title': 'Mahasiswa Teknik Informatika',
-    },
-    {
-      'name': 'Fulan bin Fulan',
-      'title': 'Mahasiswa Teknik Informatika',
-    },
-    {
-      'name': 'Fulan bin Fulan',
-      'title': 'Mahasiswa Teknik Informatika',
-    },
-  ];
-
-  final List<Map<String, String>> lecturers = [
-    {
-      'name': 'Fulan bin Fulan, S.Kom., M.Kom.',
-      'title': 'Dosen Teknik Informatika',
-    },
-    {
-      'name': 'Fulan bin Fulan, S.Kom., M.Kom.',
-      'title': 'Dosen Teknik Informatika',
-    },
-    {
-      'name': 'Fulan bin Fulan, S.Kom., M.Kom.',
-      'title': 'Dosen Teknik Informatika',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -113,7 +75,7 @@ class _AdminCivitasScreenState extends State<AdminCivitasScreen> {
                         children: [
                           for (Lecturer lecturer in state.lecturers)
                             _buildCivitasCard(
-                              name: lecturer.name,
+                              name: lecturer.user.name,
                               title: lecturer.nip,
                             ),
                         ],
@@ -168,7 +130,7 @@ class _AdminCivitasScreenState extends State<AdminCivitasScreen> {
                         children: [
                           for (Student student in state.students)
                             _buildCivitasCard(
-                              name: student.name,
+                              name: student.user.name,
                               title: student.major,
                             ),
                         ],

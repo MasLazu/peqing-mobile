@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/core/theme/app_colors.dart';
-import 'package:peqing/data/models/users/lecturer.dart';
-import 'package:peqing/data/models/users/student.dart';
-import 'package:peqing/data/models/users/user.dart';
 import 'package:peqing/presentation/widgets/buttons/peqing_button.dart';
 import 'package:peqing/route/route_names.dart';
 import 'package:go_router/go_router.dart';
@@ -35,14 +32,13 @@ class _LoginScreenState extends State<LoginScreen> {
           );
         }
 
-        if (state is Authenticated) {
-          User user = state.auth.user;
-          if (user is Lecturer) {
-            context.go(RouteNames.lecturerHome);
-          } else if (user is Student) {
-            context.go(RouteNames.studentHome);
-          } else {
+        if (state is AuthAuthenticated) {
+          if (state is AuthAdmin) {
             context.go(RouteNames.adminHome);
+          } else if (state is AuthLecturer) {
+            context.go(RouteNames.lecturerHome);
+          } else if (state is AuthStudent) {
+            context.go(RouteNames.studentHome);
           }
         }
       },
