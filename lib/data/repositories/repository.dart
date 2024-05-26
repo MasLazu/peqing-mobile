@@ -61,7 +61,7 @@ class Repository {
   }
 
   Map<String, String> _getHeaders({Map<String, String>? headers}) {
-    final state = authBloc.state;
+    var state = authBloc.state;
 
     if (headers == null) {
       headers = {

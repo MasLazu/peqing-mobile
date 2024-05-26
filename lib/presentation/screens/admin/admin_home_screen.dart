@@ -20,70 +20,72 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: WelcomeAppbar(context),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 20),
-              _buildHeading('Daftar Civitas'),
-              const SizedBox(height: 16.0),
-              Row(
-                children: [
-                  Expanded(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                _buildHeading('Daftar Civitas'),
+                const SizedBox(height: 16.0),
+                Row(
+                  children: [
+                    Expanded(
+                        child: _buildCivitasCard(
+                            title: 'Data Dosen', icon: Iconsax.teacher5)),
+                    const SizedBox(width: 16),
+                    Expanded(
                       child: _buildCivitasCard(
-                          title: 'Data Dosen', icon: Iconsax.teacher5)),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: _buildCivitasCard(
-                        title: 'Data Mahasiswa', icon: Iconsax.profile_add5),
-                  )
-                ],
-              ),
-              const SizedBox(height: 28),
-              _buildHeading('Unggah Data'),
-              const SizedBox(height: 16.0),
-              DetailCard(
-                context: context,
-                title: 'Buat Data Manual',
-                icon: Iconsax.keyboard5,
-                description: 'Unggah data dengan mengisi manual',
-                onTab: () {
-                  showCivitasForm(context);
-                },
-              ),
-              const SizedBox(height: 12.0),
-              DetailCard(
-                context: context,
-                type: DetailCardType.gradient,
-                title: 'Unggah via CSV',
-                icon: Iconsax.document5,
-                description: 'Impor data mahasiswa & dosen',
-                onTab: () {},
-              ),
-              const SizedBox(height: 24.0),
-              _buildHeading('Riwayat'),
-              const SizedBox(height: 16.0),
-              HistoryCard(
-                title: 'Berhasil Unggah CSV',
-                description: 'Admin Fulan Berhasil mengunggah',
-                context: context,
-              ),
-              const SizedBox(height: 12.0),
-              HistoryCard(
-                title: 'Berhasil Unggah CSV',
-                description: 'Admin Fulan Berhasil mengunggah',
-                context: context,
-              ),
-              const SizedBox(height: 12.0),
-              HistoryCard(
-                title: 'Berhasil Unggah CSV',
-                description: 'Admin Fulan Berhasil mengunggah',
-                context: context,
-              ),
-              const SizedBox(height: 20),
-            ],
+                          title: 'Data Mahasiswa', icon: Iconsax.profile_add5),
+                    )
+                  ],
+                ),
+                const SizedBox(height: 28),
+                _buildHeading('Unggah Data'),
+                const SizedBox(height: 16.0),
+                DetailCard(
+                  context: context,
+                  title: 'Buat Data Manual',
+                  icon: Iconsax.keyboard5,
+                  description: 'Unggah data dengan mengisi manual',
+                  onTab: () {
+                    showCivitasForm(context);
+                  },
+                ),
+                const SizedBox(height: 12.0),
+                DetailCard(
+                  context: context,
+                  type: DetailCardType.gradient,
+                  title: 'Unggah via CSV',
+                  icon: Iconsax.document5,
+                  description: 'Impor data mahasiswa & dosen',
+                  onTab: () {},
+                ),
+                const SizedBox(height: 24.0),
+                _buildHeading('Riwayat'),
+                const SizedBox(height: 16.0),
+                HistoryCard(
+                  title: 'Berhasil Unggah CSV',
+                  description: 'Admin Fulan Berhasil mengunggah',
+                  context: context,
+                ),
+                const SizedBox(height: 12.0),
+                HistoryCard(
+                  title: 'Berhasil Unggah CSV',
+                  description: 'Admin Fulan Berhasil mengunggah',
+                  context: context,
+                ),
+                const SizedBox(height: 12.0),
+                HistoryCard(
+                  title: 'Berhasil Unggah CSV',
+                  description: 'Admin Fulan Berhasil mengunggah',
+                  context: context,
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),

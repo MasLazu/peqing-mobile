@@ -19,6 +19,7 @@ class LecturerRepository extends Repository {
       'password': lecturer.password,
       'nip': lecturer.nip,
     });
+
     return response['message'];
   }
 
