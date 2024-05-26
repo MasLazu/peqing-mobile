@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/core/theme/app_colors.dart';
-import 'package:peqing/core/theme/app_theme.dart';
-import 'package:peqing/data/models/user.dart';
+import 'package:peqing/data/models/users/lecturer.dart';
+import 'package:peqing/data/models/users/student.dart';
+import 'package:peqing/data/models/users/user.dart';
+import 'package:peqing/presentation/widgets/buttons/peqing_button.dart';
 import 'package:peqing/route/route_names.dart';
 import 'package:go_router/go_router.dart';
 
@@ -34,18 +36,13 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         if (state is Authenticated) {
-          switch (state.auth.user.role) {
-            case Role.admin:
-              context.go(RouteNames.adminHome);
-              break;
-            case Role.lecturer:
-              context.go(RouteNames.lecturerHome);
-              break;
-            case Role.student:
-              context.go(RouteNames.studentHome);
-              break;
-            default:
-              throw Exception('Unknown role: ${state.auth.user.role}');
+          User user = state.auth.user;
+          if (user is Lecturer) {
+            context.go(RouteNames.lecturerHome);
+          } else if (user is Student) {
+            context.go(RouteNames.studentHome);
+          } else {
+            context.go(RouteNames.adminHome);
           }
         }
       },
@@ -69,15 +66,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           Text(
                             'Yuk ',
-                            style: Theme.of(context).textTheme.headlineLarge,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineMedium!
+                                .copyWith(fontWeight: FontWeight.w400),
                             textAlign: TextAlign.center,
                           ),
                           Text(
                             'Login!',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineLarge!
-                                .copyWith(fontWeight: FontWeight.bold),
+                            style: Theme.of(context).textTheme.headlineMedium,
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -90,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 24.0),
                       Text(
-                        'NRP / NIP',
+                        'Email',
                         style: Theme.of(context)
                             .textTheme
                             .bodyMedium!
@@ -100,12 +97,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       TextFormField(
                         controller: _idController,
                         decoration: const InputDecoration(
-                          hintText: 'Masukkan NRP / NIP',
+                          hintText: 'Masukkan email',
                         ),
                         validator: (value) {
                           value = value?.trim();
                           if (value == null || value.isEmpty) {
-                            return 'Masukkan NRP / NIP';
+                            return 'Masukkan email';
                           }
                           return null;
                         },
@@ -134,7 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                       ),
                       const SizedBox(height: 24.0),
-                      ElevatedButton(
+                      PeqingButton(
+                        text: 'Login',
+                        isLoading: state is AuthLoading,
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             context.read<AuthBloc>().add(
@@ -145,17 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
                           }
                         },
-                        child: state is AuthLoading
-                            ? const SizedBox(
-                                height: 18.0,
-                                width: 18.0,
-                                child: CircularProgressIndicator(
-                                  color: AppColors.white,
-                                  strokeWidth: 3,
-                                ),
-                              )
-                            : Text('Login', style: AppTheme.buttonTextStyle),
-                      )
+                      ),
                     ],
                   ),
                 ),

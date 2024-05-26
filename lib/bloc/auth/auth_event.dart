@@ -16,5 +16,6 @@ final class LoginAuth extends AuthEvent {
 }
 
 final class LogoutAuth extends AuthEvent {
-  const LogoutAuth();
+  final BuildContext context;
+  const LogoutAuth(this.context);
 }

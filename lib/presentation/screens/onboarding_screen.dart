@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:peqing/presentation/widgets/peqing_button.dart';
+import 'package:peqing/presentation/widgets/buttons/peqing_button.dart';
 import 'package:peqing/route/route_names.dart';
 
 class OnboardingScreen extends StatefulWidget {
