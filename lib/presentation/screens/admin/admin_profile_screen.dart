@@ -8,6 +8,7 @@ import 'package:peqing/core/theme/app_colors.dart';
 import 'package:peqing/presentation/widgets/appbars/root_appbar.dart';
 import 'package:peqing/presentation/widgets/buttons/peqing_outline_button.dart';
 import 'package:peqing/route/route_names.dart';
+import 'package:peqing/presentation/widgets/sheets/civitas_form.dart';
 
 class AdminProfileScreen extends StatefulWidget {
   const AdminProfileScreen({super.key});
@@ -83,7 +84,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                 const SizedBox(height: 24.0),
                 PeqingOutlineButton(
                   text: 'Buat Data Manual',
-                  onPressed: () {},
+                  onPressed: () => showCivitasForm(context),
                   align: Alignment.centerLeft,
                   icon: Iconsax.keyboard5,
                 ),

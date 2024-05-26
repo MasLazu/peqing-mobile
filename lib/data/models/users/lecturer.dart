@@ -4,9 +4,10 @@ class Lecturer extends User {
   final String nip;
 
   Lecturer({
-    required super.id,
+    super.id,
     required super.name,
     required super.email,
+    super.password,
     required this.nip,
   });
 
@@ -18,12 +19,14 @@ class Lecturer extends User {
     int? id,
     String? name,
     String? email,
+    String? password,
     String? nip,
   }) {
     return Lecturer(
       id: id ?? super.id,
       name: name ?? super.name,
       email: email ?? super.email,
+      password: password ?? super.password,
       nip: nip ?? this.nip,
     );
   }
@@ -42,13 +45,14 @@ class Lecturer extends User {
       id: map['id'] as int,
       email: map['user']['email'] as String,
       name: map['user']['name'] as String,
+      password: map['user']['password'] as String,
       nip: map['nip'] as String,
     );
   }
 
   @override
   String toString() =>
-      'Lecturer(id: $id, name: $name, email: $email, nip: $nip)';
+      'Lecturer(id: $id, name: $name, email: $email, nip: $nip, password: $password)';
 
   @override
   bool operator ==(covariant Lecturer other) {
@@ -57,10 +61,15 @@ class Lecturer extends User {
     return other.id == id &&
         other.name == name &&
         other.email == email &&
-        other.nip == nip;
+        other.nip == nip &&
+        other.password == password;
   }
 
   @override
   int get hashCode =>
-      id.hashCode ^ name.hashCode ^ email.hashCode ^ nip.hashCode;
+      id.hashCode ^
+      name.hashCode ^
+      email.hashCode ^
+      nip.hashCode ^
+      password.hashCode;
 }

@@ -5,16 +5,17 @@ class Student extends User {
   final String departerment;
   final String major;
   final String nrp;
-  final String qrLink;
+  final String? qrLink;
 
   Student({
-    required super.id,
+    super.id,
     required super.name,
     required super.email,
+    super.password,
     required this.departerment,
     required this.major,
     required this.nrp,
-    required this.qrLink,
+    this.qrLink,
   });
 
   @override
@@ -25,6 +26,7 @@ class Student extends User {
     int? id,
     String? name,
     String? email,
+    String? password,
     String? departerment,
     String? major,
     String? nrp,
@@ -34,6 +36,7 @@ class Student extends User {
       id: id ?? super.id,
       name: name ?? super.name,
       email: email ?? super.email,
+      password: password ?? super.password,
       departerment: departerment ?? this.departerment,
       major: major ?? this.major,
       nrp: nrp ?? this.nrp,
@@ -46,9 +49,9 @@ class Student extends User {
     return <String, dynamic>{
       'id': super.id,
       'departerment': departerment,
-      'major': major,
+      'jurusan': major,
       'nrp': nrp,
-      'qrLink': qrLink,
+      'qr': qrLink,
       'user': super.toMap(),
     };
   }
@@ -58,10 +61,11 @@ class Student extends User {
       id: map['id'] as int,
       email: map['user']['email'] as String,
       name: map['user']['name'] as String,
+      password: map['user']['password'] as String,
       departerment: map['departerment'] as String,
-      major: map['major'] as String,
+      major: map['jurusan'] as String,
       nrp: map['nrp'] as String,
-      qrLink: map['qrLink'] as String,
+      qrLink: map['qr'] as String,
     );
   }
 
@@ -73,7 +77,7 @@ class Student extends User {
 
   @override
   String toString() {
-    return 'Student(departerment: $departerment, major: $major, nrp: $nrp, qrLink: $qrLink, id: $id, name: $name, email: $email)';
+    return 'Student(departerment: $departerment, major: $major, nrp: $nrp, qrLink: $qrLink, id: $id, name: $name, email: $email, password: $password)';
   }
 
   @override
@@ -86,7 +90,8 @@ class Student extends User {
         other.qrLink == qrLink &&
         other.id == id &&
         other.name == name &&
-        other.email == email;
+        other.email == email &&
+        other.password == password;
   }
 
   @override
@@ -97,6 +102,7 @@ class Student extends User {
         qrLink.hashCode ^
         id.hashCode ^
         name.hashCode ^
-        email.hashCode;
+        email.hashCode ^
+        password.hashCode;
   }
 }

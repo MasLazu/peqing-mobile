@@ -13,8 +13,8 @@ class Repository {
             host: '4phvhnt5-3001.asse.devtunnels.ms',
             path: prefix);
 
-  Future<Map<String, dynamic>> get(String path,
-      {Map<String, String>? header}) async {
+  Future<Map<String, dynamic>> get(
+      {String path = '', Map<String, String>? header}) async {
     final url = baseUrl.replace(path: baseUrl.path + path);
     final response = await http.get(url, headers: _getHeaders(headers: header));
 
@@ -23,8 +23,8 @@ class Repository {
     return jsonDecode(response.body);
   }
 
-  Future<Map<String, dynamic>> post(String path,
-      {Map<String, dynamic>? body}) async {
+  Future<Map<String, dynamic>> post(
+      {String path = '', Map<String, dynamic>? body}) async {
     final url = baseUrl.replace(path: baseUrl.path + path);
     final response =
         await http.post(url, headers: _getHeaders(), body: jsonEncode(body));
@@ -34,8 +34,8 @@ class Repository {
     return jsonDecode(response.body);
   }
 
-  Future<Map<String, dynamic>> put(String path,
-      {Map<String, dynamic>? body}) async {
+  Future<Map<String, dynamic>> put(
+      {String path = '', Map<String, dynamic>? body}) async {
     final url = baseUrl.replace(path: baseUrl.path + path);
     final response =
         await http.put(url, headers: _getHeaders(), body: jsonEncode(body));
@@ -45,7 +45,7 @@ class Repository {
     return jsonDecode(response.body);
   }
 
-  Future<Map<String, dynamic>> delete(String path) async {
+  Future<Map<String, dynamic>> delete({String path = ''}) async {
     final url = baseUrl.replace(path: baseUrl.path + path);
     final response = await http.delete(url, headers: _getHeaders());
 

@@ -1,14 +1,16 @@
 import 'dart:convert';
 
 class User {
-  final int id;
+  final int? id;
   final String name;
   final String email;
+  final String? password;
 
   User({
-    required this.id,
+    this.id,
     required this.name,
     required this.email,
+    this.password,
   });
 
   get role => 'Admin';
@@ -17,11 +19,13 @@ class User {
     int? id,
     String? name,
     String? email,
+    String? password,
   }) {
     return User(
       id: id ?? this.id,
       name: name ?? this.name,
       email: email ?? this.email,
+      password: password ?? this.password,
     );
   }
 
@@ -30,6 +34,7 @@ class User {
       'id': id,
       'name': name,
       'email': email,
+      'password': password,
     };
   }
 
@@ -38,6 +43,7 @@ class User {
       id: map['id'] as int,
       name: map['name'] as String,
       email: map['email'] as String,
+      password: map['password'] as String,
     );
   }
 
@@ -47,15 +53,20 @@ class User {
       User.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'User(id: $id, name: $name, email: $email)';
+  String toString() =>
+      'User(id: $id, name: $name, email: $email, password: $password)';
 
   @override
   bool operator ==(covariant User other) {
     if (identical(this, other)) return true;
 
-    return other.id == id && other.name == name && other.email == email;
+    return other.id == id &&
+        other.name == name &&
+        other.email == email &&
+        other.password == password;
   }
 
   @override
-  int get hashCode => id.hashCode ^ name.hashCode ^ email.hashCode;
+  int get hashCode =>
+      id.hashCode ^ name.hashCode ^ email.hashCode ^ password.hashCode;
 }
