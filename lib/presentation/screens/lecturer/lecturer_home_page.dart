@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:peqing/core/theme/app_colors.dart';
 import 'package:peqing/presentation/widgets/peqing_appbar.dart';
+import 'package:peqing/presentation/widgets/peqing_button.dart';
 import 'package:peqing/route/route_names.dart';
 
 class LecturerHomePage extends StatelessWidget {
@@ -28,18 +29,28 @@ class LecturerHomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        margin: const EdgeInsets.only(top: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildAksiCepat(context),
-            const SizedBox(height: 24),
-            _buildScanQR(context),
-            const SizedBox(height: 24),
-            _buildRiwayatHome(context)
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          margin: const EdgeInsets.only(top: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildAksiCepat(context),
+              const SizedBox(height: 24),
+              PeqingButton(
+                text: 'Kasih Nilai',
+                onPressed: () {
+                  context.go(RouteNames.lecturerAddGrade);
+                },
+              ),
+              const SizedBox(height: 24),
+              _buildScanQR(context),
+              const SizedBox(height: 24),
+              _buildRiwayatHome(context),
+              const SizedBox(height: 24),
+            ],
+          ),
         ),
       ),
     );
@@ -68,7 +79,7 @@ class LecturerHomePage extends StatelessWidget {
                   Icon(Iconsax.arrow_down_1, size: 16, color: AppColors.primary[500]!)
                 ],
               )
-              ),
+            ),
           ],
         ),
         const SizedBox(height: 16),
@@ -92,7 +103,7 @@ class LecturerHomePage extends StatelessWidget {
 
   Container _buildRiwayatCard(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(16), // Add padding here (16
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.white,
           border: Border.all(color: AppColors.dark[100]!),
@@ -210,7 +221,7 @@ class LecturerHomePage extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppColors.white,
-        borderRadius: BorderRadius.circular(60),
+        borderRadius: BorderRadius.circular(24),
         border: Border.all(color: AppColors.dark[100]!),
       ),
       child: Row(

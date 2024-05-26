@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:peqing/presentation/screens/lecturer/lecturer_add_grade_page.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_home_page.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_scan_page.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
@@ -48,7 +49,7 @@ GoRouter appRoute = GoRouter(
     ),
     GoRoute(
       path: RouteNames.lecturerHome,
-      pageBuilder: (context, state) => CupertinoPage(
+      pageBuilder: (context, state) => CustomTransitionPage(
         key: state.pageKey,
         transitionsBuilder: _fadeTransition,
         child: const LecturerHomePage()
@@ -60,6 +61,14 @@ GoRouter appRoute = GoRouter(
         key: state.pageKey,
         transitionsBuilder: _fadeTransition,
         child: const LecturerScanPage()
+      ),
+    ),
+    GoRoute(
+      path: RouteNames.lecturerAddGrade,
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        transitionsBuilder: _fadeTransition,
+        child: const LecturerAddGradePage()
       ),
     ),
     GoRoute(

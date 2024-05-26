@@ -5,9 +5,14 @@ import 'package:peqing/core/theme/app_colors.dart';
 import 'package:peqing/presentation/widgets/peqing_appbar.dart';
 import 'package:peqing/route/route_names.dart';
 
-class LecturerScanPage extends StatelessWidget {
+class LecturerScanPage extends StatefulWidget {
   const LecturerScanPage({super.key});
 
+  @override
+  State<LecturerScanPage> createState() => _LecturerScanPageState();
+}
+
+class _LecturerScanPageState extends State<LecturerScanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +33,9 @@ class LecturerScanPage extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(child: Text('Scan QR Page')),
+      body: const Center(
+        child: Text('Scan QR Mahasiswa'),
+      ),
     );
   }
 }
