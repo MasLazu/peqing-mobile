@@ -42,4 +42,10 @@ class LecturerRepository extends Repository {
 
     return response['message'];
   }
+
+  Future<String> deleteById(int id) async {
+    final response = await delete(path: '/$id');
+
+    return response['message'];
+  }
 }

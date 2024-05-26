@@ -171,16 +171,64 @@ class _AdminCivitasScreenState extends State<AdminCivitasScreen> {
                   ),
                 ),
                 const Spacer(),
-                Container(
-                  padding: const EdgeInsets.all(9.33),
-                  decoration: BoxDecoration(
-                      color: AppColors.white,
-                      borderRadius: BorderRadius.circular(99),
-                      border: Border.all(color: AppColors.dark[100]!)),
-                  child: Icon(
-                    Iconsax.more_circle5,
-                    color: AppColors.dark[500]!,
-                    size: 16,
+                MenuAnchor(
+                  style: MenuStyle(
+                    elevation: WidgetStateProperty.all(0.0),
+                    backgroundColor:
+                        WidgetStateProperty.all(Colors.transparent),
+                    shape: WidgetStatePropertyAll(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16))),
+                  ),
+                  menuChildren: <Widget>[
+                    Container(
+                        width: 70,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        decoration: BoxDecoration(
+                            color: AppColors.danger[500],
+                            borderRadius: BorderRadius.circular(99)),
+                        child: Center(
+                            child: Text('Hapus',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(color: AppColors.white)))),
+                    Container(
+                        width: 70,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        decoration: BoxDecoration(
+                            color: AppColors.secondary[500],
+                            borderRadius: BorderRadius.circular(99)),
+                        child: Center(
+                            child: Text('Edit',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(color: AppColors.white)))),
+                  ],
+                  builder: (BuildContext context, MenuController controller,
+                          Widget? child) =>
+                      GestureDetector(
+                    onTap: () {
+                      if (controller.isOpen) {
+                        controller.close();
+                      } else {
+                        controller.open();
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(9.33),
+                      decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(99),
+                          border: Border.all(color: AppColors.dark[100]!)),
+                      child: Icon(
+                        Iconsax.more_circle5,
+                        color: AppColors.dark[500]!,
+                        size: 16,
+                      ),
+                    ),
                   ),
                 ),
               ],
