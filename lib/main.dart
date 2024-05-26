@@ -6,6 +6,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/core/theme/app_theme.dart';
 import 'package:peqing/data/repositories/auth_repository.dart';
+import 'package:peqing/data/repositories/lecturer_repository.dart';
+import 'package:peqing/data/repositories/student_repository.dart';
 import 'package:peqing/route/app_route.dart';
 
 Future<void> main() async {
@@ -30,12 +32,24 @@ class App extends StatelessWidget {
     // Initialize bloc and repository
     var authBloc = AuthBloc();
     var authRepository = AuthRepository(authBloc: authBloc);
-    authBloc.setAuthRepository(authRepository);
+    var studentRepository = StudentRepository(authBloc: authBloc);
+    var lecturerRepository = LecturerRepository(authBloc: authBloc);
+    authBloc.setAuthRepository(
+      authRepository: authRepository,
+      studentRepository: studentRepository,
+      lecturerRepository: lecturerRepository,
+    );
 
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<AuthRepository>(
           create: (context) => authRepository,
+        ),
+        RepositoryProvider<StudentRepository>(
+          create: (context) => studentRepository,
+        ),
+        RepositoryProvider<LecturerRepository>(
+          create: (context) => lecturerRepository,
         ),
       ],
       child: MultiBlocProvider(

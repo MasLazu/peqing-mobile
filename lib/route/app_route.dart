@@ -3,19 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_add_grade_page.dart';
+import 'package:peqing/bloc/lecturer/lecturer_bloc.dart';
+import 'package:peqing/bloc/student/student_bloc.dart';
+import 'package:peqing/data/repositories/lecturer_repository.dart';
+import 'package:peqing/data/repositories/student_repository.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_home_page.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_scan_page.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
-import 'package:peqing/data/models/user.dart';
+import 'package:peqing/data/models/users/lecturer.dart';
+import 'package:peqing/data/models/users/student.dart';
+import 'package:peqing/data/models/users/user.dart';
+import 'package:peqing/presentation/screens/admin/admin_civitas_screen.dart';
+import 'package:peqing/presentation/screens/admin/admin_history_screen.dart';
 import 'package:peqing/presentation/screens/admin/admin_home_screen.dart';
+import 'package:peqing/presentation/screens/admin/admin_profile_screen.dart';
 import 'package:peqing/presentation/screens/login_screen.dart';
 import 'package:peqing/presentation/screens/onboarding_screen.dart';
 import 'package:peqing/presentation/screens/splash_screen.dart';
+import 'package:peqing/presentation/widgets/navbar/admin_navbar.dart';
 
 import 'package:peqing/route/route_names.dart';
 
 GoRouter appRoute = GoRouter(
-  initialLocation: RouteNames.lecturerHome,
+  initialLocation: RouteNames.root,
   routes: [
     GoRoute(
       path: RouteNames.root,
@@ -40,12 +50,53 @@ GoRouter appRoute = GoRouter(
         child: const LoginScreen(),
       ),
     ),
-    GoRoute(
-      path: RouteNames.adminHome,
-      pageBuilder: (context, state) => CupertinoPage(
-        key: state.pageKey,
-        child: const AdminHomeScreen(),
+    ShellRoute(
+      navigatorKey: GlobalKey<NavigatorState>(),
+      builder: (context, state, child) => MultiBlocProvider(
+        providers: [
+          BlocProvider<StudentBloc>(
+              create: (context) =>
+                  StudentBloc(context.read<StudentRepository>())),
+          BlocProvider<LecturerBloc>(
+              create: (context) =>
+                  LecturerBloc(context.read<LecturerRepository>())),
+        ],
+        child: AdminNavbar(page: child, state: state),
       ),
+      routes: [
+        GoRoute(
+          path: RouteNames.adminHome,
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            transitionsBuilder: _fadeTransition,
+            child: const AdminHomeScreen(),
+          ),
+        ),
+        GoRoute(
+          path: RouteNames.adminCivitas,
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            transitionsBuilder: _fadeTransition,
+            child: const AdminCivitasScreen(),
+          ),
+        ),
+        GoRoute(
+          path: RouteNames.adminHistory,
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            transitionsBuilder: _fadeTransition,
+            child: const AdminHistoryScreen(),
+          ),
+        ),
+        GoRoute(
+          path: RouteNames.adminProfile,
+          pageBuilder: (context, state) => CustomTransitionPage(
+            key: state.pageKey,
+            transitionsBuilder: _fadeTransition,
+            child: const AdminProfileScreen(),
+          ),
+        ),
+      ],
     ),
     GoRoute(
       path: RouteNames.lecturerHome,
@@ -58,10 +109,9 @@ GoRouter appRoute = GoRouter(
     GoRoute(
       path: RouteNames.lecturerScanQR,
       pageBuilder: (context, state) => CustomTransitionPage(
-        key: state.pageKey,
-        transitionsBuilder: _fadeTransition,
-        child: const LecturerScanPage()
-      ),
+          key: state.pageKey,
+          transitionsBuilder: _fadeTransition,
+          child: const LecturerScanPage()),
     ),
     GoRoute(
       path: RouteNames.lecturerAddGrade,
@@ -99,15 +149,14 @@ Future<String?> _initialRedirect(
 
   if (authBloc.state is Authenticated) {
     var state = authBloc.state as Authenticated;
-    switch (state.auth.user.role) {
-      case Role.admin:
-        return RouteNames.adminHome;
-      case Role.lecturer:
-        return RouteNames.lecturerHome;
-      case Role.student:
-        return RouteNames.studentHome;
-      default:
-        throw Exception('Unknown role: ${state.auth.user.role}');
+    User user = state.auth.user;
+
+    if (user is Lecturer) {
+      return RouteNames.lecturerHome;
+    } else if (user is Student) {
+      return RouteNames.studentHome;
+    } else {
+      return RouteNames.adminHome;
     }
   }
   return null;

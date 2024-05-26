@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 
@@ -10,11 +11,11 @@ class Repository {
   Repository(String prefix, this.authBloc)
       : baseUrl = Uri(
             scheme: 'https',
-            host: '4phvhnt5-8080.asse.devtunnels.ms',
+            host: '4phvhnt5-3001.asse.devtunnels.ms',
             path: prefix);
 
-  Future<Map<String, dynamic>> get(String path,
-      {Map<String, String>? header}) async {
+  Future<Map<String, dynamic>> get(
+      {String path = '', Map<String, String>? header}) async {
     final url = baseUrl.replace(path: baseUrl.path + path);
     final response = await http.get(url, headers: _getHeaders(headers: header));
 
@@ -23,8 +24,8 @@ class Repository {
     return jsonDecode(response.body);
   }
 
-  Future<Map<String, dynamic>> post(String path,
-      {Map<String, dynamic>? body}) async {
+  Future<Map<String, dynamic>> post(
+      {String path = '', Map<String, dynamic>? body}) async {
     final url = baseUrl.replace(path: baseUrl.path + path);
     final response =
         await http.post(url, headers: _getHeaders(), body: jsonEncode(body));
@@ -34,8 +35,8 @@ class Repository {
     return jsonDecode(response.body);
   }
 
-  Future<Map<String, dynamic>> put(String path,
-      {Map<String, dynamic>? body}) async {
+  Future<Map<String, dynamic>> put(
+      {String path = '', Map<String, dynamic>? body}) async {
     final url = baseUrl.replace(path: baseUrl.path + path);
     final response =
         await http.put(url, headers: _getHeaders(), body: jsonEncode(body));
@@ -45,7 +46,7 @@ class Repository {
     return jsonDecode(response.body);
   }
 
-  Future<Map<String, dynamic>> delete(String path) async {
+  Future<Map<String, dynamic>> delete({String path = ''}) async {
     final url = baseUrl.replace(path: baseUrl.path + path);
     final response = await http.delete(url, headers: _getHeaders());
 
@@ -61,7 +62,7 @@ class Repository {
   }
 
   Map<String, String> _getHeaders({Map<String, String>? headers}) {
-    final state = authBloc.state;
+    var state = authBloc.state;
 
     if (headers == null) {
       headers = {
@@ -74,6 +75,14 @@ class Repository {
     if (state is Authenticated) {
       headers['Authorization'] = 'Bearer ${state.auth.token}';
     }
+
+    debugPrint(
+      '''
+      =============================================
+      request header: ${headers.toString()}
+      =============================================
+      ''',
+    );
 
     return headers;
   }
