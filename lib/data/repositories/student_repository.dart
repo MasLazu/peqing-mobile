@@ -45,9 +45,7 @@ class StudentRepository extends Repository {
     return response['message'];
   }
 
-  Future<String> deleteById(int id) async {
-    final response = await delete(path: '/$id');
-
-    return response['message'];
+  Future<void> deleteById(int id) async {
+    await delete(path: '/$id');
   }
 }

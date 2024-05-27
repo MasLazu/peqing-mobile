@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:go_router/go_router.dart';
+import 'package:peqing/bloc/lecturer/lecturer_bloc.dart';
+import 'package:peqing/bloc/student/student_bloc.dart';
 import 'package:peqing/core/theme/app_colors.dart';
 import 'package:peqing/data/models/lecturer.dart';
 import 'package:peqing/data/models/student.dart';
@@ -79,6 +81,7 @@ class _CivitasFormState extends State<CivitasForm> {
                   password: 'dosen',
                 ),
                 nip: _idController.text));
+            context.read<LecturerBloc>().add(LoadLecturer());
             break;
           case 'Mahasiswa':
             await context.read<StudentRepository>().create(Student(
@@ -91,11 +94,10 @@ class _CivitasFormState extends State<CivitasForm> {
                   departement: departement,
                   major: major,
                 ));
+            context.read<StudentBloc>().add(LoadStudent());
             break;
           default:
         }
-        // ignore: use_build_context_synchronously
-        context.pop();
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -103,10 +105,13 @@ class _CivitasFormState extends State<CivitasForm> {
             content: const Text('Civitas berhasil ditambahkan'),
           ),
         );
+        // ignore: use_build_context_synchronously
+        context.pop();
       } catch (e) {
         // ignore: use_build_context_synchronously
         context.pop();
         // ignore: use_build_context_synchronously
+        print(e);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: AppColors.danger[400]!,

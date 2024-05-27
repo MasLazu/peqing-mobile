@@ -46,13 +46,11 @@ class Repository {
     return jsonDecode(response.body);
   }
 
-  Future<Map<String, dynamic>> delete({String path = ''}) async {
+  Future<void> delete({String path = ''}) async {
     final url = baseUrl.replace(path: baseUrl.path + path);
     final response = await http.delete(url, headers: _getHeaders());
 
     _checkResponse(response);
-
-    return jsonDecode(response.body);
   }
 
   void _checkResponse(http.Response response) {

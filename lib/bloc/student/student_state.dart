@@ -11,8 +11,9 @@ final class StudentLoading extends StudentState {
 
 final class StudentLoaded extends StudentState {
   final List<Student> students;
+  final String? message;
 
-  StudentLoaded({required this.students});
+  StudentLoaded({required this.students, this.message});
 }
 
 // final class StudentSearchLoaded extends StudentState {
