@@ -3,10 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_add_grade_page.dart';
-import 'package:peqing/bloc/lecturer/lecturer_bloc.dart';
-import 'package:peqing/bloc/student/student_bloc.dart';
-import 'package:peqing/data/repositories/lecturer_repository.dart';
-import 'package:peqing/data/repositories/student_repository.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_home_page.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_scan_page.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
@@ -51,17 +47,7 @@ GoRouter appRoute = GoRouter(
       navigatorKey: GlobalKey<NavigatorState>(),
       pageBuilder: (context, state, child) => CustomTransitionPage(
         transitionsBuilder: _fadeTransition,
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider<StudentBloc>(
-                create: (context) =>
-                    StudentBloc(context.read<StudentRepository>())),
-            BlocProvider<LecturerBloc>(
-                create: (context) =>
-                    LecturerBloc(context.read<LecturerRepository>())),
-          ],
-          child: AdminNavbar(page: child, state: state),
-        ),
+        child: AdminNavbar(page: child, state: state),
       ),
       routes: [
         GoRoute(
@@ -101,10 +87,9 @@ GoRouter appRoute = GoRouter(
     GoRoute(
       path: RouteNames.lecturerHome,
       pageBuilder: (context, state) => CustomTransitionPage(
-        key: state.pageKey,
-        transitionsBuilder: _fadeTransition,
-        child: const LecturerHomePage()
-      ),
+          key: state.pageKey,
+          transitionsBuilder: _fadeTransition,
+          child: const LecturerHomePage()),
     ),
     GoRoute(
       path: RouteNames.lecturerScanQR,
@@ -116,10 +101,9 @@ GoRouter appRoute = GoRouter(
     GoRoute(
       path: RouteNames.lecturerAddGrade,
       pageBuilder: (context, state) => CustomTransitionPage(
-        key: state.pageKey,
-        transitionsBuilder: _fadeTransition,
-        child: const LecturerAddGradePage()
-      ),
+          key: state.pageKey,
+          transitionsBuilder: _fadeTransition,
+          child: const LecturerAddGradePage()),
     ),
     GoRoute(
       path: RouteNames.studentHome,

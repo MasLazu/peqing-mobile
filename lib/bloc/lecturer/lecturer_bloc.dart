@@ -12,15 +12,18 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
   LecturerBloc(this._lecturerRepository) : super(LecturerLoading()) {
     on<LoadLecturer>(_loadLecturer);
     on<_RetryLoadLecturer>(_retryLoadLecturer);
+    on<DeleteLecturer>(_deleteLecturer);
+    on<CreateLecturer>(_createLecturer);
+    on<UpdateLecturer>(_updateLecturer);
     add(LoadLecturer());
   }
 
   Future<void> _loadLecturer(
       LoadLecturer event, Emitter<LecturerState> emit) async {
-    emitLoading(emit);
+    emit(LecturerLoading(lecturers: event.lecturers));
     try {
       final lecturers = await _lecturerRepository.getAll();
-      emit(LecturerLoaded(lecturers: lecturers));
+      emit(LecturerLoaded(lecturers: lecturers, message: event.message));
     } catch (e) {
       emit(LecturerError(message: e.toString()));
       add(_RetryLoadLecturer());
@@ -29,7 +32,7 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
 
   Future<void> _retryLoadLecturer(
       _RetryLoadLecturer event, Emitter<LecturerState> emit) async {
-    emitLoading(emit);
+    emit(LecturerLoading());
     try {
       await Future.delayed(const Duration(seconds: 5));
       final lecturers = await _lecturerRepository.getAll();
@@ -39,9 +42,48 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
     }
   }
 
-  void emitLoading(Emitter<LecturerState> emit) {
-    emit(state is LecturerLoaded
-        ? LecturerLoading(lecturers: (state as LecturerLoaded).lecturers)
-        : LecturerLoading());
+  Future<void> _createLecturer(
+      CreateLecturer event, Emitter<LecturerState> emit) async {
+    emit(LecturerLoading(lecturers: (state as LecturerLoaded).lecturers));
+    try {
+      await _lecturerRepository.create(event.lecturer);
+      add(LoadLecturer(
+          lecturers: (state as LecturerLoading).lecturers,
+          message: 'Dosen berhasil ditambahkan!'));
+    } catch (e) {
+      emit(LecturerLoaded(
+          lecturers: (state as LecturerLoading).lecturers!,
+          message: e.toString()));
+    }
+  }
+
+  Future<void> _updateLecturer(
+      UpdateLecturer event, Emitter<LecturerState> emit) async {
+    emit(LecturerLoading(lecturers: (state as LecturerLoaded).lecturers));
+    try {
+      await _lecturerRepository.update(event.lecturer);
+      add(LoadLecturer(
+          lecturers: (state as LecturerLoading).lecturers,
+          message: 'Dosen berhasil diperbarui!'));
+    } catch (e) {
+      emit(LecturerLoaded(
+          lecturers: (state as LecturerLoading).lecturers!,
+          message: e.toString()));
+    }
+  }
+
+  Future<void> _deleteLecturer(
+      DeleteLecturer event, Emitter<LecturerState> emit) async {
+    emit(LecturerLoading(lecturers: (state as LecturerLoaded).lecturers));
+    try {
+      await _lecturerRepository.deleteById(event.id);
+      add(LoadLecturer(
+          lecturers: (state as LecturerLoading).lecturers,
+          message: 'Dosen berhasil dihapus!'));
+    } catch (e) {
+      emit(LecturerLoaded(
+          lecturers: (state as LecturerLoading).lecturers!,
+          message: e.toString()));
+    }
   }
 }

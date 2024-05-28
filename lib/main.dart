@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
+import 'package:peqing/bloc/lecturer/lecturer_bloc.dart';
+import 'package:peqing/bloc/student/student_bloc.dart';
 import 'package:peqing/core/theme/app_theme.dart';
 import 'package:peqing/data/repositories/auth_repository.dart';
 import 'package:peqing/data/repositories/lecturer_repository.dart';
@@ -57,6 +59,12 @@ class App extends StatelessWidget {
           BlocProvider<AuthBloc>(
             create: (context) => authBloc,
           ),
+          BlocProvider<StudentBloc>(
+              create: (context) =>
+                  StudentBloc(context.read<StudentRepository>())),
+          BlocProvider<LecturerBloc>(
+              create: (context) =>
+                  LecturerBloc(context.read<LecturerRepository>())),
         ],
         child: MaterialApp.router(
           title: 'peqing',

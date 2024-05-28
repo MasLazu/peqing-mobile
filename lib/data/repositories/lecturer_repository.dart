@@ -37,9 +37,11 @@ class LecturerRepository extends Repository {
     return Lecturer.fromMap(response['message']);
   }
 
-  Future<String> update(Lecturer lecturer) async {
-    final response = await put(path: '/${lecturer.id}', body: lecturer.toMap());
+  Future<void> update(Lecturer lecturer) async {
+    await put(path: '/${lecturer.id}', body: lecturer.toMap());
+  }
 
-    return response['message'];
+  Future<void> deleteById(int id) async {
+    await delete(path: '/$id');
   }
 }

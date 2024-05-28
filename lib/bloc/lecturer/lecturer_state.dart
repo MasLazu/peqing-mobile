@@ -11,8 +11,9 @@ final class LecturerLoading extends LecturerState {
 
 final class LecturerLoaded extends LecturerState {
   final List<Lecturer> lecturers;
+  final String? message;
 
-  LecturerLoaded({required this.lecturers});
+  LecturerLoaded({required this.lecturers, this.message});
 }
 
 // final class LecturerSearchLoaded extends LecturerState {
