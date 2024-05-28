@@ -44,7 +44,10 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
 
   Future<void> _createStudent(
       CreateStudent event, Emitter<StudentState> emit) async {
-    emit(StudentLoading(students: (state as StudentLoaded).students));
+    emit(StudentLoading(
+        students: state is StudentLoaded
+            ? (state as StudentLoaded).students
+            : (state as StudentLoading).students));
     try {
       await _studentRepository.create(event.student);
       add(LoadStudent(
@@ -52,14 +55,19 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
           message: 'Civilian berhasil ditambahkan!'));
     } catch (e) {
       emit(StudentLoaded(
-          students: (state as StudentLoading).students!,
+          students: state is StudentLoaded
+              ? (state as StudentLoaded).students
+              : (state as StudentLoading).students ?? [],
           message: e.toString()));
     }
   }
 
   Future<void> _updateStudent(
       UpdateStudent event, Emitter<StudentState> emit) async {
-    emit(StudentLoading(students: (state as StudentLoaded).students));
+    emit(StudentLoading(
+        students: state is StudentLoaded
+            ? (state as StudentLoaded).students
+            : (state as StudentLoading).students));
     try {
       await _studentRepository.update(event.student);
       add(LoadStudent(
@@ -67,14 +75,19 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
           message: 'Civilian berhasil diperbarui!'));
     } catch (e) {
       emit(StudentLoaded(
-          students: (state as StudentLoading).students!,
+          students: state is StudentLoaded
+              ? (state as StudentLoaded).students
+              : (state as StudentLoading).students ?? [],
           message: e.toString()));
     }
   }
 
   Future<void> _deleteStudent(
       DeleteStudent event, Emitter<StudentState> emit) async {
-    emit(StudentLoading(students: (state as StudentLoaded).students));
+    emit(StudentLoading(
+        students: state is StudentLoaded
+            ? (state as StudentLoaded).students
+            : (state as StudentLoading).students));
     try {
       await _studentRepository.deleteById(event.id);
       add(LoadStudent(
@@ -82,7 +95,9 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
           message: 'Civilian berhasil dihapus!'));
     } catch (e) {
       emit(StudentLoaded(
-          students: (state as StudentLoading).students!,
+          students: state is StudentLoaded
+              ? (state as StudentLoaded).students
+              : (state as StudentLoading).students ?? [],
           message: e.toString()));
     }
   }
