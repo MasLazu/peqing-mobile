@@ -39,10 +39,9 @@ class StudentRepository extends Repository {
     return Student.fromMap(response['message']);
   }
 
-  Future<String> update(Student student) async {
-    final response = await put(path: '/${student.id}', body: student.toMap());
-
-    return response['message'];
+  Future<void> update(Student student) async {
+    print(student);
+    await put(path: '/${student.id}', body: student.toMap());
   }
 
   Future<void> deleteById(int id) async {

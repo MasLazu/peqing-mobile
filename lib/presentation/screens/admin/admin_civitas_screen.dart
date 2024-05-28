@@ -8,6 +8,7 @@ import 'package:peqing/data/models/lecturer.dart';
 import 'package:peqing/data/models/role.dart';
 import 'package:peqing/data/models/student.dart';
 import 'package:peqing/presentation/widgets/appbars/root_appbar.dart';
+import 'package:peqing/presentation/widgets/sheets/civitas_form.dart';
 
 class AdminCivitasScreen extends StatefulWidget {
   const AdminCivitasScreen({super.key});
@@ -231,7 +232,9 @@ class _AdminCivitasScreenState extends State<AdminCivitasScreen> {
                                       .copyWith(color: AppColors.white)))),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        showCivitasForm(context, data: user);
+                      },
                       child: Container(
                           width: 70,
                           padding: const EdgeInsets.symmetric(

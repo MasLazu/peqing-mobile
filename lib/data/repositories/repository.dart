@@ -35,15 +35,10 @@ class Repository {
     return jsonDecode(response.body);
   }
 
-  Future<Map<String, dynamic>> put(
-      {String path = '', Map<String, dynamic>? body}) async {
+  Future<void> put({String path = '', Map<String, dynamic>? body}) async {
     final url = baseUrl.replace(path: baseUrl.path + path);
-    final response =
-        await http.put(url, headers: _getHeaders(), body: jsonEncode(body));
 
-    _checkResponse(response);
-
-    return jsonDecode(response.body);
+    await http.put(url, headers: _getHeaders(), body: jsonEncode(body));
   }
 
   Future<void> delete({String path = ''}) async {
@@ -76,9 +71,9 @@ class Repository {
 
     debugPrint(
       '''
-      =============================================
-      request header: ${headers.toString()}
-      =============================================
+====================REQUEST HEADER=========================
+: ${headers.toString()}
+===========================================================
       ''',
     );
 

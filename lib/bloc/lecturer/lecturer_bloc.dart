@@ -13,6 +13,8 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
     on<LoadLecturer>(_loadLecturer);
     on<_RetryLoadLecturer>(_retryLoadLecturer);
     on<DeleteLecturer>(_deleteLecturer);
+    on<CreateLecturer>(_createLecturer);
+    on<UpdateLecturer>(_updateLecturer);
     add(LoadLecturer());
   }
 
@@ -21,7 +23,7 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
     emit(LecturerLoading(lecturers: event.lecturers));
     try {
       final lecturers = await _lecturerRepository.getAll();
-      emit(LecturerLoaded(lecturers: lecturers));
+      emit(LecturerLoaded(lecturers: lecturers, message: event.message));
     } catch (e) {
       emit(LecturerError(message: e.toString()));
       add(_RetryLoadLecturer());
@@ -40,12 +42,44 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
     }
   }
 
+  Future<void> _createLecturer(
+      CreateLecturer event, Emitter<LecturerState> emit) async {
+    emit(LecturerLoading(lecturers: (state as LecturerLoaded).lecturers));
+    try {
+      await _lecturerRepository.create(event.lecturer);
+      add(LoadLecturer(
+          lecturers: (state as LecturerLoading).lecturers,
+          message: 'Dosen berhasil ditambahkan!'));
+    } catch (e) {
+      emit(LecturerLoaded(
+          lecturers: (state as LecturerLoading).lecturers!,
+          message: e.toString()));
+    }
+  }
+
+  Future<void> _updateLecturer(
+      UpdateLecturer event, Emitter<LecturerState> emit) async {
+    emit(LecturerLoading(lecturers: (state as LecturerLoaded).lecturers));
+    try {
+      await _lecturerRepository.update(event.lecturer);
+      add(LoadLecturer(
+          lecturers: (state as LecturerLoading).lecturers,
+          message: 'Dosen berhasil diperbarui!'));
+    } catch (e) {
+      emit(LecturerLoaded(
+          lecturers: (state as LecturerLoading).lecturers!,
+          message: e.toString()));
+    }
+  }
+
   Future<void> _deleteLecturer(
       DeleteLecturer event, Emitter<LecturerState> emit) async {
     emit(LecturerLoading(lecturers: (state as LecturerLoaded).lecturers));
     try {
       await _lecturerRepository.deleteById(event.id);
-      add(LoadLecturer(lecturers: (state as LecturerLoaded).lecturers));
+      add(LoadLecturer(
+          lecturers: (state as LecturerLoading).lecturers,
+          message: 'Dosen berhasil dihapus!'));
     } catch (e) {
       emit(LecturerLoaded(
           lecturers: (state as LecturerLoading).lecturers!,

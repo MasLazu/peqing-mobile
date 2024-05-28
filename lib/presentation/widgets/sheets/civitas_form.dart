@@ -6,27 +6,26 @@ import 'package:peqing/bloc/lecturer/lecturer_bloc.dart';
 import 'package:peqing/bloc/student/student_bloc.dart';
 import 'package:peqing/core/theme/app_colors.dart';
 import 'package:peqing/data/models/lecturer.dart';
+import 'package:peqing/data/models/role.dart';
 import 'package:peqing/data/models/student.dart';
 import 'package:peqing/data/models/user.dart';
 import 'package:peqing/data/repositories/auth_repository.dart';
-import 'package:peqing/data/repositories/lecturer_repository.dart';
-import 'package:peqing/data/repositories/student_repository.dart';
 import 'package:peqing/presentation/widgets/buttons/peqing_button.dart';
 
-void showCivitasForm(BuildContext context) {
+void showCivitasForm(BuildContext context, {Role? data}) {
   showModalBottomSheet<void>(
-    useRootNavigator: true,
     isScrollControlled: true,
     context: context,
     isDismissible: false,
     builder: (BuildContext context) {
-      return const CivitasForm();
+      return CivitasForm(data: data);
     },
   );
 }
 
 class CivitasForm extends StatefulWidget {
-  const CivitasForm({super.key});
+  final Role? data;
+  const CivitasForm({super.key, this.data});
 
   @override
   State<CivitasForm> createState() => _CivitasFormState();
@@ -35,18 +34,25 @@ class CivitasForm extends StatefulWidget {
 class _CivitasFormState extends State<CivitasForm> {
   final _formKey = GlobalKey<FormState>();
 
-  final _idController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _nameController = TextEditingController();
+  late final _idController = TextEditingController(
+      text: widget.data is Student
+          ? (widget.data as Student).nrp
+          : (widget.data as Lecturer).nip);
+  late final _emailController =
+      TextEditingController(text: widget.data?.user.email);
+  late final _nameController =
+      TextEditingController(text: widget.data?.user.name);
   final List<String> _roles = <String>['Admin', 'Dosen', 'Mahasiswa'];
-  late String role = _roles[0];
+  late String role = widget.data?.role ?? _roles[0];
   final List<String> _departements = <String>[
     'Departemen Teknik Elektro',
     'Departemen Teknik Informatika dan Komputer',
     'Departemen Teknik Mekanika Energi',
     'Departemen Multimedia Kreatif'
   ];
-  late String departement = _departements[0];
+  late String departement = (widget.data is Student)
+      ? (widget.data as Student).departement
+      : _departements[0];
   final List<String> _majors = <String>[
     'Teknik Elektro',
     'Teknik Informatika',
@@ -57,7 +63,8 @@ class _CivitasFormState extends State<CivitasForm> {
     'Teknik Elektro Industri',
     'Teknik Mekatronika',
   ];
-  late String major = _majors[0];
+  late String major =
+      (widget.data is Student) ? (widget.data as Student).major : _majors[0];
   bool isLoading = false;
 
   Future<void> submitHandler() async {
@@ -74,44 +81,54 @@ class _CivitasFormState extends State<CivitasForm> {
                 password: 'admin'));
             break;
           case 'Dosen':
-            await context.read<LecturerRepository>().create(Lecturer(
-                user: User(
-                  name: _nameController.text,
-                  email: _emailController.text,
-                  password: 'dosen',
-                ),
-                nip: _idController.text));
-            context.read<LecturerBloc>().add(LoadLecturer());
+            var lecturer = Lecturer(
+              user: User(
+                name: _nameController.text,
+                email: _emailController.text,
+                id: (widget.data as Lecturer).user.id,
+                password: 'dosen',
+              ),
+              id: (widget.data as Lecturer).id,
+              nip: _idController.text,
+            );
+            if (widget.data != null) {
+              context.read<LecturerBloc>().add(UpdateLecturer(lecturer));
+            } else {
+              context.read<LecturerBloc>().add(CreateLecturer(lecturer));
+            }
             break;
           case 'Mahasiswa':
-            await context.read<StudentRepository>().create(Student(
-                  user: User(
-                    name: _nameController.text,
-                    email: _emailController.text,
-                    password: 'mahasiswa',
-                  ),
-                  nrp: _idController.text,
-                  departement: departement,
-                  major: major,
-                ));
-            context.read<StudentBloc>().add(LoadStudent());
+            var student = Student(
+              user: User(
+                name: _nameController.text,
+                email: _emailController.text,
+                password: 'mahasiswa',
+                id: (widget.data as Student).user.id,
+              ),
+              id: (widget.data as Student).id,
+              nrp: _idController.text,
+              departement: departement,
+              major: major,
+            );
+            if (widget.data != null) {
+              context.read<StudentBloc>().add(UpdateStudent(student));
+            } else {
+              context.read<StudentBloc>().add(CreateStudent(student));
+            }
             break;
           default:
         }
         // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: AppColors.success[400]!,
-            content: const Text('Civitas berhasil ditambahkan'),
-          ),
-        );
-        // ignore: use_build_context_synchronously
         context.pop();
       } catch (e) {
+        debugPrint('''
+=================ERROR=====================
+${e.toString()}
+===========================================
+''');
         // ignore: use_build_context_synchronously
         context.pop();
         // ignore: use_build_context_synchronously
-        print(e);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: AppColors.danger[400]!,
@@ -381,7 +398,9 @@ class _CivitasFormState extends State<CivitasForm> {
                       : const SizedBox(),
                   const SizedBox(height: 24.0),
                   PeqingButton(
-                    text: 'Tambah Civitas Baru',
+                    text: widget.data == null
+                        ? 'Tambah Civitas Baru'
+                        : 'Ubah data Civitas',
                     isLoading: isLoading,
                     onPressed: submitHandler,
                   ),

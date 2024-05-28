@@ -13,6 +13,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     on<LoadStudent>(_loadStudent);
     on<_RetryLoadStudent>(_retryLoadStudent);
     on<DeleteStudent>(_deleteStudent);
+    on<CreateStudent>(_createStudent);
+    on<UpdateStudent>(_updateStudent);
     add(LoadStudent());
   }
 
@@ -21,7 +23,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     emit(StudentLoading(students: event.students));
     try {
       final students = await _studentRepository.getAll();
-      emit(StudentLoaded(students: students));
+      emit(StudentLoaded(students: students, message: event.message));
     } catch (e) {
       emit(StudentError(message: e.toString()));
       add(_RetryLoadStudent());
@@ -40,15 +42,45 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     }
   }
 
+  Future<void> _createStudent(
+      CreateStudent event, Emitter<StudentState> emit) async {
+    emit(StudentLoading(students: (state as StudentLoaded).students));
+    try {
+      await _studentRepository.create(event.student);
+      add(LoadStudent(
+          students: (state as StudentLoading).students,
+          message: 'Civilian berhasil ditambahkan!'));
+    } catch (e) {
+      emit(StudentLoaded(
+          students: (state as StudentLoading).students!,
+          message: e.toString()));
+    }
+  }
+
+  Future<void> _updateStudent(
+      UpdateStudent event, Emitter<StudentState> emit) async {
+    emit(StudentLoading(students: (state as StudentLoaded).students));
+    try {
+      await _studentRepository.update(event.student);
+      add(LoadStudent(
+          students: (state as StudentLoading).students,
+          message: 'Civilian berhasil diperbarui!'));
+    } catch (e) {
+      emit(StudentLoaded(
+          students: (state as StudentLoading).students!,
+          message: e.toString()));
+    }
+  }
+
   Future<void> _deleteStudent(
       DeleteStudent event, Emitter<StudentState> emit) async {
     emit(StudentLoading(students: (state as StudentLoaded).students));
     try {
       await _studentRepository.deleteById(event.id);
-      print('halo');
-      add(LoadStudent(students: (state as StudentLoaded).students));
+      add(LoadStudent(
+          students: (state as StudentLoading).students,
+          message: 'Civilian berhasil dihapus!'));
     } catch (e) {
-      print(e);
       emit(StudentLoaded(
           students: (state as StudentLoading).students!,
           message: e.toString()));
