@@ -184,15 +184,18 @@ class LecturerAddGradePage extends StatelessWidget {
             ],
           ),
           OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                side: BorderSide(color: AppColors.primary[500]!),
-              ),
-              onPressed: () {},
-              child: Text('Ganti',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primary[500]))),
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              side: BorderSide(color: AppColors.primary[500]!),
+            ),
+            onPressed: () {},
+            child: Text('Ganti',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: AppColors.primary[500]
+              )
+            )
+          ),
         ],
       ),
     );
