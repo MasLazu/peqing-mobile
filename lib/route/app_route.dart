@@ -22,7 +22,7 @@ import 'package:peqing/presentation/widgets/navbar/admin_navbar.dart';
 import 'package:peqing/route/route_names.dart';
 
 GoRouter appRoute = GoRouter(
-  initialLocation: RouteNames.lecturerHome,
+  initialLocation: RouteNames.root,
   routes: [
     GoRoute(
       path: RouteNames.root,
