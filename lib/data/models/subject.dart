@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 class Subject {
-  int? id;
-  String? name;
+  final int? id;
+  final String name;
+
   Subject({
     this.id,
-    this.name,
+    required this.name,
   });
 
   Subject copyWith({
@@ -28,7 +29,7 @@ class Subject {
   factory Subject.fromMap(Map<String, dynamic> map) {
     return Subject(
       id: map['id'] != null ? map['id'] as int : null,
-      name: map['name'] != null ? map['name'] as String : null,
+      name: map['name'] as String,
     );
   }
 
