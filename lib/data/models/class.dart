@@ -34,8 +34,8 @@ class Class {
     return <String, dynamic>{
       'id': id,
       'name': name,
-      'subjects': subjects?.map((x) => x.toMap()).toList(),
-      'lecturer': lecturer.toMap(),
+      'matakuliah': subjects?.map((x) => x.toMap()).toList(),
+      'dosen': lecturer.toMap(),
     };
   }
 
@@ -43,9 +43,9 @@ class Class {
     return Class(
       id: map['id'] != null ? map['id'] as int : null,
       name: map['name'] as String,
-      subjects: List<Subject>.from((map['subjects'] as List? ?? [])
+      subjects: List<Subject>.from((map['matakuliah'] as List? ?? [])
           .map((x) => Subject.fromMap(x as Map<String, dynamic>))),
-      lecturer: Lecturer.fromMap(map['lecturer'] as Map<String, dynamic>),
+      lecturer: Lecturer.fromMap(map['dosen'] as Map<String, dynamic>),
     );
   }
 
