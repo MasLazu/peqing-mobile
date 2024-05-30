@@ -35,9 +35,11 @@ class _CivitasFormState extends State<CivitasForm> {
   final _formKey = GlobalKey<FormState>();
 
   late final _idController = TextEditingController(
-      text: widget.data is Student
-          ? (widget.data as Student).nrp
-          : (widget.data as Lecturer).nip);
+      text: widget.data != null
+          ? widget.data is Student
+              ? (widget.data as Student).nrp
+              : (widget.data as Lecturer).nip
+          : null);
   late final _emailController =
       TextEditingController(text: widget.data?.user.email);
   late final _nameController =
@@ -85,10 +87,12 @@ class _CivitasFormState extends State<CivitasForm> {
               user: User(
                 name: _nameController.text,
                 email: _emailController.text,
-                id: (widget.data as Lecturer).user.id,
+                id: widget.data != null
+                    ? (widget.data as Lecturer).user.id
+                    : null,
                 password: 'dosen',
               ),
-              id: (widget.data as Lecturer).id,
+              id: widget.data != null ? (widget.data as Lecturer).id : null,
               nip: _idController.text,
             );
             if (widget.data != null) {
@@ -103,9 +107,11 @@ class _CivitasFormState extends State<CivitasForm> {
                 name: _nameController.text,
                 email: _emailController.text,
                 password: 'mahasiswa',
-                id: (widget.data as Student).user.id,
+                id: widget.data != null
+                    ? (widget.data as Student).user.id
+                    : null,
               ),
-              id: (widget.data as Student).id,
+              id: widget.data != null ? (widget.data as Student).id : null,
               nrp: _idController.text,
               departement: departement,
               major: major,

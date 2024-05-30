@@ -44,7 +44,10 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
 
   Future<void> _createLecturer(
       CreateLecturer event, Emitter<LecturerState> emit) async {
-    emit(LecturerLoading(lecturers: (state as LecturerLoaded).lecturers));
+    emit(LecturerLoading(
+        lecturers: state is LecturerLoaded
+            ? (state as LecturerLoaded).lecturers
+            : (state as LecturerLoading).lecturers));
     try {
       await _lecturerRepository.create(event.lecturer);
       add(LoadLecturer(
@@ -52,14 +55,19 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
           message: 'Dosen berhasil ditambahkan!'));
     } catch (e) {
       emit(LecturerLoaded(
-          lecturers: (state as LecturerLoading).lecturers!,
+          lecturers: state is LecturerLoaded
+              ? (state as LecturerLoaded).lecturers
+              : (state as LecturerLoading).lecturers ?? [],
           message: e.toString()));
     }
   }
 
   Future<void> _updateLecturer(
       UpdateLecturer event, Emitter<LecturerState> emit) async {
-    emit(LecturerLoading(lecturers: (state as LecturerLoaded).lecturers));
+    emit(LecturerLoading(
+        lecturers: state is LecturerLoaded
+            ? (state as LecturerLoaded).lecturers
+            : (state as LecturerLoading).lecturers));
     try {
       await _lecturerRepository.update(event.lecturer);
       add(LoadLecturer(
@@ -67,14 +75,19 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
           message: 'Dosen berhasil diperbarui!'));
     } catch (e) {
       emit(LecturerLoaded(
-          lecturers: (state as LecturerLoading).lecturers!,
+          lecturers: state is LecturerLoaded
+              ? (state as LecturerLoaded).lecturers
+              : (state as LecturerLoading).lecturers ?? [],
           message: e.toString()));
     }
   }
 
   Future<void> _deleteLecturer(
       DeleteLecturer event, Emitter<LecturerState> emit) async {
-    emit(LecturerLoading(lecturers: (state as LecturerLoaded).lecturers));
+    emit(LecturerLoading(
+        lecturers: state is LecturerLoaded
+            ? (state as LecturerLoaded).lecturers
+            : (state as LecturerLoading).lecturers));
     try {
       await _lecturerRepository.deleteById(event.id);
       add(LoadLecturer(
@@ -82,7 +95,9 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
           message: 'Dosen berhasil dihapus!'));
     } catch (e) {
       emit(LecturerLoaded(
-          lecturers: (state as LecturerLoading).lecturers!,
+          lecturers: state is LecturerLoaded
+              ? (state as LecturerLoaded).lecturers
+              : (state as LecturerLoading).lecturers ?? [],
           message: e.toString()));
     }
   }
