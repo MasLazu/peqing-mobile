@@ -15,8 +15,12 @@ import 'package:peqing/presentation/screens/admin/admin_profile_screen.dart';
 import 'package:peqing/presentation/screens/login_screen.dart';
 import 'package:peqing/presentation/screens/onboarding_screen.dart';
 import 'package:peqing/presentation/screens/splash_screen.dart';
+import 'package:peqing/presentation/screens/student/student_hisatory_screen.dart';
+import 'package:peqing/presentation/screens/student/student_home_screen.dart';
+import 'package:peqing/presentation/screens/student/student_profile_screen.dart';
 import 'package:peqing/presentation/widgets/navbar/admin_navbar.dart';
 import 'package:peqing/presentation/widgets/navbar/lecturer_navbar.dart';
+import 'package:peqing/presentation/widgets/navbar/student_navbar.dart';
 
 import 'package:peqing/route/route_names.dart';
 
@@ -130,17 +134,34 @@ GoRouter appRoute = GoRouter(
           transitionsBuilder: _fadeTransition,
           child: const LecturerAddGradePage()),
     ),
-    GoRoute(
-      path: RouteNames.studentHome,
-      pageBuilder: (context, state) => CupertinoPage(
-        key: state.pageKey,
-        child: const Scaffold(
-          body: Center(
-            child: Text('Student Home'),
+    ShellRoute(
+        pageBuilder: (context, state, child) => CustomTransitionPage(
+              transitionsBuilder: _fadeTransition,
+              child: StudentNavbar(page: child, state: state),
+            ),
+        routes: [
+          GoRoute(
+            path: RouteNames.studentHome,
+            pageBuilder: (context, state) => CustomTransitionPage(
+                key: state.pageKey,
+                transitionsBuilder: _fadeTransition,
+                child: const StudentHomeScreen()),
           ),
-        ),
-      ),
-    ),
+          GoRoute(
+            path: RouteNames.studentHistory,
+            pageBuilder: (context, state) => CustomTransitionPage(
+                key: state.pageKey,
+                transitionsBuilder: _fadeTransition,
+                child: const StudentHistoryScreen()),
+          ),
+          GoRoute(
+            path: RouteNames.studentProfile,
+            pageBuilder: (context, state) => CustomTransitionPage(
+                key: state.pageKey,
+                transitionsBuilder: _fadeTransition,
+                child: const StudentProfileScreen()),
+          ),
+        ]),
   ],
 );
 
