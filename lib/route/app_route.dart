@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_add_grade_page.dart';
+import 'package:peqing/presentation/screens/lecturer/lecturer_history_screen.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_home_page.dart';
+import 'package:peqing/presentation/screens/lecturer/lecturer_profile_screen.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_scan_page.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/presentation/screens/admin/admin_civitas_screen.dart';
@@ -14,6 +16,7 @@ import 'package:peqing/presentation/screens/login_screen.dart';
 import 'package:peqing/presentation/screens/onboarding_screen.dart';
 import 'package:peqing/presentation/screens/splash_screen.dart';
 import 'package:peqing/presentation/widgets/navbar/admin_navbar.dart';
+import 'package:peqing/presentation/widgets/navbar/lecturer_navbar.dart';
 
 import 'package:peqing/route/route_names.dart';
 
@@ -84,13 +87,35 @@ GoRouter appRoute = GoRouter(
         ),
       ],
     ),
-    GoRoute(
-      path: RouteNames.lecturerHome,
-      pageBuilder: (context, state) => CustomTransitionPage(
-          key: state.pageKey,
-          transitionsBuilder: _fadeTransition,
-          child: const LecturerHomePage()),
-    ),
+    ShellRoute(
+        navigatorKey: GlobalKey<NavigatorState>(),
+        pageBuilder: (context, state, child) => CustomTransitionPage(
+              transitionsBuilder: _fadeTransition,
+              child: LecturerNavbar(page: child, state: state),
+            ),
+        routes: [
+          GoRoute(
+            path: RouteNames.lecturerHome,
+            pageBuilder: (context, state) => CustomTransitionPage(
+                key: state.pageKey,
+                transitionsBuilder: _fadeTransition,
+                child: const LecturerHomePage()),
+          ),
+          GoRoute(
+            path: RouteNames.lecturerHistory,
+            pageBuilder: (context, state) => CustomTransitionPage(
+                key: state.pageKey,
+                transitionsBuilder: _fadeTransition,
+                child: const LecturerHistoryScreen()),
+          ),
+          GoRoute(
+            path: RouteNames.lecturerProfile,
+            pageBuilder: (context, state) => CustomTransitionPage(
+                key: state.pageKey,
+                transitionsBuilder: _fadeTransition,
+                child: const LecturerProfileScreen()),
+          ),
+        ]),
     GoRoute(
       path: RouteNames.lecturerScanQR,
       pageBuilder: (context, state) => CustomTransitionPage(
