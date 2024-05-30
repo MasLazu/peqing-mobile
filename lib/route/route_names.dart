@@ -14,6 +14,8 @@ class RouteNames {
   static const String lecturerHome = '/lecturer/home';
   static const String lecturerScanQR = '/lecturer/scan';
   static const String lecturerAddGrade = '/lecturer/addGrade';
+  static const String lecturerProfile = '/lecturer/profile';
+  static const String lecturerHistory = '/lecturer/history';
 
   //student
   static const String studentHome = '/student/home';
