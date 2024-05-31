@@ -2,28 +2,32 @@ import 'dart:convert';
 
 class Grade {
   final int? id;
-  final String? grade;
-  final int classId;
+  final String grade;
   final int score;
+  final int subjectId;
+  final int gradeTypeId;
 
   Grade({
     this.id,
-    this.grade,
-    required this.classId,
+    required this.grade,
     required this.score,
+    required this.subjectId,
+    required this.gradeTypeId,
   });
 
   Grade copyWith({
     int? id,
     String? grade,
-    int? classId,
     int? score,
+    int? subjectId,
+    int? gradeTypeId,
   }) {
     return Grade(
       id: id ?? this.id,
       grade: grade ?? this.grade,
-      classId: classId ?? this.classId,
       score: score ?? this.score,
+      subjectId: subjectId ?? this.subjectId,
+      gradeTypeId: gradeTypeId ?? this.gradeTypeId,
     );
   }
 
@@ -31,17 +35,21 @@ class Grade {
     return <String, dynamic>{
       'id': id,
       'grade': grade,
-      'kelasId': classId,
-      'nilai': score,
+      'score': score,
+      'kelasId': subjectId,
+      'typeNilai': {
+        'id': gradeTypeId,
+      },
     };
   }
 
   factory Grade.fromMap(Map<String, dynamic> map) {
     return Grade(
       id: map['id'] != null ? map['id'] as int : null,
-      grade: map['grade'] != null ? map['grade'] as String : null,
-      classId: map['kelasId'] as int,
-      score: map['nilai'] as int,
+      grade: map['grade'] as String,
+      score: map['score'] as int,
+      subjectId: map['kelasId'] as int,
+      gradeTypeId: map['typeNilai']['id'] as int,
     );
   }
 
@@ -52,7 +60,7 @@ class Grade {
 
   @override
   String toString() {
-    return 'Grade(id: $id, grade: $grade, classId: $classId, score: $score)';
+    return 'Grade(id: $id, grade: $grade, score: $score, subjectId: $subjectId, gradeTypeId: $gradeTypeId)';
   }
 
   @override
@@ -61,12 +69,17 @@ class Grade {
 
     return other.id == id &&
         other.grade == grade &&
-        other.classId == classId &&
-        other.score == score;
+        other.score == score &&
+        other.subjectId == subjectId &&
+        other.gradeTypeId == gradeTypeId;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ grade.hashCode ^ classId.hashCode ^ score.hashCode;
+    return id.hashCode ^
+        grade.hashCode ^
+        score.hashCode ^
+        subjectId.hashCode ^
+        gradeTypeId.hashCode;
   }
 }

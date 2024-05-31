@@ -1,21 +1,26 @@
 import 'dart:convert';
+import 'package:peqing/data/models/lecturer.dart';
 
 class Subject {
   final int? id;
   final String name;
+  final Lecturer? lecturer;
 
   Subject({
     this.id,
     required this.name,
+    this.lecturer,
   });
 
   Subject copyWith({
     int? id,
     String? name,
+    Lecturer? lecturer,
   }) {
     return Subject(
       id: id ?? this.id,
       name: name ?? this.name,
+      lecturer: lecturer ?? this.lecturer,
     );
   }
 
@@ -23,6 +28,7 @@ class Subject {
     return <String, dynamic>{
       'id': id,
       'name': name,
+      'dosen': lecturer?.toMap(),
     };
   }
 
@@ -30,6 +36,9 @@ class Subject {
     return Subject(
       id: map['id'] != null ? map['id'] as int : null,
       name: map['name'] as String,
+      lecturer: map['dosen'] != null
+          ? Lecturer.fromMap(map['dosen'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -39,15 +48,15 @@ class Subject {
       Subject.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() => 'Subject(id: $id, name: $name)';
+  String toString() => 'Subject(id: $id, name: $name, lecturer: $lecturer)';
 
   @override
   bool operator ==(covariant Subject other) {
     if (identical(this, other)) return true;
 
-    return other.id == id && other.name == name;
+    return other.id == id && other.name == name && other.lecturer == lecturer;
   }
 
   @override
-  int get hashCode => id.hashCode ^ name.hashCode;
+  int get hashCode => id.hashCode ^ name.hashCode ^ lecturer.hashCode;
 }
