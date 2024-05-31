@@ -40,7 +40,6 @@ class StudentRepository extends Repository {
   }
 
   Future<void> update(Student student) async {
-    print(student);
     await put(path: '/${student.id}', body: student.toMap());
   }
 
