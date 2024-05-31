@@ -35,7 +35,7 @@ class Grade {
     return <String, dynamic>{
       'id': id,
       'grade': grade,
-      'score': score,
+      'niai': score,
       'kelasId': subjectId,
       'typeNilai': {
         'id': gradeTypeId,
@@ -47,7 +47,7 @@ class Grade {
     return Grade(
       id: map['id'] != null ? map['id'] as int : null,
       grade: map['grade'] as String,
-      score: map['score'] as int,
+      score: map['nilai'] as int,
       subjectId: map['kelasId'] as int,
       gradeTypeId: map['typeNilai']['id'] as int,
     );
