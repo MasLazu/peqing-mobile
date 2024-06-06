@@ -180,7 +180,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
       decoration: const InputDecoration(),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          value: subject?.id.toString(),
+          value: subject?.id.toString() ?? '0',
           isDense: true,
           elevation: 2,
           borderRadius: BorderRadius.circular(24),
@@ -191,20 +191,34 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
               subject = subjects.firstWhere((e) => e.id.toString() == newValue);
             });
           },
-          items: subjects.map<DropdownMenuItem<String>>((Subject value) {
-            return DropdownMenuItem<String>(
-              value: value.id.toString(),
+          items: [
+            DropdownMenuItem<String>(
+              value: '0',
               child: SizedBox(
                 width: 250,
-                child: Text(value.name,
+                child: Text('Pilih mata kuliah',
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
                         .copyWith(fontWeight: FontWeight.bold)),
               ),
-            );
-          }).toList(),
+            ),
+            ...subjects.map<DropdownMenuItem<String>>((Subject value) {
+              return DropdownMenuItem<String>(
+                value: value.id.toString(),
+                child: SizedBox(
+                  width: 250,
+                  child: Text(value.name,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold)),
+                ),
+              );
+            })
+          ],
         ),
       ),
     );
