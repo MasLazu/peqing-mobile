@@ -84,7 +84,6 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
           gradeTypeId,
           subject!.id!);
       isLoading = false;
-      context.go(RouteNames.lecturerHome);
     } catch (e, s) {
       debugPrint('Error adding grade type: $e');
       debugPrint('Stack trace: $s');
