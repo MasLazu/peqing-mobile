@@ -107,17 +107,13 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Column(
-                        children: [
-                          _buildAksiCepatProfile(context),
-                          const SizedBox(height: 24),
-                          _buildPilihMataKuliah(context),
-                          const SizedBox(height: 24),
-                          _buildRadioButton(context),
-                          const SizedBox(height: 24),
-                          _buildBeriNilai(context),
-                        ],
-                      ),
+                      _buildAksiCepatProfile(context),
+                      const SizedBox(height: 24),
+                      _buildPilihMataKuliah(context),
+                      const SizedBox(height: 24),
+                      _buildRadioButton(context),
+                      const SizedBox(height: 24),
+                      _buildBeriNilai(context),
                       const Spacer(),
                       PeqingButton(
                           text: 'Simpan dan Beri Nilai', onPressed: () {}),
