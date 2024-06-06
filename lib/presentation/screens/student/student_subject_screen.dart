@@ -44,25 +44,23 @@ class StudentSubjectScreenState extends State<StudentSubjectScreen> {
           builder: (context, state) {
             if (state is SubjectLoaded ||
                 (state is SubjectLoading && state.subjects != null)) {
-              return Expanded(
-                child: RefreshIndicator(
-                  onRefresh: () async {
-                    context.read<SubjectBloc>().add(LoadSubject());
-                  },
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    shrinkWrap: true,
-                    crossAxisSpacing: 15.0,
-                    mainAxisSpacing: 15.0,
-                    childAspectRatio: 1.1,
-                    padding: const EdgeInsets.only(bottom: 24.0),
-                    children: [
-                      for (Subject subject in state is SubjectLoaded
-                          ? state.subjects
-                          : (state as SubjectLoading).subjects!)
-                        _buildSubjectCard(subject),
-                    ],
-                  ),
+              return RefreshIndicator(
+                onRefresh: () async {
+                  context.read<SubjectBloc>().add(LoadSubject());
+                },
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  crossAxisSpacing: 15.0,
+                  mainAxisSpacing: 15.0,
+                  childAspectRatio: 1.1,
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  children: [
+                    for (Subject subject in state is SubjectLoaded
+                        ? state.subjects
+                        : (state as SubjectLoading).subjects!)
+                      _buildSubjectCard(subject),
+                  ],
                 ),
               );
             }
