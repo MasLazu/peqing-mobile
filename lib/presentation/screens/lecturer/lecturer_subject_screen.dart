@@ -52,7 +52,7 @@ class LecturerSubjectScreenState extends State<LecturerSubjectScreen> {
                     shrinkWrap: true,
                     crossAxisSpacing: 15.0,
                     mainAxisSpacing: 15.0,
-                    childAspectRatio: 1.2,
+                    childAspectRatio: 1.1,
                     padding: const EdgeInsets.only(bottom: 24.0),
                     children: [
                       for (Subject subject in state is SubjectLoaded
