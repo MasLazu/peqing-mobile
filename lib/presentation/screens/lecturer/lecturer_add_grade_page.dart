@@ -163,10 +163,11 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
         const SizedBox(height: 16),
         CupertinoRadioChoice(
           choices: {
-            for (var subject in subjects) subject.id.toString(): subject.name
+            for (var gradeType in gradeTypes)
+              gradeType.id.toString(): gradeType.name
           },
           onChange: (value) {},
-          initialKeyValue: subjects.first.id.toString(),
+          initialKeyValue: gradeTypes.first.id.toString(),
           selectedColor: AppColors.primary[500]!,
           notSelectedColor: AppColors.dark[100]!,
         ),
