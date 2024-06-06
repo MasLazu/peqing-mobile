@@ -8,6 +8,7 @@ import 'package:peqing/core/theme/app_colors.dart';
 import 'package:peqing/data/models/grade_type.dart';
 import 'package:peqing/data/models/student.dart';
 import 'package:peqing/data/models/subject.dart';
+import 'package:peqing/data/repositories/grade_repository.dart';
 import 'package:peqing/data/repositories/grade_type_repository.dart';
 import 'package:peqing/data/repositories/student_repository.dart';
 import 'package:peqing/data/repositories/subject_repository.dart';
@@ -28,8 +29,10 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
   late Student student;
   bool isLoading = true;
   Subject? subject;
+  TextEditingController nilaiController = TextEditingController();
   List<Subject> subjects = [];
   List<GradeType> gradeTypes = [];
+  int gradeTypeId = 0;
 
   @override
   void initState() {
@@ -65,6 +68,25 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
       });
     } catch (e, s) {
       debugPrint('Error fetching student: $e');
+      debugPrint('Stack trace: $s');
+    }
+  }
+
+  Future<void> submitHandler() async {
+    if (subject == null || gradeTypeId == 0 || nilaiController.text.isEmpty) {
+      return;
+    }
+    try {
+      isLoading = true;
+      await context.read<GradeRepository>().create(
+          int.parse(nilaiController.text),
+          student.id!,
+          gradeTypeId,
+          subject!.id!);
+      isLoading = false;
+      context.go(RouteNames.lecturerHome);
+    } catch (e, s) {
+      debugPrint('Error adding grade type: $e');
       debugPrint('Stack trace: $s');
     }
   }
@@ -109,14 +131,19 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
                   children: [
                     _buildAksiCepatProfile(context),
                     const SizedBox(height: 24),
-                    _buildPilihMataKuliah(context),
-                    const SizedBox(height: 24),
-                    _buildRadioButton(context),
-                    const SizedBox(height: 24),
-                    _buildBeriNilai(context),
-                    const SizedBox(height: 24),
-                    PeqingButton(
-                        text: 'Simpan dan Beri Nilai', onPressed: () {}),
+                    Form(
+                        child: Column(
+                      children: [
+                        _buildPilihMataKuliah(context),
+                        const SizedBox(height: 24),
+                        _buildRadioButton(context),
+                        const SizedBox(height: 24),
+                        _buildBeriNilai(context),
+                        const SizedBox(height: 24),
+                        PeqingButton(
+                            text: 'Simpan dan Beri Nilai', onPressed: () {}),
+                      ],
+                    )),
                   ],
                 ),
               ),
@@ -134,7 +161,8 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
                 .bodyMedium
                 ?.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
-        const PeqingTextfield(
+        PeqingTextfield(
+          controller: nilaiController,
           text: 'Masukkan nilai',
         ),
       ],
@@ -172,7 +200,15 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
                   for (var gradeType in filteredGradeTypes)
                     gradeType.id.toString(): gradeType.name
                 },
-                onChange: (value) {},
+                onChange: (value) {
+                  setState(() {
+                    for (var element in gradeTypes) {
+                      if (element.id.toString() == value) {
+                        gradeTypeId = element.id!;
+                      }
+                    }
+                  });
+                },
                 initialKeyValue: gradeTypes.first.id.toString(),
                 selectedColor: AppColors.primary[500]!,
                 notSelectedColor: AppColors.dark[100]!,
