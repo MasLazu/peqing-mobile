@@ -182,7 +182,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
             return DropdownMenuItem<String>(
               value: value.id.toString(),
               child: SizedBox(
-                width: 100,
+                width: 250,
                 child: Text(value.name,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
