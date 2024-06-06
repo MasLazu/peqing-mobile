@@ -82,21 +82,20 @@ GoRouter appRoute = GoRouter(
           ),
         ),
         GoRoute(
-          path: '${RouteNames.adminDetailSubject}/:id',
+          path: RouteNames.adminProfile,
           pageBuilder: (context, state) => CupertinoPage(
             key: state.pageKey,
-            child: const AdminDetailSubject(
-              subjectId: state.pathParameters['id']!,
-            ),
+            child: const AdminProfileScreen(),
           ),
         ),
       ],
     ),
     GoRoute(
       path: '${RouteNames.adminDetailSubject}/:id',
-      pageBuilder: (context, state) => const CustomTransitionPage(
+      pageBuilder: (context, state) => CustomTransitionPage(
         transitionsBuilder: _fadeTransition,
-        child: AdminProfileScreen(),
+        child: AdminDetailSubject(
+            subjectId: int.parse(state.pathParameters['id']!)),
       ),
     ),
     ShellRoute(
