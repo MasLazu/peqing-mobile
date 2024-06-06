@@ -95,12 +95,12 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
                 )),
           ],
         ),
-        body: SingleChildScrollView(
-          child: isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Container(
+        body: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 24),
                   margin: const EdgeInsets.only(top: 24, bottom: 48),
                   child: Column(
@@ -123,7 +123,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
                     ],
                   ),
                 ),
-        ));
+              ));
   }
 
   Column _buildBeriNilai(BuildContext context) {
@@ -197,7 +197,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
             return DropdownMenuItem<String>(
               value: value.id.toString(),
               child: SizedBox(
-                width: 200,
+                width: 250,
                 child: Text(value.name,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)
