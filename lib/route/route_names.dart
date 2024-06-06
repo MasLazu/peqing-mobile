@@ -23,4 +23,5 @@ class RouteNames {
   static const String studentHome = '/student/home';
   static const String studentProfile = '/student/profile';
   static const String studentSubject = '/student/subject';
+  static const String studentDetailSubject = '/student/detailSubject';
 }

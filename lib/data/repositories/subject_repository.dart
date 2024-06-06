@@ -28,6 +28,14 @@ class SubjectRepository extends Repository {
         .toList();
   }
 
+  Future<List<Subject>> getByStudentId(int studentId) async {
+    final response = await get(path: '/mahasiswa/$studentId');
+
+    return (response['message'] as List)
+        .map((e) => Subject.fromMap(e))
+        .toList();
+  }
+
   Future<List<Subject>> getByLecturerIdAndStudentId(
       int lecturerId, int studentId) async {
     final response = await get(path: '/$lecturerId/$studentId');

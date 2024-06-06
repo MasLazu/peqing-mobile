@@ -30,8 +30,11 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
       } else if (_authBloc.state is AuthLecturer) {
         subjects = await _subjectRepository
             .getByLecturerId((_authBloc.state as AuthLecturer).data.id!);
+      } else if (_authBloc.state is AuthStudent) {
+        subjects = await _subjectRepository
+            .getByStudentId((_authBloc.state as AuthStudent).data.id!);
       } else {
-        subjects = [];
+        throw Exception('Unknown user type');
       }
       subjects = await _subjectRepository.getAll();
       emit(SubjectLoaded(subjects: subjects, message: event.message));

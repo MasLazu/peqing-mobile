@@ -16,6 +16,7 @@ import 'package:peqing/presentation/screens/lecturer/lecturer_subject_screen.dar
 import 'package:peqing/presentation/screens/login_screen.dart';
 import 'package:peqing/presentation/screens/onboarding_screen.dart';
 import 'package:peqing/presentation/screens/splash_screen.dart';
+import 'package:peqing/presentation/screens/student/student_detail_subject_screen.dart';
 import 'package:peqing/presentation/screens/student/student_home_screen.dart';
 import 'package:peqing/presentation/screens/student/student_profile_screen.dart';
 import 'package:peqing/presentation/screens/student/student_subject_screen.dart';
@@ -152,33 +153,42 @@ GoRouter appRoute = GoRouter(
           )),
     ),
     ShellRoute(
-        pageBuilder: (context, state, child) => CustomTransitionPage(
+      pageBuilder: (context, state, child) => CustomTransitionPage(
+        transitionsBuilder: _fadeTransition,
+        child: StudentNavbar(page: child, state: state),
+      ),
+      routes: [
+        GoRoute(
+          path: RouteNames.studentHome,
+          pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
               transitionsBuilder: _fadeTransition,
-              child: StudentNavbar(page: child, state: state),
-            ),
-        routes: [
-          GoRoute(
-            path: RouteNames.studentHome,
-            pageBuilder: (context, state) => CustomTransitionPage(
-                key: state.pageKey,
-                transitionsBuilder: _fadeTransition,
-                child: const StudentHomeScreen()),
-          ),
-          GoRoute(
-            path: RouteNames.studentSubject,
-            pageBuilder: (context, state) => CustomTransitionPage(
-                key: state.pageKey,
-                transitionsBuilder: _fadeTransition,
-                child: const StudentSubjectScreen()),
-          ),
-          GoRoute(
-            path: RouteNames.studentProfile,
-            pageBuilder: (context, state) => CustomTransitionPage(
-                key: state.pageKey,
-                transitionsBuilder: _fadeTransition,
-                child: const StudentProfileScreen()),
-          ),
-        ]),
+              child: const StudentHomeScreen()),
+        ),
+        GoRoute(
+          path: RouteNames.studentSubject,
+          pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              transitionsBuilder: _fadeTransition,
+              child: const StudentSubjectScreen()),
+        ),
+        GoRoute(
+          path: RouteNames.studentProfile,
+          pageBuilder: (context, state) => CustomTransitionPage(
+              key: state.pageKey,
+              transitionsBuilder: _fadeTransition,
+              child: const StudentProfileScreen()),
+        ),
+      ],
+    ),
+    GoRoute(
+      path: '${RouteNames.studentDetailSubject}/:subjectId',
+      pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          transitionsBuilder: _fadeTransition,
+          child: StudentDetailSubjectScreen(
+              subjectId: int.parse(state.pathParameters['subjectId']!))),
+    ),
   ],
 );
 

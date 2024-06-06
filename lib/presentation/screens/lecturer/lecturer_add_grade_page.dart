@@ -89,6 +89,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
       setState(() {
         isSubmitting = false;
       });
+      // ignore: use_build_context_synchronously
       context.go(RouteNames.lecturerHome);
     } catch (e, s) {
       debugPrint('Error adding grade type: $e');
