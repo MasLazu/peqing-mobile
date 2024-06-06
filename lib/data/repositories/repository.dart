@@ -11,7 +11,7 @@ class Repository {
   Repository(String prefix, this.authBloc)
       : baseUrl = Uri(
             scheme: 'https',
-            host: '4phvhnt5-3001.asse.devtunnels.ms',
+            host: '11gpx9sm-3001.asse.devtunnels.ms',
             path: prefix);
 
   Future<Map<String, dynamic>> get(

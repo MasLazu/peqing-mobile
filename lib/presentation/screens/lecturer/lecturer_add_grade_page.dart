@@ -9,7 +9,8 @@ import 'package:peqing/presentation/widgets/peqing_textfield.dart';
 import 'package:peqing/route/route_names.dart';
 
 class LecturerAddGradePage extends StatelessWidget {
-  const LecturerAddGradePage({super.key});
+  final int studentId;
+  const LecturerAddGradePage({super.key, required this.studentId});
 
   @override
   Widget build(BuildContext context) {
@@ -184,18 +185,15 @@ class LecturerAddGradePage extends StatelessWidget {
             ],
           ),
           OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              side: BorderSide(color: AppColors.primary[500]!),
-            ),
-            onPressed: () {},
-            child: Text('Ganti',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.primary[500]
-              )
-            )
-          ),
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                side: BorderSide(color: AppColors.primary[500]!),
+              ),
+              onPressed: () {},
+              child: Text('Ganti',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary[500]))),
         ],
       ),
     );

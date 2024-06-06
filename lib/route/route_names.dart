@@ -14,11 +14,11 @@ class RouteNames {
   static const String lecturerHome = '/lecturer/home';
   static const String lecturerScanQR = '/lecturer/scan';
   static const String lecturerAddGrade = '/lecturer/addGrade';
-  static const String lecturerHistory = '/lecturer/history';
   static const String lecturerProfile = '/lecturer/profile';
+  static const String lecturerSubject = '/lecturer/subject';
 
   //student
   static const String studentHome = '/student/home';
-  static const String studentHistory = '/student/history';
   static const String studentProfile = '/student/profile';
+  static const String studentSubject = '/student/subject';
 }
