@@ -141,7 +141,9 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
                         _buildBeriNilai(context),
                         const SizedBox(height: 24),
                         PeqingButton(
-                            text: 'Simpan dan Beri Nilai', onPressed: () {}),
+                            isLoading: isLoading,
+                            text: 'Simpan dan Beri Nilai',
+                            onPressed: submitHandler),
                       ],
                     )),
                   ],
