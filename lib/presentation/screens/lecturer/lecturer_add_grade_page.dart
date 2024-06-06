@@ -99,23 +99,26 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : Container(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              margin: const EdgeInsets.only(top: 24, bottom: 48),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _buildAksiCepatProfile(context),
-                  const SizedBox(height: 24),
-                  _buildPilihMataKuliah(context),
-                  const SizedBox(height: 24),
-                  _buildRadioButton(context),
-                  const SizedBox(height: 24),
-                  _buildBeriNilai(context),
-                  const Spacer(),
-                  PeqingButton(text: 'Simpan dan Beri Nilai', onPressed: () {}),
-                ],
+          : SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                margin: const EdgeInsets.only(top: 24, bottom: 48),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _buildAksiCepatProfile(context),
+                    const SizedBox(height: 24),
+                    _buildPilihMataKuliah(context),
+                    const SizedBox(height: 24),
+                    _buildRadioButton(context),
+                    const SizedBox(height: 24),
+                    _buildBeriNilai(context),
+                    const SizedBox(height: 24),
+                    PeqingButton(
+                        text: 'Simpan dan Beri Nilai', onPressed: () {}),
+                  ],
+                ),
               ),
             ),
     );
