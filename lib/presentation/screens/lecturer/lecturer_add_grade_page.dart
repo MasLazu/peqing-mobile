@@ -226,7 +226,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
                 side: BorderSide(color: AppColors.primary[500]!),
               ),
               onPressed: () {
-                context.pop();
+                context.go(RouteNames.lecturerScanQR);
               },
               child: Text('Ganti',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
