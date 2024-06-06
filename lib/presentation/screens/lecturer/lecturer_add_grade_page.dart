@@ -142,6 +142,9 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
   }
 
   Column _buildRadioButton(BuildContext context) {
+    var filteredGradeTypes = gradeTypes
+        .where((gradeType) => gradeType.subjectId == subject?.id)
+        .toList();
     return Column(
       children: [
         Row(
@@ -163,7 +166,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
         const SizedBox(height: 16),
         CupertinoRadioChoice(
           choices: {
-            for (var gradeType in gradeTypes)
+            for (var gradeType in filteredGradeTypes)
               gradeType.id.toString(): gradeType.name
           },
           onChange: (value) {},
