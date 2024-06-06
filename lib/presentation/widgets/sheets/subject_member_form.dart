@@ -34,14 +34,19 @@ class _SubjectFormState extends State<SubjectForm> {
   int? _studentId;
 
   void submitHandler() async {
-    if (_formKey.currentState!.validate()) {
-      isLoading = true;
-      await context
-          .read<SubjectMemberRepository>()
-          .create(widget.subjectId, _studentId!);
-      isLoading = false;
-      // ignore: use_build_context_synchronously
-      context.pop();
+    try {
+      if (_formKey.currentState!.validate()) {
+        isLoading = true;
+        await context
+            .read<SubjectMemberRepository>()
+            .create(widget.subjectId, _studentId!);
+        isLoading = false;
+        // ignore: use_build_context_synchronously
+        context.pop();
+      }
+    } catch (e, s) {
+      debugPrint('Error adding student to subject: $e');
+      debugPrint('Stack trace: $s');
     }
   }
 
@@ -62,7 +67,7 @@ class _SubjectFormState extends State<SubjectForm> {
                 onPressed: () => context.pop(),
               ),
               title: Text(
-                'Tambah Mata Kuliah PENS',
+                'Tambah Mahasiswa',
                 style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:peqing/presentation/screens/admin/admin_detail_subject.dart';
 import 'package:peqing/presentation/screens/admin/admin_subject_screen.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_add_grade_page.dart';
+import 'package:peqing/presentation/screens/lecturer/lecturer_detail_subject.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_home_page.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_profile_screen.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_scan_page.dart';
@@ -93,8 +94,7 @@ GoRouter appRoute = GoRouter(
     ),
     GoRoute(
       path: '${RouteNames.adminDetailSubject}/:id',
-      pageBuilder: (context, state) => CustomTransitionPage(
-        transitionsBuilder: _fadeTransition,
+      pageBuilder: (context, state) => CupertinoPage(
         child: AdminDetailSubject(
             subjectId: int.parse(state.pathParameters['id']!)),
       ),
@@ -134,6 +134,13 @@ GoRouter appRoute = GoRouter(
           key: state.pageKey,
           transitionsBuilder: _fadeTransition,
           child: const LecturerScanPage()),
+    ),
+    GoRoute(
+      path: '${RouteNames.lecturerDetailSubject}/:subjectId',
+      pageBuilder: (context, state) => CupertinoPage(
+          key: state.pageKey,
+          child: LecturerDetailSubject(
+              subjectId: int.parse(state.pathParameters['subjectId']!))),
     ),
     GoRoute(
       path: '${RouteNames.lecturerAddGrade}/:studentId',
