@@ -162,9 +162,11 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
         ),
         const SizedBox(height: 16),
         CupertinoRadioChoice(
-          choices: {for (var subject in subjects) subject.id: subject.name},
+          choices: {
+            for (var subject in subjects) subject.id.toString(): subject.name
+          },
           onChange: (value) {},
-          initialKeyValue: subjects.first.id,
+          initialKeyValue: subjects.first.id.toString(),
           selectedColor: AppColors.primary[500]!,
           notSelectedColor: AppColors.dark[100]!,
         ),
