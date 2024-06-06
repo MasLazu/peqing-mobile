@@ -24,7 +24,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     try {
       final students = await _studentRepository.getAll();
       emit(StudentLoaded(students: students, message: event.message));
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('Error: $e, Stack Trace: $s');
       emit(StudentError(message: e.toString()));
       add(_RetryLoadStudent());
     }
@@ -37,7 +38,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       await Future.delayed(const Duration(seconds: 5));
       final students = await _studentRepository.getAll();
       emit(StudentLoaded(students: students));
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('Error: $e, Stack Trace: $s');
       if (!isClosed) add(_RetryLoadStudent());
     }
   }
@@ -53,7 +55,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       add(LoadStudent(
           students: (state as StudentLoading).students,
           message: 'Civilian berhasil ditambahkan!'));
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('Error: $e, Stack Trace: $s');
       emit(StudentLoaded(
           students: state is StudentLoaded
               ? (state as StudentLoaded).students
@@ -73,7 +76,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       add(LoadStudent(
           students: (state as StudentLoading).students,
           message: 'Civilian berhasil diperbarui!'));
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('Error: $e, Stack Trace: $s');
       emit(StudentLoaded(
           students: state is StudentLoaded
               ? (state as StudentLoaded).students
@@ -93,7 +97,8 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
       add(LoadStudent(
           students: (state as StudentLoading).students,
           message: 'Civilian berhasil dihapus!'));
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('Error: $e, Stack Trace: $s');
       emit(StudentLoaded(
           students: state is StudentLoaded
               ? (state as StudentLoaded).students

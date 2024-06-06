@@ -165,7 +165,9 @@ ${e.toString()}
                 onPressed: () => context.pop(),
               ),
               title: Text(
-                'Tambah Civitas PENS',
+                widget.data == null
+                    ? 'Tambah Civitas PENS'
+                    : 'Ubah Civitas PENS',
                 style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),
@@ -177,48 +179,58 @@ ${e.toString()}
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  Text(
-                    'Pilih Role',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8.0),
-                  InputDecorator(
-                    decoration: const InputDecoration(),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        value: role,
-                        isDense: true,
-                        elevation: 2,
-                        borderRadius: BorderRadius.circular(24),
-                        dropdownColor: AppColors.white,
-                        icon: const Icon(Iconsax.arrow_down_1, size: 16),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            role = newValue!;
-                          });
-                        },
-                        items: _roles
-                            .map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: SizedBox(
-                              width: 100,
-                              child: Text(value,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(fontWeight: FontWeight.bold)),
+                  widget.data == null
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Pilih Role',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(fontWeight: FontWeight.bold),
                             ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 16.0),
+                            const SizedBox(height: 8.0),
+                            InputDecorator(
+                              decoration: const InputDecoration(),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: role,
+                                  isDense: true,
+                                  elevation: 2,
+                                  borderRadius: BorderRadius.circular(24),
+                                  dropdownColor: AppColors.white,
+                                  icon: const Icon(Iconsax.arrow_down_1,
+                                      size: 16),
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      role = newValue!;
+                                    });
+                                  },
+                                  items: _roles.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: SizedBox(
+                                        width: 100,
+                                        child: Text(value,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium!
+                                                .copyWith(
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16.0),
+                          ],
+                        )
+                      : const SizedBox(),
                   role != 'Admin'
                       ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

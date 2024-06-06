@@ -9,6 +9,7 @@ import 'package:peqing/presentation/widgets/appbars/welcome_appbar.dart';
 import 'package:peqing/presentation/widgets/cards/detail_card.dart';
 import 'package:peqing/presentation/widgets/cards/history_card.dart';
 import 'package:peqing/presentation/widgets/sheets/civitas_form.dart';
+import 'package:peqing/presentation/widgets/sheets/subject_form.dart';
 import 'package:peqing/route/route_names.dart';
 
 class AdminHomeScreen extends StatefulWidget {
@@ -94,6 +95,15 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   const SizedBox(height: 16.0),
                   DetailCard(
                     context: context,
+                    type: DetailCardType.gradient,
+                    title: 'Unggah via CSV',
+                    icon: Iconsax.document5,
+                    description: 'Impor data mahasiswa & dosen',
+                    onTab: () {},
+                  ),
+                  const SizedBox(height: 12.0),
+                  DetailCard(
+                    context: context,
                     title: 'Buat Data Manual',
                     icon: Iconsax.keyboard5,
                     description: 'Unggah data dengan mengisi manual',
@@ -104,11 +114,12 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                   const SizedBox(height: 12.0),
                   DetailCard(
                     context: context,
-                    type: DetailCardType.gradient,
-                    title: 'Unggah via CSV',
-                    icon: Iconsax.document5,
-                    description: 'Impor data mahasiswa & dosen',
-                    onTab: () {},
+                    title: 'Tambah Mata Kuliah',
+                    icon: Iconsax.clipboard_text5,
+                    description: 'Buat mata kuliah baru di sini',
+                    onTab: () {
+                      showSubjectForm(context);
+                    },
                   ),
                   const SizedBox(height: 24.0),
                   _buildHeading('Riwayat'),

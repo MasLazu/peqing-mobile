@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:peqing/presentation/screens/admin/admin_detail_subject.dart';
+import 'package:peqing/presentation/screens/admin/admin_subject_screen.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_add_grade_page.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_history_screen.dart';
 import 'package:peqing/presentation/screens/lecturer/lecturer_home_page.dart';
@@ -9,7 +10,6 @@ import 'package:peqing/presentation/screens/lecturer/lecturer_profile_screen.dar
 import 'package:peqing/presentation/screens/lecturer/lecturer_scan_page.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/presentation/screens/admin/admin_civitas_screen.dart';
-import 'package:peqing/presentation/screens/admin/admin_history_screen.dart';
 import 'package:peqing/presentation/screens/admin/admin_home_screen.dart';
 import 'package:peqing/presentation/screens/admin/admin_profile_screen.dart';
 import 'package:peqing/presentation/screens/login_screen.dart';
@@ -74,22 +74,30 @@ GoRouter appRoute = GoRouter(
           ),
         ),
         GoRoute(
-          path: RouteNames.adminHistory,
+          path: RouteNames.adminSubjects,
           pageBuilder: (context, state) => CustomTransitionPage(
             key: state.pageKey,
             transitionsBuilder: _fadeTransition,
-            child: const AdminHistoryScreen(),
+            child: const AdminSubjectScreen(),
           ),
         ),
         GoRoute(
-          path: RouteNames.adminProfile,
-          pageBuilder: (context, state) => CustomTransitionPage(
+          path: '${RouteNames.adminDetailSubject}/:id',
+          pageBuilder: (context, state) => CupertinoPage(
             key: state.pageKey,
-            transitionsBuilder: _fadeTransition,
-            child: const AdminProfileScreen(),
+            child: const AdminDetailSubject(
+              subjectId: state.pathParameters['id']!,
+            ),
           ),
         ),
       ],
+    ),
+    GoRoute(
+      path: '${RouteNames.adminDetailSubject}/:id',
+      pageBuilder: (context, state) => const CustomTransitionPage(
+        transitionsBuilder: _fadeTransition,
+        child: AdminProfileScreen(),
+      ),
     ),
     ShellRoute(
         navigatorKey: GlobalKey<NavigatorState>(),

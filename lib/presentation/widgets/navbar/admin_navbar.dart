@@ -11,7 +11,7 @@ class AdminNavbar extends StatelessWidget {
   final List<String> routes = [
     RouteNames.adminHome,
     RouteNames.adminCivitas,
-    RouteNames.adminHistory,
+    RouteNames.adminSubjects,
     RouteNames.adminProfile,
   ];
 
@@ -36,9 +36,9 @@ class AdminNavbar extends StatelessWidget {
             label: 'Daftar Civitas',
           ),
           NavigationDestination(
-            selectedIcon: const Icon(Iconsax.clock5),
-            icon: Icon(Iconsax.clock5, color: AppColors.dark[300]!),
-            label: 'Riwayat',
+            selectedIcon: const Icon(Iconsax.clipboard_text5),
+            icon: Icon(Iconsax.clipboard_text5, color: AppColors.dark[300]!),
+            label: 'Mata Kuliah',
           ),
           NavigationDestination(
             selectedIcon: const Icon(Iconsax.profile_2user5),

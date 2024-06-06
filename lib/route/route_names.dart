@@ -7,8 +7,9 @@ class RouteNames {
   //admin
   static const String adminHome = '/admin/home';
   static const String adminCivitas = '/admin/civitas';
-  static const String adminHistory = '/admin/history';
+  static const String adminSubjects = '/admin/subjects';
   static const String adminProfile = '/admin/profile';
+  static const String adminDetailSubject = '/admin/detailSubject';
 
   //lecturer
   static const String lecturerHome = '/lecturer/home';
