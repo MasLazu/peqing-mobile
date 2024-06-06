@@ -105,6 +105,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
                   margin: const EdgeInsets.only(top: 24, bottom: 48),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Column(
                         children: [
