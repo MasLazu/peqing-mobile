@@ -164,16 +164,19 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
           ],
         ),
         const SizedBox(height: 16),
-        CupertinoRadioChoice(
-          choices: {
-            for (var gradeType in filteredGradeTypes)
-              gradeType.id.toString(): gradeType.name
-          },
-          onChange: (value) {},
-          initialKeyValue: gradeTypes.first.id.toString(),
-          selectedColor: AppColors.primary[500]!,
-          notSelectedColor: AppColors.dark[100]!,
-        ),
+        filteredGradeTypes.isEmpty
+            ? Text('Tidak ada penugasan',
+                style: TextStyle(color: AppColors.danger[500]))
+            : CupertinoRadioChoice(
+                choices: {
+                  for (var gradeType in filteredGradeTypes)
+                    gradeType.id.toString(): gradeType.name
+                },
+                onChange: (value) {},
+                initialKeyValue: gradeTypes.first.id.toString(),
+                selectedColor: AppColors.primary[500]!,
+                notSelectedColor: AppColors.dark[100]!,
+              ),
       ],
     );
   }
