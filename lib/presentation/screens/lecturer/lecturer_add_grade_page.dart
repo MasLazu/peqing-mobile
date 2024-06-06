@@ -34,6 +34,9 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
     try {
       student =
           await context.read<StudentRepository>().getById(widget.studentId);
+      setState(() {
+        isLoading = false;
+      });
     } catch (e, s) {
       debugPrint('Error fetching student: $e');
       debugPrint('Stack trace: $s');
