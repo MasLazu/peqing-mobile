@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/core/theme/app_colors.dart';
 import 'package:peqing/data/models/student.dart';
+import 'package:peqing/data/models/subject.dart';
 import 'package:peqing/data/repositories/student_repository.dart';
+import 'package:peqing/data/repositories/subject_repository.dart';
 import 'package:peqing/presentation/widgets/buttons/peqing_button.dart';
 import 'package:peqing/presentation/widgets/peqing_appbar.dart';
 import 'package:peqing/presentation/widgets/peqing_textfield.dart';
@@ -22,6 +25,8 @@ class LecturerAddGradePage extends StatefulWidget {
 class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
   late Student student;
   bool isLoading = true;
+  Subject? subject;
+  List<Subject> subjects = [];
 
   @override
   void initState() {
@@ -34,6 +39,12 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
     try {
       student =
           await context.read<StudentRepository>().getById(widget.studentId);
+      subjects =
+          // ignore: use_build_context_synchronously
+          await context.read<SubjectRepository>().getByLecturerIdAndStudentId(
+              // ignore: use_build_context_synchronously
+              (context.read<AuthBloc>().state as AuthLecturer).data.id!,
+              student.id!);
       setState(() {
         isLoading = false;
       });
@@ -151,32 +162,37 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
     );
   }
 
-  DropdownButtonFormField<String> _buildPilihMataKuliah(BuildContext context) {
-    return DropdownButtonFormField(
-      items: [
-        DropdownMenuItem(
-            value: 'Pemrograman Mobile',
-            child: Text('Pemrograman Mobile',
-                style: Theme.of(context).textTheme.bodyMedium)),
-        DropdownMenuItem(
-            value: 'Pemrograman Web',
-            child: Text('Pemrograman Web',
-                style: Theme.of(context).textTheme.bodyMedium)),
-        DropdownMenuItem(
-            value: 'Pemrograman Desktop',
-            child: Text('Pemrograman Desktop',
-                style: Theme.of(context).textTheme.bodyMedium)),
-      ],
-      onChanged: (value) {},
-      hint: Text('Pilih Mata Kuliah',
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium
-              ?.copyWith(fontWeight: FontWeight.bold)),
-      icon: Icon(
-        Iconsax.arrow_down_1,
-        color: AppColors.dark[500],
-        size: 16,
+  Widget _buildPilihMataKuliah(BuildContext context) {
+    return InputDecorator(
+      decoration: const InputDecoration(),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton<String>(
+          value: subject?.id.toString(),
+          isDense: true,
+          elevation: 2,
+          borderRadius: BorderRadius.circular(24),
+          dropdownColor: AppColors.white,
+          icon: const Icon(Iconsax.arrow_down_1, size: 16),
+          onChanged: (String? newValue) {
+            setState(() {
+              subject = subjects.firstWhere((e) => e.id.toString() == newValue);
+            });
+          },
+          items: subjects.map<DropdownMenuItem<String>>((Subject value) {
+            return DropdownMenuItem<String>(
+              value: value.id.toString(),
+              child: SizedBox(
+                width: 100,
+                child: Text(value.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.bold)),
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
