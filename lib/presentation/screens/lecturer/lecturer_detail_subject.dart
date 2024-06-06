@@ -68,7 +68,12 @@ class _LecturerDetailSubjectState extends State<LecturerDetailSubject> {
                       fetch();
                     }),
                     const SizedBox(height: 14),
-                    ...gradeTypes.map((e) => _buildGradeTypeCard(e)),
+                    ...gradeTypes.map((e) => Column(
+                          children: [
+                            const SizedBox(height: 15),
+                            _buildGradeTypeCard(e),
+                          ],
+                        )),
                   ],
                 ),
               ),

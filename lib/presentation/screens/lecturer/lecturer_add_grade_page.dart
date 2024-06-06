@@ -28,6 +28,7 @@ class LecturerAddGradePage extends StatefulWidget {
 class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
   late Student student;
   bool isLoading = true;
+  bool isSubmitting = false;
   Subject? subject;
   TextEditingController nilaiController = TextEditingController();
   List<Subject> subjects = [];
@@ -77,13 +78,13 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
       return;
     }
     try {
-      isLoading = true;
+      isSubmitting = true;
       await context.read<GradeRepository>().create(
           int.parse(nilaiController.text),
           student.id!,
           gradeTypeId,
           subject!.id!);
-      isLoading = false;
+      isSubmitting = false;
     } catch (e, s) {
       debugPrint('Error adding grade type: $e');
       debugPrint('Stack trace: $s');
@@ -140,7 +141,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
                         _buildBeriNilai(context),
                         const SizedBox(height: 24),
                         PeqingButton(
-                            isLoading: isLoading,
+                            isLoading: isSubmitting,
                             text: 'Simpan dan Beri Nilai',
                             onPressed: submitHandler),
                       ],
