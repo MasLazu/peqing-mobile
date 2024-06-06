@@ -78,13 +78,18 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
       return;
     }
     try {
-      isSubmitting = true;
+      setState(() {
+        isSubmitting = true;
+      });
       await context.read<GradeRepository>().create(
           int.parse(nilaiController.text),
           student.id!,
           gradeTypeId,
           subject!.id!);
-      isSubmitting = false;
+      setState(() {
+        isSubmitting = false;
+      });
+      context.go(RouteNames.lecturerHome);
     } catch (e, s) {
       debugPrint('Error adding grade type: $e');
       debugPrint('Stack trace: $s');
