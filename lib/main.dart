@@ -9,8 +9,11 @@ import 'package:peqing/bloc/student/student_bloc.dart';
 import 'package:peqing/bloc/suject/subject_bloc.dart';
 import 'package:peqing/core/theme/app_theme.dart';
 import 'package:peqing/data/repositories/auth_repository.dart';
+import 'package:peqing/data/repositories/grade_repository.dart';
+import 'package:peqing/data/repositories/grade_type_repository.dart';
 import 'package:peqing/data/repositories/lecturer_repository.dart';
 import 'package:peqing/data/repositories/student_repository.dart';
+import 'package:peqing/data/repositories/subject_member_repository.dart';
 import 'package:peqing/data/repositories/subject_repository.dart';
 import 'package:peqing/route/app_route.dart';
 
@@ -39,6 +42,9 @@ class App extends StatelessWidget {
     var studentRepository = StudentRepository(authBloc: authBloc);
     var lecturerRepository = LecturerRepository(authBloc: authBloc);
     var subjectRepository = SubjectRepository(authBloc);
+    var gradeRepository = GradeRepository(authBloc);
+    var gradeTypeRepository = GradeTypeRepository(authBloc);
+    var subjectMemberRepository = SubjectMemberRepository(authBloc);
     authBloc.setAuthRepository(
       authRepository: authRepository,
       studentRepository: studentRepository,
@@ -58,6 +64,18 @@ class App extends StatelessWidget {
         ),
         RepositoryProvider<LecturerRepository>(
           create: (context) => lecturerRepository,
+        ),
+        RepositoryProvider<GradeRepository>(
+          create: (context) => gradeRepository,
+        ),
+        RepositoryProvider<GradeTypeRepository>(
+          create: (context) => gradeTypeRepository,
+        ),
+        RepositoryProvider<SubjectRepository>(
+          create: (context) => subjectRepository,
+        ),
+        RepositoryProvider<SubjectMemberRepository>(
+          create: (context) => subjectMemberRepository,
         ),
       ],
       child: MultiBlocProvider(

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:peqing/bloc/suject/subject_bloc.dart';
 import 'package:peqing/core/theme/app_colors.dart';
 import 'package:peqing/data/models/subject.dart';
 import 'package:peqing/presentation/widgets/appbars/root_appbar.dart';
+import 'package:peqing/route/route_names.dart';
 
 class AdminSubjectScreen extends StatefulWidget {
   const AdminSubjectScreen({super.key});
@@ -67,7 +69,7 @@ class _AdminSubjectScreenState extends State<AdminSubjectScreen> {
                         for (Subject subject in state is SubjectLoaded
                             ? state.subjects
                             : (state as SubjectLoading).subjects!)
-                          _buildCivitasCard(subject),
+                          _buildSubjectCard(subject),
                       ],
                     ),
                   ));
@@ -85,9 +87,11 @@ class _AdminSubjectScreenState extends State<AdminSubjectScreen> {
     );
   }
 
-  Widget _buildCivitasCard(Subject subject) {
+  Widget _buildSubjectCard(Subject subject) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        context.push('${RouteNames.adminDetailSubject}/${subject.id}');
+      },
       child: Container(
         padding: const EdgeInsets.all(16.0),
         decoration: BoxDecoration(
@@ -189,7 +193,7 @@ class _AdminSubjectScreenState extends State<AdminSubjectScreen> {
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 4),
-            Text(subject.lecturer!.user.name,
+            Text(subject.lecturer!.user!.name,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(context).textTheme.bodyMedium),
           ],

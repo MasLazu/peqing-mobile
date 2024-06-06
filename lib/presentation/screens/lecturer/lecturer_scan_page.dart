@@ -118,7 +118,7 @@ class _LecturerScanPageState extends State<LecturerScanPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(student!.user.name,
+                                    Text(student!.user!.name,
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleMedium),

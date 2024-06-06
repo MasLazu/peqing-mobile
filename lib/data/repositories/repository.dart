@@ -11,7 +11,7 @@ class Repository {
   Repository(String prefix, this.authBloc)
       : baseUrl = Uri(
             scheme: 'https',
-            host: '11gpx9sm-3001.asse.devtunnels.ms',
+            host: '4phvhnt5-3001.asse.devtunnels.ms',
             path: prefix);
 
   Future<Map<String, dynamic>> get(
@@ -50,7 +50,9 @@ class Repository {
 
   void _checkResponse(http.Response response) {
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception(jsonDecode(response.body)['message']);
+      debugPrint(response.body);
+      throw Exception(
+          jsonDecode(response.body)['message'] ?? 'Something went wrong');
     }
   }
 

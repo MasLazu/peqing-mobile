@@ -83,8 +83,9 @@ GoRouter appRoute = GoRouter(
         ),
         GoRoute(
           path: RouteNames.adminProfile,
-          pageBuilder: (context, state) => CupertinoPage(
+          pageBuilder: (context, state) => CustomTransitionPage(
             key: state.pageKey,
+            transitionsBuilder: _fadeTransition,
             child: const AdminProfileScreen(),
           ),
         ),

@@ -151,7 +151,7 @@ class _SubjectFormState extends State<SubjectForm> {
                                             child: SizedBox(
                                               width: 100,
                                               child: Text(
-                                                lecturer.user.name,
+                                                lecturer.user!.name,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: Theme.of(context)
                                                     .textTheme

@@ -41,9 +41,9 @@ class _CivitasFormState extends State<CivitasForm> {
               : (widget.data as Lecturer).nip
           : null);
   late final _emailController =
-      TextEditingController(text: widget.data?.user.email);
+      TextEditingController(text: widget.data?.user!.email);
   late final _nameController =
-      TextEditingController(text: widget.data?.user.name);
+      TextEditingController(text: widget.data?.user!.name);
   final List<String> _roles = <String>['Admin', 'Dosen', 'Mahasiswa'];
   late String role = widget.data?.role ?? _roles[0];
   final List<String> _departements = <String>[
@@ -88,7 +88,7 @@ class _CivitasFormState extends State<CivitasForm> {
                 name: _nameController.text,
                 email: _emailController.text,
                 id: widget.data != null
-                    ? (widget.data as Lecturer).user.id
+                    ? (widget.data as Lecturer).user!.id
                     : null,
                 password: 'dosen',
               ),
@@ -108,7 +108,7 @@ class _CivitasFormState extends State<CivitasForm> {
                 email: _emailController.text,
                 password: 'mahasiswa',
                 id: widget.data != null
-                    ? (widget.data as Student).user.id
+                    ? (widget.data as Student).user!.id
                     : null,
               ),
               id: widget.data != null ? (widget.data as Student).id : null,

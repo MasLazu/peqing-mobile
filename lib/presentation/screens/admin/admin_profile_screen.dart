@@ -99,14 +99,14 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                auth.user.name,
+                                auth.user!.name,
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
                               ),
                               const SizedBox(height: 8),
                               Row(
                                 children: [
-                                  Text(auth.user.id.toString(),
+                                  Text(auth.user!.id.toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodySmall),
@@ -114,7 +114,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                                   GestureDetector(
                                     onTap: () => Clipboard.setData(
                                         ClipboardData(
-                                            text: auth.user.id.toString())),
+                                            text: auth.user!.id.toString())),
                                     child: Icon(
                                       Iconsax.copy5,
                                       size: 16,

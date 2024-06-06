@@ -15,9 +15,9 @@ class StudentRepository extends Repository {
 
   Future<String> create(Student student) async {
     final response = await post(body: {
-      'name': student.user.name,
-      'email': student.user.email,
-      'password': student.user.password,
+      'name': student.user!.name,
+      'email': student.user!.email,
+      'password': student.user!.password,
       'nrp': student.nrp,
       'jurusan': student.major,
       'departement': student.departement,
