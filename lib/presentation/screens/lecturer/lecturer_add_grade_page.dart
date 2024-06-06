@@ -72,55 +72,53 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PeqingAppbar(
-          leadingOnPressed: () {
-            context.go(RouteNames.lecturerHome);
-          },
-          title: Center(
-            child: Text(
-              'Kasih Nilai',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
-            ),
+      appBar: PeqingAppbar(
+        leadingOnPressed: () {
+          context.go(RouteNames.lecturerHome);
+        },
+        title: Center(
+          child: Text(
+            'Kasih Nilai',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium
+                ?.copyWith(fontWeight: FontWeight.bold),
           ),
-          actions: [
-            Padding(
-                padding: const EdgeInsets.only(right: 24),
-                child: Icon(
-                  Iconsax.profile_circle5,
-                  size: 40,
-                  color: AppColors.dark[100],
-                )),
-          ],
         ),
-        body: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : SingleChildScrollView(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  margin: const EdgeInsets.only(top: 24, bottom: 48),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildAksiCepatProfile(context),
-                      const SizedBox(height: 24),
-                      _buildPilihMataKuliah(context),
-                      const SizedBox(height: 24),
-                      _buildRadioButton(context),
-                      const SizedBox(height: 24),
-                      _buildBeriNilai(context),
-                      const Spacer(),
-                      PeqingButton(
-                          text: 'Simpan dan Beri Nilai', onPressed: () {}),
-                    ],
-                  ),
-                ),
-              ));
+        actions: [
+          Padding(
+              padding: const EdgeInsets.only(right: 24),
+              child: Icon(
+                Iconsax.profile_circle5,
+                size: 40,
+                color: AppColors.dark[100],
+              )),
+        ],
+      ),
+      body: isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              margin: const EdgeInsets.only(top: 24, bottom: 48),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildAksiCepatProfile(context),
+                  const SizedBox(height: 24),
+                  _buildPilihMataKuliah(context),
+                  const SizedBox(height: 24),
+                  _buildRadioButton(context),
+                  const SizedBox(height: 24),
+                  _buildBeriNilai(context),
+                  const Spacer(),
+                  PeqingButton(text: 'Simpan dan Beri Nilai', onPressed: () {}),
+                ],
+              ),
+            ),
+    );
   }
 
   Column _buildBeriNilai(BuildContext context) {
