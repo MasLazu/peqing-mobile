@@ -52,7 +52,7 @@ class App extends StatelessWidget {
     );
     var studentBloc = StudentBloc(studentRepository);
     var lecturerBloc = LecturerBloc(lecturerRepository);
-    var subjectBloc = SubjectBloc(subjectRepository);
+    var subjectBloc = SubjectBloc(subjectRepository, authBloc);
 
     return MultiRepositoryProvider(
       providers: [

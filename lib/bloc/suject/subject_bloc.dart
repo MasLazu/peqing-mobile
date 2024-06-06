@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/data/models/subject.dart';
 import 'package:peqing/data/repositories/subject_repository.dart';
 
@@ -8,7 +9,9 @@ part 'subject_state.dart';
 
 class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
   final SubjectRepository _subjectRepository;
-  SubjectBloc(this._subjectRepository) : super(SubjectLoading()) {
+  final AuthBloc _authBloc;
+  SubjectBloc(this._subjectRepository, this._authBloc)
+      : super(SubjectLoading()) {
     on<LoadSubject>(_loadSubject);
     on<_RetryLoadSubject>(_retryLoadSubject);
     on<DeleteSubject>(_deleteSubject);
@@ -21,7 +24,16 @@ class SubjectBloc extends Bloc<SubjectEvent, SubjectState> {
       LoadSubject event, Emitter<SubjectState> emit) async {
     emit(SubjectLoading(subjects: event.subjects));
     try {
-      final subjects = await _subjectRepository.getAll();
+      late List<Subject> subjects;
+      if (_authBloc.state is AuthAdmin) {
+        subjects = await _subjectRepository.getAll();
+      } else if (_authBloc.state is AuthLecturer) {
+        subjects = await _subjectRepository
+            .getByLecturerId((_authBloc.state as AuthLecturer).data.id!);
+      } else {
+        subjects = [];
+      }
+      subjects = await _subjectRepository.getAll();
       emit(SubjectLoaded(subjects: subjects, message: event.message));
     } catch (e, s) {
       debugPrint('Error: $e, Stack Trace: $s');
