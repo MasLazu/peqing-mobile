@@ -95,33 +95,35 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
                 )),
           ],
         ),
-        body: isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : Container(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                margin: const EdgeInsets.only(top: 24, bottom: 48),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        _buildAksiCepatProfile(context),
-                        const SizedBox(height: 24),
-                        _buildPilihMataKuliah(context),
-                        const SizedBox(height: 24),
-                        _buildRadioButton(context),
-                        const SizedBox(height: 24),
-                        _buildBeriNilai(context),
-                      ],
-                    ),
-                    const Spacer(),
-                    PeqingButton(
-                        text: 'Simpan dan Beri Nilai', onPressed: () {}),
-                  ],
+        body: SingleChildScrollView(
+          child: isLoading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  margin: const EdgeInsets.only(top: 24, bottom: 48),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        children: [
+                          _buildAksiCepatProfile(context),
+                          const SizedBox(height: 24),
+                          _buildPilihMataKuliah(context),
+                          const SizedBox(height: 24),
+                          _buildRadioButton(context),
+                          const SizedBox(height: 24),
+                          _buildBeriNilai(context),
+                        ],
+                      ),
+                      const Spacer(),
+                      PeqingButton(
+                          text: 'Simpan dan Beri Nilai', onPressed: () {}),
+                    ],
+                  ),
                 ),
-              ));
+        ));
   }
 
   Column _buildBeriNilai(BuildContext context) {
@@ -180,7 +182,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
       decoration: const InputDecoration(),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          value: subject?.id.toString(),
+          value: subject?.id.toString() ?? '0',
           isDense: true,
           elevation: 2,
           borderRadius: BorderRadius.circular(24),
@@ -191,20 +193,26 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
               subject = subjects.firstWhere((e) => e.id.toString() == newValue);
             });
           },
-          items: subjects.map<DropdownMenuItem<String>>((Subject value) {
-            return DropdownMenuItem<String>(
-              value: value.id.toString(),
-              child: SizedBox(
-                width: 250,
-                child: Text(value.name,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.bold)),
-              ),
-            );
-          }).toList(),
+          items: [
+            const DropdownMenuItem<String>(
+              value: '0',
+              child: Text('Pilih mata kuliah'),
+            ),
+            ...subjects.map<DropdownMenuItem<String>>((Subject value) {
+              return DropdownMenuItem<String>(
+                value: value.id.toString(),
+                child: SizedBox(
+                  width: 200,
+                  child: Text(value.name,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold)),
+                ),
+              );
+            })
+          ],
         ),
       ),
     );
