@@ -5,8 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/core/theme/app_colors.dart';
+import 'package:peqing/data/models/grade_type.dart';
 import 'package:peqing/data/models/student.dart';
 import 'package:peqing/data/models/subject.dart';
+import 'package:peqing/data/repositories/grade_type_repository.dart';
 import 'package:peqing/data/repositories/student_repository.dart';
 import 'package:peqing/data/repositories/subject_repository.dart';
 import 'package:peqing/presentation/widgets/buttons/peqing_button.dart';
@@ -27,6 +29,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
   bool isLoading = true;
   Subject? subject;
   List<Subject> subjects = [];
+  List<GradeType> gradeTypes = [];
 
   @override
   void initState() {
@@ -36,6 +39,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
 
   Future<void> fetch() async {
     isLoading = true;
+    List<Future<List<GradeType>>> futures = [];
     try {
       student =
           await context.read<StudentRepository>().getById(widget.studentId);
@@ -45,6 +49,17 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
               // ignore: use_build_context_synchronously
               (context.read<AuthBloc>().state as AuthLecturer).data.id!,
               student.id!);
+      for (Subject subject in subjects) {
+        futures.add(
+            // ignore: use_build_context_synchronously
+            context.read<GradeTypeRepository>().getBySubjectId(subject.id!));
+      }
+      List<List<GradeType>> results = await Future.wait(futures);
+      for (final list in results) {
+        for (final gradeType in list) {
+          gradeTypes.add(gradeType);
+        }
+      }
       setState(() {
         isLoading = false;
       });
@@ -147,14 +162,9 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
         ),
         const SizedBox(height: 16),
         CupertinoRadioChoice(
-          choices: const {
-            'tugas1': 'Tugas 1',
-            'tugas2': 'Tugas 2',
-            'uts': 'UTS',
-            'uas': 'UAS'
-          },
+          choices: {for (var subject in subjects) subject.id: subject.name},
           onChange: (value) {},
-          initialKeyValue: 'uts',
+          initialKeyValue: subjects.first.id,
           selectedColor: AppColors.primary[500]!,
           notSelectedColor: AppColors.dark[100]!,
         ),
