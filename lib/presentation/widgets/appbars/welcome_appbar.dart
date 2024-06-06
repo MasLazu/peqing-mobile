@@ -27,7 +27,7 @@ class WelcomeAppbar extends PreferredSize {
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                           Text(
-                            user.user.name,
+                            user.user!.name,
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
                         ],

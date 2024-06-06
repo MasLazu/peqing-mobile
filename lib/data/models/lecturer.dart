@@ -6,7 +6,7 @@ class Lecturer extends Role {
   final int? id;
   final String nip;
   @override
-  final User user;
+  final User? user;
 
   Lecturer({
     this.id,
@@ -33,7 +33,7 @@ class Lecturer extends Role {
     return <String, dynamic>{
       'id': id,
       'nip': nip,
-      'user': user.toMap(),
+      'user': user?.toMap(),
     };
   }
 
@@ -41,7 +41,9 @@ class Lecturer extends Role {
     return Lecturer(
       id: map['id'] != null ? map['id'] as int : null,
       nip: map['nip'] as String,
-      user: User.fromMap(map['user'] as Map<String, dynamic>),
+      user: map['user'] != null
+          ? User.fromMap(map['user'] as Map<String, dynamic>)
+          : null,
     );
   }
 

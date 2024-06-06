@@ -24,7 +24,8 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
     try {
       final lecturers = await _lecturerRepository.getAll();
       emit(LecturerLoaded(lecturers: lecturers, message: event.message));
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('Error: $e, Stack Trace: $s');
       emit(LecturerError(message: e.toString()));
       add(_RetryLoadLecturer());
     }
@@ -37,7 +38,8 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
       await Future.delayed(const Duration(seconds: 5));
       final lecturers = await _lecturerRepository.getAll();
       emit(LecturerLoaded(lecturers: lecturers));
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('Error: $e, Stack Trace: $s');
       if (!isClosed) add(_RetryLoadLecturer());
     }
   }
@@ -53,7 +55,8 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
       add(LoadLecturer(
           lecturers: (state as LecturerLoading).lecturers,
           message: 'Dosen berhasil ditambahkan!'));
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('Error: $e, Stack Trace: $s');
       emit(LecturerLoaded(
           lecturers: state is LecturerLoaded
               ? (state as LecturerLoaded).lecturers
@@ -73,7 +76,8 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
       add(LoadLecturer(
           lecturers: (state as LecturerLoading).lecturers,
           message: 'Dosen berhasil diperbarui!'));
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('Error: $e, Stack Trace: $s');
       emit(LecturerLoaded(
           lecturers: state is LecturerLoaded
               ? (state as LecturerLoaded).lecturers
@@ -93,7 +97,8 @@ class LecturerBloc extends Bloc<LecturerEvent, LecturerState> {
       add(LoadLecturer(
           lecturers: (state as LecturerLoading).lecturers,
           message: 'Dosen berhasil dihapus!'));
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('Error: $e, Stack Trace: $s');
       emit(LecturerLoaded(
           lecturers: state is LecturerLoaded
               ? (state as LecturerLoaded).lecturers

@@ -10,7 +10,7 @@ class StudentNavbar extends StatelessWidget {
 
   final List<String> routes = [
     RouteNames.studentHome,
-    RouteNames.studentHistory,
+    RouteNames.studentSubject,
     RouteNames.studentProfile,
   ];
 
@@ -30,9 +30,9 @@ class StudentNavbar extends StatelessWidget {
             label: 'Beranda',
           ),
           NavigationDestination(
-            selectedIcon: const Icon(Iconsax.clock5),
-            icon: Icon(Iconsax.clock5, color: AppColors.dark[300]!),
-            label: 'Riwayat',
+            selectedIcon: const Icon(Iconsax.clipboard_text5),
+            icon: Icon(Iconsax.clipboard_text5, color: AppColors.dark[300]!),
+            label: 'Mata Kuliah',
           ),
           NavigationDestination(
             selectedIcon: const Icon(Iconsax.profile_2user5),

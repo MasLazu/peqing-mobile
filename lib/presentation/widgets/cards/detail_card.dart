@@ -30,7 +30,9 @@ class DetailCard extends Card {
             child: DecoratedBox(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: AppColors.dark[100]!),
+                border: type == DetailCardType.gradient
+                    ? Border.all(width: 0, color: AppColors.lightGrey)
+                    : Border.all(color: AppColors.dark[100]!),
                 gradient: type == DetailCardType.gradient
                     ? LinearGradient(
                         colors: [

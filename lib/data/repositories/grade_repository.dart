@@ -10,7 +10,7 @@ class GradeRepository extends Repository {
     await post(path: '/$subjectId', body: {
       'nilai': score,
       'mahasiswaId': studentId,
-      'typenilaiId': gradeTypeId,
+      'typeNilaiId': gradeTypeId,
     });
   }
 

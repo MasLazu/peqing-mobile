@@ -90,7 +90,8 @@ class AuthBloc extends HydratedBloc<AuthEvent, AuthState> {
         default:
           throw Exception('Role tidak dikenal: $role');
       }
-    } catch (e) {
+    } catch (e, s) {
+      debugPrint('Error: $e, Stack Trace: $s');
       emit(AuthError(message: e.toString()));
     }
   }

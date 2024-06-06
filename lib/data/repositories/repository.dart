@@ -50,7 +50,9 @@ class Repository {
 
   void _checkResponse(http.Response response) {
     if (response.statusCode < 200 || response.statusCode >= 300) {
-      throw Exception(jsonDecode(response.body)['message']);
+      debugPrint(response.body);
+      throw Exception(
+          jsonDecode(response.body)['message'] ?? 'Something went wrong');
     }
   }
 

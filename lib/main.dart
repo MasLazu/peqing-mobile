@@ -6,10 +6,15 @@ import 'package:path_provider/path_provider.dart';
 import 'package:peqing/bloc/auth/auth_bloc.dart';
 import 'package:peqing/bloc/lecturer/lecturer_bloc.dart';
 import 'package:peqing/bloc/student/student_bloc.dart';
+import 'package:peqing/bloc/suject/subject_bloc.dart';
 import 'package:peqing/core/theme/app_theme.dart';
 import 'package:peqing/data/repositories/auth_repository.dart';
+import 'package:peqing/data/repositories/grade_repository.dart';
+import 'package:peqing/data/repositories/grade_type_repository.dart';
 import 'package:peqing/data/repositories/lecturer_repository.dart';
 import 'package:peqing/data/repositories/student_repository.dart';
+import 'package:peqing/data/repositories/subject_member_repository.dart';
+import 'package:peqing/data/repositories/subject_repository.dart';
 import 'package:peqing/route/app_route.dart';
 
 Future<void> main() async {
@@ -36,11 +41,18 @@ class App extends StatelessWidget {
     var authRepository = AuthRepository(authBloc: authBloc);
     var studentRepository = StudentRepository(authBloc: authBloc);
     var lecturerRepository = LecturerRepository(authBloc: authBloc);
+    var subjectRepository = SubjectRepository(authBloc);
+    var gradeRepository = GradeRepository(authBloc);
+    var gradeTypeRepository = GradeTypeRepository(authBloc);
+    var subjectMemberRepository = SubjectMemberRepository(authBloc);
     authBloc.setAuthRepository(
       authRepository: authRepository,
       studentRepository: studentRepository,
       lecturerRepository: lecturerRepository,
     );
+    var studentBloc = StudentBloc(studentRepository);
+    var lecturerBloc = LecturerBloc(lecturerRepository);
+    var subjectBloc = SubjectBloc(subjectRepository, authBloc);
 
     return MultiRepositoryProvider(
       providers: [
@@ -53,18 +65,27 @@ class App extends StatelessWidget {
         RepositoryProvider<LecturerRepository>(
           create: (context) => lecturerRepository,
         ),
+        RepositoryProvider<GradeRepository>(
+          create: (context) => gradeRepository,
+        ),
+        RepositoryProvider<GradeTypeRepository>(
+          create: (context) => gradeTypeRepository,
+        ),
+        RepositoryProvider<SubjectRepository>(
+          create: (context) => subjectRepository,
+        ),
+        RepositoryProvider<SubjectMemberRepository>(
+          create: (context) => subjectMemberRepository,
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(
             create: (context) => authBloc,
           ),
-          BlocProvider<StudentBloc>(
-              create: (context) =>
-                  StudentBloc(context.read<StudentRepository>())),
-          BlocProvider<LecturerBloc>(
-              create: (context) =>
-                  LecturerBloc(context.read<LecturerRepository>())),
+          BlocProvider<StudentBloc>(create: (context) => studentBloc),
+          BlocProvider<LecturerBloc>(create: (context) => lecturerBloc),
+          BlocProvider<SubjectBloc>(create: (context) => subjectBloc),
         ],
         child: MaterialApp.router(
           title: 'peqing',

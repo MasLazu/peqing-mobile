@@ -51,7 +51,7 @@ class LecturerProfileScreenState extends State<LecturerProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              auth.user.name,
+                              auth.user!.name,
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             const SizedBox(height: 8),

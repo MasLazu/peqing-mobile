@@ -4,7 +4,7 @@ import 'package:peqing/data/models/role.dart';
 class User extends Role {
   final int? id;
   final String name;
-  final String email;
+  final String? email;
   final String? password;
 
   User({
@@ -47,7 +47,7 @@ class User extends Role {
     return User(
       id: map['id'] as int?,
       name: map['name'] as String,
-      email: map['email'] as String,
+      email: map['email'] != null ? map['email'] as String : null,
       password: map['password'] as String?,
     );
   }

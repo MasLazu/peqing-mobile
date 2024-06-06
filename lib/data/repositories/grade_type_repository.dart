@@ -17,7 +17,7 @@ class GradeTypeRepository extends Repository {
         .toList();
   }
 
-  Future<List<GradeType>> getByKelasId(int id) async {
+  Future<List<GradeType>> getBySubjectId(int id) async {
     final response = await get(path: '/kelas/$id');
 
     return (response['message'] as List)

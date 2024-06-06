@@ -9,7 +9,7 @@ class Student extends Role {
   final String? qrLink;
   final int? id;
   @override
-  final User user;
+  final User? user;
 
   Student({
     required this.departement,
@@ -48,7 +48,7 @@ class Student extends Role {
       'nrp': nrp,
       'qr': qrLink,
       'id': id,
-      'user': user.toMap(),
+      'user': user?.toMap(),
     };
   }
 
@@ -59,7 +59,9 @@ class Student extends Role {
       nrp: map['nrp'] as String,
       qrLink: map['qr'] != null ? map['qr'] as String : null,
       id: map['id'] != null ? map['id'] as int : null,
-      user: User.fromMap(map['user'] as Map<String, dynamic>),
+      user: map['user'] != null
+          ? User.fromMap(map['user'] as Map<String, dynamic>)
+          : null,
     );
   }
 

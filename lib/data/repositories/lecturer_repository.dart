@@ -14,9 +14,9 @@ class LecturerRepository extends Repository {
 
   Future<String> create(Lecturer lecturer) async {
     final response = await post(body: {
-      'name': lecturer.user.name,
-      'email': lecturer.user.email,
-      'password': lecturer.user.password,
+      'name': lecturer.user!.name,
+      'email': lecturer.user!.email,
+      'password': lecturer.user!.password,
       'nip': lecturer.nip,
     });
 
