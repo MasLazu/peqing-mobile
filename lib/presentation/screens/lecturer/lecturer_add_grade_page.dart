@@ -182,7 +182,7 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
       decoration: const InputDecoration(),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          value: subject?.id.toString() ?? '0',
+          value: subject?.id.toString(),
           isDense: true,
           elevation: 2,
           borderRadius: BorderRadius.circular(24),
@@ -193,33 +193,20 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
               subject = subjects.firstWhere((e) => e.id.toString() == newValue);
             });
           },
-          items: [
-            DropdownMenuItem<String>(
-              value: '0',
+          items: subjects.map<DropdownMenuItem<String>>((Subject value) {
+            return DropdownMenuItem<String>(
+              value: value.id.toString(),
               child: SizedBox(
-                  width: 200,
-                  child: Text('Pilih mata kuliah',
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.bold))),
-            ),
-            ...subjects.map<DropdownMenuItem<String>>((Subject value) {
-              return DropdownMenuItem<String>(
-                value: value.id.toString(),
-                child: SizedBox(
-                  width: 200,
-                  child: Text(value.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.bold)),
-                ),
-              );
-            })
-          ],
+                width: 200,
+                child: Text(value.name,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.bold)),
+              ),
+            );
+          }).toList(),
         ),
       ),
     );
