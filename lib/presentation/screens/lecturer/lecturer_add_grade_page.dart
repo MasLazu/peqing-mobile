@@ -194,9 +194,16 @@ class _LecturerAddGradePageState extends State<LecturerAddGradePage> {
             });
           },
           items: [
-            const DropdownMenuItem<String>(
+            DropdownMenuItem<String>(
               value: '0',
-              child: Text('Pilih mata kuliah'),
+              child: SizedBox(
+                  width: 200,
+                  child: Text('Pilih mata kuliah',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold))),
             ),
             ...subjects.map<DropdownMenuItem<String>>((Subject value) {
               return DropdownMenuItem<String>(
